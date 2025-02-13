@@ -70,7 +70,7 @@ public class Main {
         BookingService bookingService = new BookingService(
         		ReceiptRepository.getInstance(),
         		ProjectAppRepository.getInstance());
-        JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo);
+        JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo, projectRepo);
         ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo);
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
         OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);

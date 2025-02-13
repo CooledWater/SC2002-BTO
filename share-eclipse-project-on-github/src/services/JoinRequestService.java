@@ -1,4 +1,5 @@
 package services;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import entity.*;
@@ -7,9 +8,11 @@ import entity.JoinRequest.Status;
 
 public class JoinRequestService {
 	private JoinRequestRepository joinRequestRepository;
+	private ProjectRepository projectRepository;
 	
-	public JoinRequestService(JoinRequestRepository joinRequestRepository) {
+	public JoinRequestService(JoinRequestRepository joinRequestRepository, ProjectRepository projectRepository) {
 		this.joinRequestRepository = joinRequestRepository;
+		this.projectRepository = projectRepository;
 	}
 	
 	public void submitJoinRequest(Officer officer, Project project) {
@@ -22,11 +25,32 @@ public class JoinRequestService {
 		}
 		
 		// check and make sure that officer can only manage one project at any point of time
-		if (officer.getHandlingProj() != null) {
+		if (officer.getHandlingProj() != null) { // this should stay as officer.getHandlingProj()
 			System.out.println("You are forbidden to join this project as an officer, "
-					+ "because you are already handling a project. ");
+					+ "because you are currently handling a project. ");
 			return;
-		}		
+		}
+		
+		// check that officer's other projects (not active ones) will not overlap with the join request project
+		List<Project> officerProjects = projectRepository.getProjectsByOfficer(officer);
+    	for (Project officerProject: officerProjects) {
+    		Date otherOpen = officerProject.getOpenDate();
+    		Date otherClose = officerProject.getCloseDate();
+    		
+    		if (
+    				(!project.getOpenDate().before(otherOpen)) && (!project.getOpenDate().after(otherClose)) ||
+    				(!project.getCloseDate().before(otherOpen)) && (!project.getCloseDate().after(otherClose))
+    			) 
+    		{
+    			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    			String otherOpenString = sdf.format(otherOpen);
+    			String otherCloseString = sdf.format(otherClose);
+    			System.out.printf("You are forbidden to join this project as an officer, "
+    					+ "because you are already handling a project from %s to %s%n. ", otherOpenString, otherCloseString);
+    			return;
+    		}
+    	}
+		
 		// one project can have max 10 officers
 		if (project.getNumberOfOfficers() >= 10) {
 			System.out.println("You are forbidden to join this project as an officer, "

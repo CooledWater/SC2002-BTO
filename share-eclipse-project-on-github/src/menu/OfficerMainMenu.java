@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class OfficerMainMenu implements UserMainMenu {
-    private Officer currentOfficer;
+    private Officer currentSessionOfficer;
     private BookingService bookingService;
     private ViewProjectService viewProjectService;
     private ProjectApplicationService projectApplicationService;
@@ -40,7 +40,7 @@ public class OfficerMainMenu implements UserMainMenu {
     		ReceiptRepository receiptRepository,
     		ApplicantRepository applicantRepository,
     		LoginMenu loginMenu) {
-        this.currentOfficer = officer;
+        this.currentSessionOfficer = officer;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
         this.projectApplicationService = projectApplicationService;
@@ -56,7 +56,8 @@ public class OfficerMainMenu implements UserMainMenu {
 
     public void officerMenu(Scanner sc) {
         int choice = -1;
-                
+        projectRepository.updateOfficerHandlingProj(currentSessionOfficer);
+        
         System.out.println("You have logged in as an officer.");
         System.out.println("To choose an option, input the corresponding number.");
         System.out.println();
@@ -74,7 +75,7 @@ public class OfficerMainMenu implements UserMainMenu {
             System.out.println("\n== Officer Functions ==");
             System.out.println("6. Register to handle a project");
             System.out.println("7. View registration status");
-            System.out.println("8. View the project you are handling");
+            System.out.println("8. View projects you are a part of");
             System.out.println("9. Manage project enquiries");
             System.out.println("10. Assist in flat booking");
             System.out.println("11. Generate booking receipt");
@@ -94,37 +95,37 @@ public class OfficerMainMenu implements UserMainMenu {
             		viewProfile();
                     break;
             	case 2:
-                    changePassword(sc, currentOfficer, loginMenu);
+                    changePassword(sc, currentSessionOfficer, loginMenu);
                     break;
             	case 3:
                 	System.out.println("Loading booking details...");
-                    bookingService.viewBooking(currentOfficer);
+                    bookingService.viewBooking(currentSessionOfficer);
                     break;
             	case 4:
     				// calling project app menu
-                	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentOfficer, 
+                	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentSessionOfficer, 
                 			viewProjectService, projectApplicationService, receiptRepository);
                 	projectAppMenu.projectAppMainMenu(sc);
                     break;
                 case 5: 
-                	EnquiryMenu enquiryApplicantMenu = new EnquiryMenu(currentOfficer, projectRepository, enquiryRepository, applicantEnquiryService, officerEnquiryService);
+                	EnquiryMenu enquiryApplicantMenu = new EnquiryMenu(currentSessionOfficer, projectRepository, enquiryRepository, applicantEnquiryService, officerEnquiryService);
                 	enquiryApplicantMenu.applicantEnquiryMenu(sc);
                 	break;
             	case 6:
-                    handleProjectRegistration(currentOfficer, sc);
+                    handleProjectRegistration(currentSessionOfficer, sc);
                     break;
                 case 7:
-                	viewJoinRequestStatus(currentOfficer);
+                	viewJoinRequestStatus(currentSessionOfficer);
                     break;               
                 case 8:
-                	viewProjectService.viewProjectsAsOfficer(currentOfficer);
+                	viewProjectService.viewProjectsAsOfficer(currentSessionOfficer);
                     break;
                 case 9:
-                	EnquiryMenu enquiryOfficerMenu = new EnquiryMenu(currentOfficer, projectRepository, enquiryRepository, applicantEnquiryService, officerEnquiryService);
+                	EnquiryMenu enquiryOfficerMenu = new EnquiryMenu(currentSessionOfficer, projectRepository, enquiryRepository, applicantEnquiryService, officerEnquiryService);
                 	enquiryOfficerMenu.officerEnquiryMenu(sc);
                     break;
                 case 10:
-                    bookingService.assistBookingFlat(currentOfficer);
+                    bookingService.assistBookingFlat(currentSessionOfficer);
                     break;
                 case 11:
                 	System.out.println("Enter applicant NRIC: ");
@@ -183,19 +184,19 @@ public class OfficerMainMenu implements UserMainMenu {
     
     public void viewProfile() {
         System.out.println("\n--- Profile ---");
-        System.out.println("Name: " + currentOfficer.getName());
-        System.out.println("NRIC: " + currentOfficer.getNRIC());
-        System.out.println("Age: " + currentOfficer.getAge());
-        System.out.println("Marital Status: " + (currentOfficer.isMarried() ? "Married" : "Single"));
+        System.out.println("Name: " + currentSessionOfficer.getName());
+        System.out.println("NRIC: " + currentSessionOfficer.getNRIC());
+        System.out.println("Age: " + currentSessionOfficer.getAge());
+        System.out.println("Marital Status: " + (currentSessionOfficer.isMarried() ? "Married" : "Single"));
         
-        if (currentOfficer.getHandlingProj() != null) {
-            System.out.println("Handling Project: " + currentOfficer.getHandlingProj().getName());
+        if (currentSessionOfficer.getHandlingProj() != null) {
+            System.out.println("Handling Project: " + currentSessionOfficer.getHandlingProj().getName());
         } else {
             System.out.println("Handling Project: None");
         }
 
-        if (currentOfficer.getJoinRequest() != null) {
-            System.out.println("Join Request Status: " + currentOfficer.getJoinRequest().getStatus());
+        if (currentSessionOfficer.getJoinRequest() != null) {
+            System.out.println("Join Request Status: " + currentSessionOfficer.getJoinRequest().getStatus());
         } else {
             System.out.println("Join Request Status: None");
         }
