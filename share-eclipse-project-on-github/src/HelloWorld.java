@@ -5,6 +5,7 @@ public class HelloWorld {
 		// TODO Auto-generated method stub
 		System.out.println("Hello world from Wang Cheng!");
 		// comment from Wang Cheng
+		// new comment from Wang Cheng
 	}
 
 }
