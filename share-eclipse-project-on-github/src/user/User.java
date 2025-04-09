@@ -13,11 +13,19 @@ public class User {
 		this.age = age;
 	}
 	
-	public boolean login(String enteredPassword) {
-		return this.password.equals(enteredPassword);
-	}
-	
-	public void changePasword(String newPassword) {
-		this.password = newPassword;
-	}
+    public boolean login(String enteredPassword) {
+        return this.password.equals(enteredPassword);
+    }
+
+    public String getNRIC() {
+        return NRIC;
+    }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
 }
