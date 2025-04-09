@@ -1,17 +1,32 @@
 package user;
 
 import java.util.*;
+import entity.*;
 
-import entity.AppStatus;
-import entity.ProjectApp;
 public class Applicant extends User{
-	private List<ProjectApp> projectApps = new ArrayList<>();
+	private List<ProjectApp> projectApps;
+	private List<Enquiry> enquiries;
 	
 	public Applicant(String NRIC, String password, boolean maritalStatus, int age) {
 		super(NRIC, password, maritalStatus, age);
+		this.projectApps = new ArrayList<>();
+		this.enquiries = new ArrayList<>();
+	}
+
+	public List<ProjectApp> getProjectApps() {
+		return projectApps;
+	}
+
+	public void setProjectApps(List<ProjectApp> projectApps) {
+		this.projectApps = projectApps;
+	}
+
+	public List<Enquiry> getEnquiries() {
+		return enquiries;
+	}
+
+	public void setEnquiries(List<Enquiry> enquiries) {
+		this.enquiries = enquiries;
 	}
 	
-	public void applyProject(Project project) {
-		projectApps.add(new ProjectApp(this, project, AppStatus.PENDING));
-	}
 }
