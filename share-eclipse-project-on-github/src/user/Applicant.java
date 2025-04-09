@@ -1,9 +1,9 @@
-package models;
+package user;
 
 import java.util.*;
-import applications.ProjectApp;
-import enums.AppStatus;
 
+import entity.AppStatus;
+import entity.ProjectApp;
 public class Applicant extends User{
 	private List<ProjectApp> projectApps = new ArrayList<>();
 	

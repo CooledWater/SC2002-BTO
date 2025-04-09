@@ -1,4 +1,4 @@
-package models;
+package user;
 
 public class User {
 	protected String NRIC;
