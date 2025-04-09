@@ -1,4 +1,4 @@
-package enums;
+package entity;
 
 public enum FlatType {
 	TWO_ROOM, THREE_ROOM;

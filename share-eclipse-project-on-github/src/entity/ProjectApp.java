@@ -1,8 +1,6 @@
-package applications;
+package entity;
 
-import models.Applicant;
-import models.Project;
-import enums.AppStatus;
+import user.Applicant;
 
 public class ProjectApp {
     private Applicant applicant;
