@@ -1,6 +1,4 @@
-package user;
-
-import entity.*;
+package entity;
 
 public class Officer extends Applicant{
 	private Project handlingProj;

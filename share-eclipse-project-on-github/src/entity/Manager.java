@@ -1,6 +1,4 @@
-package user;
-
-import entity.*;
+package entity;
 
 public class Manager extends User{
 	private Project managingProj;

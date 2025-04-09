@@ -1,7 +1,5 @@
 package entity;
 
-import user.Applicant;
-
 public class ProjectApp {
     private Applicant applicant;
     private Project project;

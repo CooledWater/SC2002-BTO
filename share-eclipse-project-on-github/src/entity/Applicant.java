@@ -1,7 +1,6 @@
-package user;
+package entity;
 
 import java.util.*;
-import entity.*;
 
 public class Applicant extends User{
 	private List<ProjectApp> projectApps;

@@ -1,7 +1,8 @@
 package repository;
 
 import java.util.List;
-import user.Manager;
+
+import entity.Manager;
 
 public class ManagerRepository implements Repository {
 	private List<Manager> managers;
