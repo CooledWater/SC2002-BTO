@@ -30,7 +30,7 @@ public abstract class Repository implements Serializable {
 	}; 
 		
 	
-	// this method does not require overriding
+	// this method does not require overriding, because its the same method body for all repositories
 	public Repository importFromSer() throws IOException, ClassNotFoundException {
 		String filePath = "save\\" + this.getClass().getSimpleName() + ".ser";
 		
