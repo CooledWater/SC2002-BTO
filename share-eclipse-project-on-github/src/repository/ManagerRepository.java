@@ -20,4 +20,14 @@ public class ManagerRepository extends RepositoryWithCSV {
 	public void importFromCSV() {
 		;
 	}
+
+
+	public List<Manager> getManagers() {
+		return managers;
+	}
+
+
+	public void setManagers(List<Manager> managers) {
+		this.managers = managers;
+	}
 }
