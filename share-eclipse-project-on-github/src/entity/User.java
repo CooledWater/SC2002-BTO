@@ -6,23 +6,34 @@ public class User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4624565131962188794L;
+	protected String name;
 	protected String NRIC;
 	protected String password;
 	protected boolean isMarried;
 	protected int age;
 	
 	public User() {
+		this.name = null;
 		this.NRIC = null;
 		this.password = null;
 		this.isMarried = false;
 		this.age = -1;
 	}
 	
-	public User(String NRIC, String password, boolean isMarried, int age) {
+	public User(String name, String NRIC, int age, boolean isMarried, String password) {
+		this.name = name;
 		this.NRIC = NRIC;
 		this.password = password;
 		this.isMarried = isMarried;
 		this.age = age;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getNRIC() {
@@ -50,17 +61,19 @@ public class User implements Serializable {
 		this.age = age;
 	}
 	
-	public boolean login(String enteredPassword) {
-        return this.password.equals(enteredPassword);
-    }
-
 	public String getPassword() {
 		return password;
 	}
    
-    public void changePassword(String newPassword) {
-        this.password = newPassword;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
+
+	
+
+	
 
    
 	
