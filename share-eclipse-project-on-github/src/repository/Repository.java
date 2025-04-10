@@ -1,7 +1,13 @@
 package repository;
 
-public interface Repository {
-	public void importFromFile(String filePath);
-	public void saveToFile(String filePath);
+import java.io.*;
+
+public interface Repository extends Serializable {
+	
+	/**
+	 * 
+	 */
+	public abstract void saveToSer();
+	public abstract void importFromSer();
 	
 }
