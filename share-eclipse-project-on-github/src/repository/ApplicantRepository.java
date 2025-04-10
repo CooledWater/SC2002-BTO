@@ -20,7 +20,7 @@ public class ApplicantRepository extends RepositoryWithCSV {
 			sc = new Scanner(new FileReader(filePath));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			System.out.println("ManagerList.csv file is not found. Please ensure that the file is inside csv folder. ");
+			System.out.println("ApplicantList.csv file is not found. Please ensure that the file is inside csv folder. ");
 			return;
 		}
 		
