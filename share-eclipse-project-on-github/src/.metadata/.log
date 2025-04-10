@@ -270,3 +270,51 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.jdt.core.manipulation 4 2 2025-04-10 20:02:13.837
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core.manipulation".
+!STACK 0
+java.lang.IllegalStateException: Missing system library
+	at org.eclipse.jdt.core.dom.ASTParser.checkForSystemLibrary(ASTParser.java:311)
+	at org.eclipse.jdt.core.dom.ASTParser.getClasspath(ASTParser.java:272)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateASTCached(ASTParser.java:1299)
+	at org.eclipse.jdt.core.dom.ASTParser.lambda$1(ASTParser.java:1178)
+	at org.eclipse.jdt.internal.core.JavaModelManager.cacheZipFiles(JavaModelManager.java:5694)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1178)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:918)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:294)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:286)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:199)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:167)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.lambda$0(SelectionListenerWithASTManager.java:149)
+	at org.eclipse.jdt.internal.core.JavaModelManager.cacheZipFiles(JavaModelManager.java:5694)
+	at org.eclipse.jdt.internal.core.JavaModelManager.callReadOnly(JavaModelManager.java:5683)
+	at org.eclipse.jdt.core.JavaCore.callReadOnly(JavaCore.java:6150)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:149)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jdt.core.manipulation 4 0 2025-04-10 20:02:13.838
+!MESSAGE Error in JDT Core during AST creation
+!STACK 0
+java.lang.IllegalStateException: Missing system library
+	at org.eclipse.jdt.core.dom.ASTParser.checkForSystemLibrary(ASTParser.java:311)
+	at org.eclipse.jdt.core.dom.ASTParser.getClasspath(ASTParser.java:272)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateASTCached(ASTParser.java:1299)
+	at org.eclipse.jdt.core.dom.ASTParser.lambda$1(ASTParser.java:1178)
+	at org.eclipse.jdt.internal.core.JavaModelManager.cacheZipFiles(JavaModelManager.java:5694)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1178)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:918)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:294)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:286)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:199)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:167)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.lambda$0(SelectionListenerWithASTManager.java:149)
+	at org.eclipse.jdt.internal.core.JavaModelManager.cacheZipFiles(JavaModelManager.java:5694)
+	at org.eclipse.jdt.internal.core.JavaModelManager.callReadOnly(JavaModelManager.java:5683)
+	at org.eclipse.jdt.core.JavaCore.callReadOnly(JavaCore.java:6150)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:149)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
