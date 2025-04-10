@@ -14,7 +14,7 @@ public class AccountService {
     }
 
     public void changePassword(String newPassword) {
-        user.changePassword(newPassword);
+        user.setPassword(newPassword);
         System.out.println("Password changed successfully.");
     }
 }

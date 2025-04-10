@@ -13,9 +13,11 @@ public class Manager extends User {
 	
 	public Manager() {
 		super();
+		managingProj = null;
 	}
-    public Manager(String NRIC, String password, boolean maritalStatus, int age) {
-        super(NRIC, password, maritalStatus, age);
+	
+    public Manager(String name, String NRIC, int age, boolean isMarried, String password) {
+        super(name, NRIC, age, isMarried, password);
         this.managingProj = null;
     }
 

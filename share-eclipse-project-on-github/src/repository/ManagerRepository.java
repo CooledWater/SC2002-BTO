@@ -1,6 +1,7 @@
 package repository;
 
 import java.util.*;
+import java.io.*;
 
 import entity.Manager;
 
@@ -18,7 +19,34 @@ public class ManagerRepository extends RepositoryWithCSV {
 	
 	@Override
 	public void importFromCSV() {
-		;
+		String filePath = "csv\\ManagerList.csv";
+		Scanner sc;
+		try {
+			sc = new Scanner(new FileReader(filePath));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ManagerList.csv file is not found. Please ensure that the file is inside csv folder. ");
+			return;
+		}
+		
+		sc.nextLine(); // skip the csv list heading
+		while(sc.hasNext()) {
+			Manager newManager = new Manager();
+			String line = sc.nextLine();
+			String[] parts = line.split(",");
+			newManager.setName(parts[0]);
+			newManager.setNRIC(parts[1]);
+			newManager.setAge(Integer.parseInt(parts[2]));
+			newManager.setMarried(parts[3].equals("Married")? true : false);
+			newManager.setPassword(parts[4]);
+			this.managers.add(newManager);
+			
+			
+		}
+		
+		
+		
+		sc.close();
 	}
 
 
