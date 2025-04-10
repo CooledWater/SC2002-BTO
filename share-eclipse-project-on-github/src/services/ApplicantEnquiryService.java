@@ -9,7 +9,7 @@ public class ApplicantEnquiryService {
 	
 	public ApplicantEnquiryService(ApplicantRepository applicantRepo, EnquiryRepository enquiryRepo) {
 		this.applicantRepo = applicantRepo;
-		this,enquiryRepo = enquiryRepo;
+		this.enquiryRepo = enquiryRepo;
 	}
 	
 	public void submitEnquiry(Applicant applicant, Project project, String message) {
@@ -52,10 +52,10 @@ public class ApplicantEnquiryService {
 			searchEnquiry.setMessage(newMessage);
 			enquiryRepo.update(searchEnquiry);
 			System.out.println("Enquiry edited.");
-		}	
+		}
 	}
 	
-	public void deleteEnquiry(Applicant applicant, Enquiry enquiry) {
+	public void deleteEnquiry(Applicant applicant, int enquiryID) {
 		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
 		if (searchEnquiry == null) {
