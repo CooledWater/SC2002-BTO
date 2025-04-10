@@ -1,11 +1,11 @@
 package services;
 
-import user.User;
+import entity.User;
 
-public class accountService {
+public class AccountService {
     private User user;
 
-    public accountService(User user) {
+    public AccountService(User user) {
         this.user = user;
     }
 
