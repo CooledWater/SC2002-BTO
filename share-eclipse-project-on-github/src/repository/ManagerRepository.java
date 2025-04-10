@@ -1,10 +1,10 @@
 package repository;
 
-import java.util.List;
+import java.util.*;
 
 import entity.Manager;
 
-public class ManagerRepository implements RepositoryWithCSV {
+public class ManagerRepository extends RepositoryWithCSV {
 	/**
 	 * 
 	 */
@@ -12,16 +12,11 @@ public class ManagerRepository implements RepositoryWithCSV {
 	private List<Manager> managers;
 	
 	public ManagerRepository() {
-		this.importFromSer();
+		this.managers = new ArrayList<Manager>();
 	}
 	
-	public void saveToSer() {
-		;
-	}
-	public void importFromSer() {
-		;
-	}
 	
+	@Override
 	public void importFromCSV() {
 		;
 	}

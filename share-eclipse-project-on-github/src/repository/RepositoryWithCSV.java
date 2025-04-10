@@ -1,12 +1,12 @@
 package repository;
 
-public interface RepositoryWithCSV extends Repository {
+public abstract class RepositoryWithCSV extends Repository {
 
 	/**
 	 * 
 	 */
 	
-	public abstract void importFromCSV();
+	public abstract void importFromCSV(); // need to be overriden by subclasses
 	
 
 }

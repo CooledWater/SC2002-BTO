@@ -2,12 +2,12 @@ package repository;
 
 import java.io.*;
 
-public interface Repository extends Serializable {
+public abstract class Repository implements Serializable {
 	
 	/**
 	 * 
 	 */
-	public abstract void saveToSer();
-	public abstract void importFromSer();
+	public void saveToSer(); // this method does not require overriding, because its the same method body for all repositories
+	public static Repository importFromSer(); // this static method does not require overriding
 	
 }
