@@ -10,4 +10,16 @@ public class ProjectApp {
         this.project = project;
         this.status = status;
     }
+    
+    public Applicant getApplicant() {
+        return applicant;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public AppStatus getStatus() {
+        return status;
+    }
 }

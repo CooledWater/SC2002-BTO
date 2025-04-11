@@ -42,6 +42,7 @@ public class Project {
     	this.isVisible = true;
     	this.projectApps = new ArrayList<>();
     }
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -108,6 +109,5 @@ public class Project {
 	public void setProjectApps(List<ProjectApp> projectApps) {
 		this.projectApps = projectApps;
 	}
-
 
 }
