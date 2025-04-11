@@ -39,13 +39,8 @@ public class ManagerRepository extends RepositoryWithCSV {
 			newManager.setAge(Integer.parseInt(parts[2]));
 			newManager.setMarried(parts[3].equals("Married")? true : false);
 			newManager.setPassword(parts[4]);
-			this.managers.add(newManager);
-			
-			
-		}
-		
-		
-		
+			this.managers.add(newManager);	
+		}	
 		sc.close();
 	}
 
