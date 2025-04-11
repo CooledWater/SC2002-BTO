@@ -2,8 +2,14 @@
 <section name="Workbench">
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<section name="java.lang.Class">
+<<<<<<< Updated upstream
 		<list key="findhistory">
 			<item value="searchBy"/>
+=======
+		<item key="replaceBarOpen" value="false"/>
+		<list key="findhistory">
+			<item value="applicantRepo"/>
+>>>>>>> Stashed changes
 		</list>
 	</section>
 </section>
