@@ -25,8 +25,8 @@ public interface ApplicantEnquiryServiceInterface extends EnquiryServiceInterfac
 	
 	void submitEnquiry(Applicant applicant, Project project, String message);
 	List<Enquiry> viewEnquiries(Applicant applicant);
-    void editEnquiry(Applicant applicant, int enquiryID, String newMessage);
-    void deleteEnquiry(Applicant applicant, int enquiryID);
+    	void editEnquiry(Applicant applicant, int enquiryID, String newMessage);
+ 	void deleteEnquiry(Applicant applicant, int enquiryID);
 }
 	
 	/* implement this in application class
