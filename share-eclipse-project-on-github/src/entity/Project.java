@@ -30,4 +30,24 @@ public class Project {
     public String getName() {
     	return name;
     }
+    
+    public String getNeighbourhood() {
+        return neighbourhood;
+    }
+
+    public FlatType getFlatType() {
+        return flatType;
+    }
+
+    public String getOpenDate() {
+        return openDate;
+    }
+
+    public String getCloseDate() {
+        return closeDate;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
 }
