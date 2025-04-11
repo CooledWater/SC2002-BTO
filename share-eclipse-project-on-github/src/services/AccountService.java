@@ -3,17 +3,11 @@ package services;
 import entity.User;
 
 public class AccountService {
-    private User user;
-
-    public AccountService(User user) {
-        this.user = user;
-    }
-
-    public boolean checkPassword(String inputPassword) {
+    public boolean checkPassword(User user, String inputPassword) {
         return user.getPassword().equals(inputPassword);
     }
 
-    public void changePassword(String newPassword) {
+    public void changePassword(User user, String newPassword) {
         user.setPassword(newPassword);
         System.out.println("Password changed successfully.");
     }

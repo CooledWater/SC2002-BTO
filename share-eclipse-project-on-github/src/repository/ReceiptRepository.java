@@ -5,9 +5,12 @@ import entity.ProjectApp;
 import entity.Applicant;
 
 class ReceiptRepository extends Repository {
-    private static final long serialVersionUID = 1L;
-    
-    public void generateReceipt(Applicant applicant) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2825934112690495137L;
+
+	public void generateReceipt(Applicant applicant) {
         for (ProjectApp app : applicant.getProjectApps()) {
             if (app.getStatus() == AppStatus.BOOKED) {
                 System.out.println("\n=== Booking Receipt ===");
