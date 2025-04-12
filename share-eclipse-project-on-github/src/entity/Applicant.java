@@ -8,7 +8,6 @@ public class Applicant extends User{
 	 */
 	private static final long serialVersionUID = 2241078442498755535L;
 	private ProjectApp projectApp;
-	private List<Enquiry> enquiries;
 	
 	public Applicant() {
 		super();

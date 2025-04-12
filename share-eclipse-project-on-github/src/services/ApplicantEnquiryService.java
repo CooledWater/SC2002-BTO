@@ -19,7 +19,6 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 		
 		if (searchApplicant != null) {
 			Enquiry applicantEnquiry = new Enquiry(searchAapplicant, project, message);
-			// applicant.addEnquiry(applicantEnquiry); not sure if applicant should have enquiry list
 			enquiryRepo.addEnquiry(applicantEnquiry);
 		}
 		else {
