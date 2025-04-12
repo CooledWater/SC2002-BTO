@@ -4,7 +4,7 @@ import entity.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
-public class OfficerRepository extends RepositoryWithCSV {
+public class OfficerRepository extends UserRepository<Officer> {
 
 	/**
 	 * 
@@ -49,5 +49,15 @@ public class OfficerRepository extends RepositoryWithCSV {
 
 	public void setOfficers(List<Officer> officers) {
 		this.officers = officers;
+	}
+
+	@Override
+	public Officer searchByNRIC(String NRIC) {
+		Officer result = null;
+		for (Officer officer : this.getOfficers()) {
+			if (officer.getNRIC().equals(NRIC)) result = officer;
+		}
+		
+		return result;
 	}
 }

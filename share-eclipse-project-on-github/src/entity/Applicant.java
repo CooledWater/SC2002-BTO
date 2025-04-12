@@ -12,7 +12,7 @@ public class Applicant extends User{
 	
 	public Applicant() {
 		super();
-		projectApps = null;
+		projectApp = null;
 		enquiries = null;
 	}
 	

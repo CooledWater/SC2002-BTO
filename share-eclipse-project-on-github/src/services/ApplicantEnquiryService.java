@@ -1,5 +1,6 @@
 package services;
 import java.util.List;
+import entity.*;
 import java.util.Collections;
 
 public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface {
