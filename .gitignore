@@ -1,21 +1,38 @@
+# Eclipse Metadata
 .metadata/
-.settings/
-bin/
-tmp/
-*.log
-*.tmp
-*.bak
-*.swp
+.plugins/
+org.eclipse.core.resources/.snap
+
+# Project-specific Eclipse files
 .project
 .classpath
+.settings/
 
-git rm --cached .metadata/
-git rm --cached .settings/
-git rm --cached bin/
-git rm --cached .project
-git rm --cached .classpath
-# Add any other files/directories you added to .gitignore
-git commit -m "Stop tracking Eclipse metadata"
+# Java-specific
+bin/
+tmp/
+*.launch
+*.jlaunch
+.apt_generated/
+.factorypath
+.jdt.ls-java/ # Language Server Protocol for Java
+.gradle/       # If using Gradle
+build/        # If using Gradle
+target/       # If using Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+.mvn/         # If using Maven
 
-git add .gitignore
-git commit -m "Add .gitignore to ignore Eclipse metadata"
+# Other common build and IDE artifacts
+out/
+dist/
+build/
+target/
+*.iml         # IntelliJ IDEA project files (if you sometimes use it)
+.idea/        # IntelliJ IDEA project files
+nbproject/    # NetBeans project files
+
+# OS Specific
+.DS_Store
+Thumbs.db
