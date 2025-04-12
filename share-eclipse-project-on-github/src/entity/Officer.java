@@ -6,6 +6,7 @@ public class Officer extends Applicant{
 	 */
 	private static final long serialVersionUID = 8569435014677556203L;
 	private Project handlingProj;
+	private JoinRequest joinRequest;
 	
 	public Officer() {
 		super();
@@ -23,6 +24,14 @@ public class Officer extends Applicant{
 
 	public void setHandlingProj(Project handlingProj) {
 		this.handlingProj = handlingProj;
+	}
+
+	public JoinRequest getJoinRequest() {
+		return joinRequest;
+	}
+
+	public void setJoinRequest(JoinRequest joinRequest) {
+		this.joinRequest = joinRequest;
 	}
 	
 }
