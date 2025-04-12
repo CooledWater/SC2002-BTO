@@ -7,6 +7,7 @@ public class Project {
     // attributes defined in csv file
     private String name;
     private String neighbourhood;
+    private FlatType flatType;
     private int numberOf2Rooms;
     private int numberof3Rooms;
     private int sellingPrice2Room;
@@ -26,7 +27,7 @@ public class Project {
     public Project(String name, String neighbourhood, int numberOf2Rooms,
     		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
     		String openDate, String closeDate, Manager manager, int numberOfOfficers,
-    		List<Officer> officers) { 
+    		List<Officer> officers, FlatType flatType) { 
     	this.name = name;
     	this.neighbourhood = neighbourhood;
     	this.numberOf2Rooms = numberOf2Rooms;
@@ -38,6 +39,7 @@ public class Project {
     	this.manager = manager;
     	this.numberOfOfficers = numberOfOfficers;
     	this.officers = officers;
+    	this.flatType = flatType;
     	
     	this.isVisible = true;
     	this.projectApps = new ArrayList<>();
@@ -108,6 +110,12 @@ public class Project {
 	}
 	public void setProjectApps(List<ProjectApp> projectApps) {
 		this.projectApps = projectApps;
+	}
+	public FlatType getFlatType() {
+	    return flatType;
+	}
+	public void setFlatType(FlatType flatType) {
+	    this.flatType = flatType;
 	}
 
 }
