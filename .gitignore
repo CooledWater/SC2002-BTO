@@ -36,3 +36,5 @@ nbproject/    # NetBeans project files
 # OS Specific
 .DS_Store
 Thumbs.db
+/bin/
+/bin/
