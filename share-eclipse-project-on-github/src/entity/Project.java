@@ -65,8 +65,12 @@ public class Project {
 	public boolean isVisible() {
 		return isVisible;
 	}
-	public void setVisible(boolean isVisible) {
-		this.isVisible = isVisible;
+	public void setVisible(User user, boolean isVisible) {
+		if (user instanceof Manager) { // check user identity
+			this.isVisible = isVisible;
+		} else {
+			System.out.println("Unauthorized to change visibility. ");
+		}
 	}
 	public String getName() {
 		return name;
