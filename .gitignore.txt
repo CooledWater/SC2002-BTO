@@ -1,0 +1,21 @@
+.metadata/
+.settings/
+bin/
+tmp/
+*.log
+*.tmp
+*.bak
+*.swp
+.project
+.classpath
+
+git rm --cached .metadata/
+git rm --cached .settings/
+git rm --cached bin/
+git rm --cached .project
+git rm --cached .classpath
+# Add any other files/directories you added to .gitignore
+git commit -m "Stop tracking Eclipse metadata"
+
+git add .gitignore
+git commit -m "Add .gitignore to ignore Eclipse metadata"
