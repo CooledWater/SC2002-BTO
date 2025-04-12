@@ -5,7 +5,7 @@ import java.io.*;
 
 import entity.Manager;
 
-public class ManagerRepository extends RepositoryWithCSV {
+public class ManagerRepository extends UserRepository<Manager> {
 	/**
 	 * 
 	 */
@@ -52,5 +52,16 @@ public class ManagerRepository extends RepositoryWithCSV {
 
 	public void setManagers(List<Manager> managers) {
 		this.managers = managers;
+	}
+
+
+	@Override
+	public Manager searchByNRIC(String NRIC) {
+		Manager result = null;
+		for (Manager manager : this.getManagers()) {
+			if (manager.getNRIC().equals(NRIC)) result = manager;
+		}
+		
+		return result;
 	}
 }

@@ -37,11 +37,6 @@ public abstract class Repository implements Serializable {
 		FileInputStream fis = new FileInputStream(filePath);
 		ObjectInputStream in = new ObjectInputStream(fis);
 		return (Repository) in.readObject();
-		
-			
-			
-		
-		
 	}; 
 	
 }

@@ -3,8 +3,9 @@ import java.util.*;
 import java.io.*;
 
 import entity.Applicant;
+import entity.Manager;
 
-public class ApplicantRepository extends RepositoryWithCSV {
+public class ApplicantRepository extends UserRepository<Applicant> {
 
 	private static final long serialVersionUID = -4139573877991643327L; // to be edited
 	private List<Applicant> applicants;
@@ -46,9 +47,16 @@ public class ApplicantRepository extends RepositoryWithCSV {
 	public List<Applicant> getApplicants() {
 		return applicants;
 	}
-	
-	public Applicant searchByNRIC(applicantNRIC) {
-		// to be implemented
+
+
+	@Override
+	public Applicant searchByNRIC(String NRIC) {
+		Applicant result = null;
+		for (Applicant applicant : this.getApplicants()) {
+			if (applicant.getNRIC().equals(NRIC)) result = applicant;
+		}
 		
+		return result;
 	}
+	
 }
