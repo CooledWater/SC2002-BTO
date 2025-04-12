@@ -1,26 +1,27 @@
 package repository;
+
 import java.util.*;
 import java.io.*;
 
 import entity.Applicant;
-import entity.Manager;
 
 public class ApplicantRepository extends UserRepository<Applicant> {
 
-	private static final long serialVersionUID = -4139573877991643327L; // to be edited
+	private static final long serialVersionUID = -4139573877991643327L; // to be updated
 	private List<Applicant> applicants;
 	
 	public ApplicantRepository() {
 		this.applicants = new ArrayList<Applicant>();
 	}
 	
+	
+	@Override
 	public void importFromCSV() {
 		String filePath = "csv\\ApplicantList.csv";
 		Scanner sc;
 		try {
 			sc = new Scanner(new FileReader(filePath));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println("ApplicantList.csv file is not found. Please ensure that the file is inside csv folder. ");
 			return;
 		}
@@ -35,28 +36,29 @@ public class ApplicantRepository extends UserRepository<Applicant> {
 			newApplicant.setAge(Integer.parseInt(parts[2]));
 			newApplicant.setMarried(parts[3].equals("Married")? true : false);
 			newApplicant.setPassword(parts[4]);
-			this.applicants.add(newApplicant);
-			
-		}
-		
+			this.applicants.add(newApplicant);	
+		}	
 		sc.close();
 	}
-	
-	
-	
+
+
 	public List<Applicant> getApplicants() {
 		return applicants;
+	}
+
+
+	public void setApplicants(List<Applicant> applicants) {
+		this.applicants = applicants;
 	}
 
 
 	@Override
 	public Applicant searchByNRIC(String NRIC) {
 		Applicant result = null;
-		for (Applicant applicant : this.getApplicants()) {
+		for (Applicant applicant : applicants) {
 			if (applicant.getNRIC().equals(NRIC)) result = applicant;
 		}
 		
 		return result;
 	}
-	
 }
