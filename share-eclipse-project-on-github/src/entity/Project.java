@@ -8,7 +8,7 @@ public class Project {
     private String name;
     private String neighbourhood;
     private int numberOf2Rooms;
-    private int numberof3Rooms;
+    private int numberOf3Rooms;
     private int sellingPrice2Room;
     private int sellingPrice3Room;
     private String openDate;
@@ -31,7 +31,7 @@ public class Project {
     	this.neighbourhood = neighbourhood;
     	this.numberOf2Rooms = numberOf2Rooms;
     	this.sellingPrice2Room = sellingPrice2Room;
-    	this.numberof3Rooms = numberOf3Rooms;
+    	this.numberOf3Rooms = numberOf3Rooms;
     	this.sellingPrice3Room = sellingPriceOf3Room;
     	this.openDate = openDate;
     	this.closeDate = closeDate;
@@ -41,6 +41,25 @@ public class Project {
     	
     	this.isVisible = true;
     	this.projectApps = new ArrayList<>();
+    }
+    
+    // this constructor is used in ProjectListingService
+    public Project(String name, String neighbourhood, int numberOf2Rooms,
+    		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
+    		String openDate, String closeDate, boolean isVisible, Manager manager) { 
+    	this.name = name;
+    	this.neighbourhood = neighbourhood;
+    	this.numberOf2Rooms = numberOf2Rooms;
+    	this.sellingPrice2Room = sellingPrice2Room;
+    	this.numberOf3Rooms = numberOf3Rooms;
+    	this.sellingPrice3Room = sellingPriceOf3Room;
+    	this.openDate = openDate;
+    	this.closeDate = closeDate;
+    	this.isVisible = isVisible;
+    	this.manager = manager;
+    	this.numberOfOfficers = 0;
+    	this.officers = null;
+    	this.projectApps = null;
     }
 
 	public boolean isVisible() {
@@ -67,11 +86,11 @@ public class Project {
 	public void setNumberOf2Rooms(int numberOf2Rooms) {
 		this.numberOf2Rooms = numberOf2Rooms;
 	}
-	public int getNumberof3Rooms() {
-		return numberof3Rooms;
+	public int getNumberOf3Rooms() {
+		return numberOf3Rooms;
 	}
-	public void setNumberof3Rooms(int numberof3Rooms) {
-		this.numberof3Rooms = numberof3Rooms;
+	public void setNumberOf3Rooms(int numberof3Rooms) {
+		this.numberOf3Rooms = numberof3Rooms;
 	}
 	public String getOpenDate() {
 		return openDate;
