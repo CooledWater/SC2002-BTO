@@ -1,10 +1,15 @@
 package entity;
 
 import java.util.*;
+import java.io.*;
 
-public class Project {
+public class Project implements Serializable {
     
-    // attributes defined in csv file
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5671995836305073390L;
+	// attributes defined in csv file
     private String name;
     private String neighbourhood;
     private int numberOf2Rooms;
@@ -42,6 +47,8 @@ public class Project {
     	this.isVisible = true;
     	this.projectApps = new ArrayList<>();
     }
+    
+    public Project(String name) {this.name = name;}
 
 	public boolean isVisible() {
 		return isVisible;
