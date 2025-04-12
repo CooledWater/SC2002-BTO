@@ -27,16 +27,18 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	}
 	
 	
-	public List<Enquiry> viewEnquiries(Applicant applicant) {
+	public void viewEnquiries(Applicant applicant) {
+		List<Enquiry> enquiryList;
 		Applicant searchApplicant = applicantRepo.searchByNRIC(applicant.getNRIC());
 		
 		if (searchApplicant != null) {
-			return enquiryRepo.searchByApplicant(searchApplicant.getNRIC());
+			enquiryList = enquiryRepo.searchByApplicant(searchApplicant.getNRIC());
 		}
 		else {
 			System.out.println("Failed to find applicant.");
-			return Collections.emptyList();
+			enquiryList = Collections.emptyList();
 		}
+		displayEnquiries(enquiryList);
 	}
 	
 	

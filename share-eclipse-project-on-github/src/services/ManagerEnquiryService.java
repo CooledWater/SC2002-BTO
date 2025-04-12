@@ -2,24 +2,24 @@ package services;
 import java.util.List;
 
 public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
-	private final ManagerRepository managerRepo;
 	private final EnquiryRepository enquiryRepo;
 	
 	
-	public ManagerEnquiryService(ManagerRepository managerRepo, EnquiryRepository enquiryRepo) {
-		this.managerRepo = managerRepo;
+	public ManagerEnquiryService(EnquiryRepository enquiryRepo) {
 		this.enquiryRepo = enquiryRepo;
 	}
 	
 	
-	public List<Enquiry> viewEnquiries(Manager manager, boolean filterByManaging) {
+	public void viewEnquiries(Manager manager, boolean filterByManaging) {
+		List<Enquiry> enquiryList;
 		
 		if (filterByManaging) {
-			return enquiryRepo.searchByManager(manager);
+			enquiryList = enquiryRepo.searchByManager(manager);
 		}
 		else {
-			return enquiryRepo.getAllEnquiries();
+			enquiryList = enquiryRepo.getAllEnquiries();
 		}
+		displayEnquiries(enquiryList);
 	}
 
 		

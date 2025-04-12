@@ -17,7 +17,6 @@ public class Applicant extends User{
 	
 	public Applicant(String name, String NRIC, int age, boolean isMarried, String password) {
 		super(name, NRIC, age, isMarried, password);
-		this.enquiries = new ArrayList<>();
 	}
 
 	public ProjectApp getProjectApp() {
@@ -26,14 +25,6 @@ public class Applicant extends User{
 
 	public void setProjectApp(ProjectApp projectApp) {
 		this.projectApp = projectApp;
-	}
-
-	public List<Enquiry> getEnquiries() {
-		return enquiries;
-	}
-
-	public void setEnquiries(List<Enquiry> enquiries) {
-		this.enquiries = enquiries;
 	}
 	
 }
