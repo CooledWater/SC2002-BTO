@@ -1,10 +1,15 @@
 package entity;
 
 import java.util.*;
+import java.io.*;
 
-public class Project {
+public class Project implements Serializable {
     
-    // attributes defined in csv file
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5671995836305073390L;
+	// attributes defined in csv file
     private String name;
     private String neighbourhood;
     private int numberOf2Rooms;
@@ -43,6 +48,7 @@ public class Project {
     	this.projectApps = new ArrayList<>();
     }
     
+
     // this constructor is used in ProjectListingService
     public Project(String name, String neighbourhood, int numberOf2Rooms,
     		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
@@ -61,6 +67,8 @@ public class Project {
     	this.officers = null;
     	this.projectApps = null;
     }
+    public Project(String name) {this.name = name;}
+
 
 	public boolean isVisible() {
 		return isVisible;
