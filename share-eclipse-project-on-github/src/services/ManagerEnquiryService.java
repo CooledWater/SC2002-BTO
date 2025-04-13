@@ -14,7 +14,7 @@ public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
 		List<Enquiry> enquiryList;
 		
 		if (filterByManaging) {
-			enquiryList = enquiryRepo.searchByManager(manager);
+			enquiryList = enquiryRepo.searchByProjectName(manager.getManagingProj().getName());
 		}
 		else {
 			enquiryList = enquiryRepo.getAllEnquiries();

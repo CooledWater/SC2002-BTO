@@ -54,7 +54,7 @@ public class OfficerRepository extends UserRepository<Officer> {
 	@Override
 	public Officer searchByNRIC(String NRIC) {
 		Officer result = null;
-		for (Officer officer : this.getOfficers()) {
+		for (Officer officer : officers) {
 			if (officer.getNRIC().equals(NRIC)) result = officer;
 		}
 		

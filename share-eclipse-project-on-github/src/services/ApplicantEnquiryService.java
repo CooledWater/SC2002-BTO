@@ -70,7 +70,7 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 			System.out.println("You do not have permission to edit this enquiry.");
 		}
 		else {
-			enquiryRepo.delete(searchEnquiry);
+			enquiryRepo.delete(searchEnquiry.getID());
 			System.out.println("Enquiry deleted.");
 		}
 	}
