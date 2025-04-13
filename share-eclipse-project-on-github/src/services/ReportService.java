@@ -2,14 +2,13 @@ package services;
 
 import entity.Applicant;
 import entity.AppStatus;
-import entity.Project;
 import entity.ProjectApp;
+import entity.FlatType;
 import repository.ApplicantRepository;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class ReportService {
     private ApplicantRepository applicantRepository;
@@ -20,64 +19,101 @@ public class ReportService {
 
     public void generateFilteredApplicantReport() {
         Scanner sc = new Scanner(System.in);
-        Predicate<Applicant> filter = applicant -> {
-            ProjectApp app = applicant.getProjectApp();
-            return app != null && app.getStatus() == AppStatus.BOOKED;
-        };
+        Predicate<Applicant> filter = a -> a.getProjectApp() != null && a.getProjectApp().getStatus() == AppStatus.BOOKED;
 
-        System.out.println("\n=== Applicant Report Filters ===");
-        System.out.println("Press Enter to skip any filter.\n");
+        System.out.println("=== Filter Options ===");
 
-        try {
-            System.out.print("Filter by marital status? (single/married): ");
-            String maritalStatus = sc.nextLine().trim().toLowerCase();
-            if (!maritalStatus.isEmpty()) {
-                if (!maritalStatus.equals("single") && !maritalStatus.equals("married")) {
-                    throw new IllegalArgumentException("Invalid marital status input.");
+        // Marital Status Filter
+        while (true) {
+            try {
+                System.out.println("Filter by marital status?");
+                System.out.println("0 - Single");
+                System.out.println("1 - Married");
+                System.out.println("2 - No filtering");
+                System.out.print("Enter choice: ");
+                int maritalChoice = Integer.parseInt(sc.nextLine());
+
+                if (maritalChoice == 0) {
+                    filter = filter.and(a -> !a.isMarried());
+                    break;
+                } else if (maritalChoice == 1) {
+                    filter = filter.and(Applicant::isMarried);
+                    break;
+                } else if (maritalChoice == 2) {
+                    break; // no filtering
+                } else {
+                    System.out.println("Please enter 0, 1, or 2.");
                 }
-                boolean isMarried = maritalStatus.equals("married");
-                filter = filter.and(a -> a.isMarried() == isMarried);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
             }
+        }
 
-            System.out.print("Filter by flat type? (TWO_ROOM/THREE_ROOM): ");
-            String flatType = sc.nextLine().trim().toUpperCase();
-            if (!flatType.isEmpty()) {
-                if (!flatType.equals("TWO_ROOM") && !flatType.equals("THREE_ROOM")) {
-                    throw new IllegalArgumentException("Invalid flat type input.");
+        // Flat Type Filter
+        while (true) {
+            try {
+                System.out.println("Filter by flat type?");
+                System.out.println("0 - TWO_ROOM");
+                System.out.println("1 - THREE_ROOM");
+                System.out.println("2 - No filtering");
+                System.out.print("Enter choice: ");
+                int flatChoice = Integer.parseInt(sc.nextLine());
+
+                if (flatChoice == 0) {
+                	filter = filter.and(a -> a.getBooking() != null && a.getBooking().getFlatType() == FlatType.TWO_ROOM);
+;
+                    break;
+                } else if (flatChoice == 1) {
+                	filter = filter.and(a -> a.getBooking() != null && a.getBooking().getFlatType() == FlatType.THREE_ROOM);
+;
+                    break;
+                } else if (flatChoice == 2) {
+                    break;
+                } else {
+                    System.out.println("Please enter 0, 1, or 2.");
                 }
-                filter = filter.and(a -> a.getProjectApp().getFlatType().name().equals(flatType));
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
             }
+        }
 
-            System.out.print("Filter by neighbourhood? (enter name): ");
-            String neighbourhood = sc.nextLine().trim();
-            if (!neighbourhood.isEmpty()) {
+        // Neighbourhood Filter
+        while (true) {
+            System.out.print("Do you want to filter by neighbourhood? (y/n): ");
+            String neighInput = sc.nextLine().trim().toLowerCase();
+            if (neighInput.equals("y")) {
+                System.out.print("Enter neighbourhood: ");
+                String neighbourhood = sc.nextLine().trim();
                 filter = filter.and(a -> a.getProjectApp().getProject().getNeighbourhood().equalsIgnoreCase(neighbourhood));
-            }
-
-            List<Applicant> filteredApplicants = applicantRepository.getApplicants()
-                    .stream()
-                    .filter(filter)
-                    .collect(Collectors.toList());
-
-            if (filteredApplicants.isEmpty()) {
-                System.out.println("\nNo applicants matched the selected filters.");
+                break;
+            } else if (neighInput.equals("n")) {
+                break;
             } else {
-                System.out.println("\n=== Filtered Applicant Report ===");
-                for (Applicant a : filteredApplicants) {
-                    ProjectApp app = a.getProjectApp();
-                    Project project = app.getProject();
-                    System.out.printf("NRIC: %s, Age: %d, Marital Status: %s, Flat Type: %s, Project Name: %s%n",
-                            a.getNRIC(),
-                            a.getAge(),
-                            a.isMarried() ? "Married" : "Single",
-                            app.getFlatType(),
-                            project.getName());
-                }
+                System.out.println("Invalid input. Please enter 'y' or 'n'.");
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Input error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Unexpected error occurred while generating report: " + e.getMessage());
+        }
+
+        // Apply the filter and print the report
+        System.out.println("\n=== Filtered Applicant Report ===");
+        boolean anyFound = false;
+        for (Applicant applicant : applicantRepository.getApplicants()) {
+            if (filter.test(applicant)) {
+                ProjectApp app = applicant.getProjectApp();
+                System.out.println("NRIC: " + applicant.getNRIC());
+                System.out.println("Age: " + applicant.getAge());
+                System.out.println("Marital Status: " + (applicant.isMarried() ? "Married" : "Single"));
+                System.out.println("Flat Type: " + 
+                	    (applicant.getBooking() != null ? applicant.getBooking().getFlatType() : "N/A"));
+                System.out.println("Project Name: " + app.getProject().getName());
+                System.out.println("Neighbourhood: " + app.getProject().getNeighbourhood());
+                System.out.println("-----------------------------------");
+                anyFound = true;
+            }
+        }
+
+        if (!anyFound) {
+            System.out.println("No applicants found matching the filters.");
         }
     }
 }
+
