@@ -27,9 +27,9 @@ public class ReportService {
         while (true) {
             try {
                 System.out.println("Filter by marital status?");
-                System.out.println("0 - Single");
-                System.out.println("1 - Married");
-                System.out.println("2 - No filtering");
+                System.out.println("Enter 0 for filtering by single");
+                System.out.println("Enter 1 for filtering by married");
+                System.out.println("Enter 2 for no filtering. ");
                 System.out.print("Enter choice: ");
                 int maritalChoice = Integer.parseInt(sc.nextLine());
 
@@ -42,7 +42,7 @@ public class ReportService {
                 } else if (maritalChoice == 2) {
                     break; // no filtering
                 } else {
-                    System.out.println("Please enter 0, 1, or 2.");
+                    System.out.println("Invalid input. Please enter 0, 1, or 2.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
