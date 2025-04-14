@@ -10,12 +10,15 @@ public class Officer extends Applicant{
 	
 	public Officer() {
 		super();
-		handlingProj = null;
+		this.handlingProj = null;
+		this.joinRequest = null;
+		
 	}
 	
     public Officer(String name, String NRIC, int age, boolean isMarried, String password) {
         super(name, NRIC, age, isMarried, password);
         this.handlingProj = null;
+        this.joinRequest = null;
     }
 
 	public Project getHandlingProj() {

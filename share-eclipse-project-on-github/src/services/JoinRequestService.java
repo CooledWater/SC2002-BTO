@@ -35,10 +35,23 @@ public class JoinRequestService {
 			
 		}
 		
-		JoinRequest newJoinRequest = new JoinRequest(officer, project);
-		joinRequestRepository.getJoinRequests().add(newJoinRequest);
-		project.getManager().getJoinRequests().add(newJoinRequest);
-		officer.setJoinRequest(newJoinRequest);
+		// cannot submit another join request if officer have an approved request or a pending request
+		if (officer.getJoinRequest() != null 
+				&& (
+						(officer.getJoinRequest().getStatus()==Status.APPROVED) ||
+						(officer.getJoinRequest().getStatus()==Status.PENDING)
+					)
+			) {
+			System.out.println("You cannot submit a new request, because you currently have an active join request. ");
+			return;
+			
+		}
+		
+		
+		JoinRequest newJoinRequest = new JoinRequest(officer, project); // create new join request
+		joinRequestRepository.getJoinRequests().add(newJoinRequest); // add to repo
+		project.getManager().getJoinRequests().add(newJoinRequest); // send to manager
+		officer.setJoinRequest(newJoinRequest); // save it to profile
 		
 		System.out.println("Your have submitted a request to join the following project as an officer: %n"
 				+ project.getName()
@@ -65,6 +78,13 @@ public class JoinRequestService {
 		joinRequest.getProject().setNumberOfOfficers(joinRequest.getProject().getNumberOfOfficers()+1);
 		// update officer profile
 		joinRequest.getOfficer().setHandlingProj(joinRequest.getProject());
+	}
+	
+	public void rejectJoinRequest(Manager manager, JoinRequest joinRequest) {
+		joinRequest.setStatus(Status.REJECTED);
+		joinRequestRepository.getJoinRequests().remove(joinRequest); // remove from repo
+		manager.getJoinRequests().remove(joinRequest); // remove from manager
+		
 	}
 	
 	
