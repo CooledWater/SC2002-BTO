@@ -6,7 +6,6 @@ import entity.ProjectApp;
 import entity.FlatType;
 import repository.ApplicantRepository;
 
-import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
 

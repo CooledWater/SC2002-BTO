@@ -1,0 +1,143 @@
+package services;
+
+import entity.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class ViewProjectService {
+	// Attributes: list of all projects from repo
+	//			   map to save filters even if user change menu
+    private List<Project> allProjects;
+    private Map<String, String> savedFilters;
+
+    public ViewProjectService(List<Project> allProjects) {
+        this.allProjects = allProjects;
+        this.savedFilters = new HashMap<>();
+    }
+
+    public void viewProjectsAsManager(Manager manager) {
+        showFilterMenu();
+        List<Project> filtered = applyFilters(allProjects);
+
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.print("Show only my projects? (y/n): ");
+            String input = sc.nextLine().trim();
+            if (input.equalsIgnoreCase("y")) {
+                filtered = filtered.stream()
+                        .filter(p -> p.getManager().equals(manager))
+                        .collect(Collectors.toList());
+                break;
+            } else if (input.equalsIgnoreCase("n")) {
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+            }
+        }
+
+        printProjects(filtered);
+    }
+
+    public void viewProjectsAsOfficer(Officer officer) {
+        List<Project> handledProjects = allProjects.stream()
+                .filter(p -> p.getOfficers().contains(officer))
+                .collect(Collectors.toList());
+        showFilterMenu();
+        List<Project> filtered = applyFilters(handledProjects);
+        printProjects(filtered);
+    }
+
+    public void viewProjectsAsApplicant(Applicant applicant) {
+        showFilterMenu();
+        List<Project> visibleProjects = allProjects.stream()
+                .filter(Project::isVisible)
+                .filter(p -> applicant.isMarried() || p.getNumberOf2Rooms() > 0)
+                .collect(Collectors.toList());
+
+        List<Project> filtered = applyFilters(visibleProjects);
+        printProjects(filtered);
+    }
+
+    private void showFilterMenu() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Filter by neighbourhood (leave blank for no filter): ");
+        String neighbourhood = sc.nextLine().trim();
+        savedFilters.put("neighbourhood", neighbourhood);
+        
+        while (true) {
+            System.out.println("Filter by flat type?");
+            System.out.println("Enter 0 to view 2 room flats.");
+            System.out.println("Enter 1 to view 3 room flats.");
+            System.out.println("Enter 2 to view all flats.");
+            System.out.print("Enter choice: ");
+            String flatChoice = sc.nextLine().trim();
+
+            if (flatChoice.equals("0") || flatChoice.equals("1") || flatChoice.equals("2")) {
+                savedFilters.put("flatType", flatChoice);
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter 0, 1, or 2.");
+            }
+        }
+    }
+
+    private List<Project> applyFilters(List<Project> projects) {
+        String neighbourhood = savedFilters.get("neighbourhood");
+        String flatChoice = savedFilters.get("flatType");
+
+        if (neighbourhood != null && !neighbourhood.isEmpty()) {
+            projects = projects.stream()
+                    .filter(p -> p.getNeighbourhood().equalsIgnoreCase(neighbourhood))
+                    .collect(Collectors.toList());
+        }
+
+        if (flatChoice != null) {
+            switch (flatChoice) {
+                case "0":
+                    projects = projects.stream()
+                            .filter(p -> p.getNumberOf2Rooms() > 0)
+                            .collect(Collectors.toList());
+                    break;
+                case "1":
+                    projects = projects.stream()
+                            .filter(p -> p.getNumberof3Rooms() > 0)
+                            .collect(Collectors.toList());
+                    break;
+                case "2":
+                default:
+                    break;
+            }
+        }
+
+        Comparator<Project> comparator = Comparator.comparing((Project p) -> {
+            if ("0".equals(flatChoice)) return p.getNumberOf2Rooms() <= 0;
+            if ("1".equals(flatChoice)) return p.getNumberof3Rooms() <= 0;
+            return false;
+        }).thenComparing(Project::getName);
+
+        projects.sort(comparator);
+
+
+        return projects;
+    }
+
+    private void printProjects(List<Project> projects) {
+        if (projects.isEmpty()) {
+            System.out.println("No projects found with the current filters.");
+            return;
+        }
+
+        System.out.println("\n=== Project List ===");
+        for (Project p : projects) {
+            System.out.println("Project Name: " + p.getName());
+            System.out.println("Neighbourhood: " + p.getNeighbourhood());
+            System.out.println("2-Room Units: " + p.getNumberOf2Rooms());
+            System.out.println("3-Room Units: " + p.getNumberof3Rooms());
+            System.out.println("Open Date: " + p.getOpenDate());
+            System.out.println("Close Date: " + p.getCloseDate());
+            System.out.println("Visible: " + p.isVisible());
+            System.out.println("-----------------------------");
+        }
+    }
+}
