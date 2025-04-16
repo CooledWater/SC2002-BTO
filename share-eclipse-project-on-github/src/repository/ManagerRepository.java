@@ -60,6 +60,7 @@ public class ManagerRepository extends UserRepository<Manager> {
 		Manager result = null;
 		for (Manager manager : managers) {
 			if (manager.getNRIC().equals(NRIC)) result = manager;
+			break;
 		}
 		
 		return result;

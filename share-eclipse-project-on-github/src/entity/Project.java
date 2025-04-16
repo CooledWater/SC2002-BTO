@@ -1,14 +1,19 @@
 package entity;
 
 import java.util.*;
+import java.io.*;
 
-public class Project {
+public class Project implements Serializable {
     
-    // attributes defined in csv file
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5671995836305073390L;
+	// attributes defined in csv file
     private String name;
     private String neighbourhood;
     private int numberOf2Rooms;
-    private int numberof3Rooms;
+    private int numberOf3Rooms;
     private int sellingPrice2Room;
     private int sellingPrice3Room;
     private String openDate;
@@ -31,7 +36,7 @@ public class Project {
     	this.neighbourhood = neighbourhood;
     	this.numberOf2Rooms = numberOf2Rooms;
     	this.sellingPrice2Room = sellingPrice2Room;
-    	this.numberof3Rooms = numberOf3Rooms;
+    	this.numberOf3Rooms = numberOf3Rooms;
     	this.sellingPrice3Room = sellingPriceOf3Room;
     	this.openDate = openDate;
     	this.closeDate = closeDate;
@@ -42,12 +47,38 @@ public class Project {
     	this.isVisible = true;
     	this.projectApps = new ArrayList<>();
     }
+    
+
+    // this constructor is used in ProjectListingService
+    public Project(String name, String neighbourhood, int numberOf2Rooms,
+    		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
+    		String openDate, String closeDate, boolean isVisible, Manager manager) { 
+    	this.name = name;
+    	this.neighbourhood = neighbourhood;
+    	this.numberOf2Rooms = numberOf2Rooms;
+    	this.sellingPrice2Room = sellingPrice2Room;
+    	this.numberOf3Rooms = numberOf3Rooms;
+    	this.sellingPrice3Room = sellingPriceOf3Room;
+    	this.openDate = openDate;
+    	this.closeDate = closeDate;
+    	this.isVisible = isVisible;
+    	this.manager = manager;
+    	this.numberOfOfficers = 0;
+    	this.officers = null;
+    	this.projectApps = null;
+    }
+    public Project(String name) {this.name = name;}
+
 
 	public boolean isVisible() {
 		return isVisible;
 	}
-	public void setVisible(boolean isVisible) {
-		this.isVisible = isVisible;
+	public void setVisible(User user, boolean isVisible) {
+		if (user instanceof Manager) { // check user identity
+			this.isVisible = isVisible;
+		} else {
+			System.out.println("Unauthorized to change visibility. ");
+		}
 	}
 	public String getName() {
 		return name;
@@ -67,11 +98,11 @@ public class Project {
 	public void setNumberOf2Rooms(int numberOf2Rooms) {
 		this.numberOf2Rooms = numberOf2Rooms;
 	}
-	public int getNumberof3Rooms() {
-		return numberof3Rooms;
+	public int getNumberOf3Rooms() {
+		return numberOf3Rooms;
 	}
-	public void setNumberof3Rooms(int numberof3Rooms) {
-		this.numberof3Rooms = numberof3Rooms;
+	public void setNumberOf3Rooms(int numberof3Rooms) {
+		this.numberOf3Rooms = numberof3Rooms;
 	}
 	public String getOpenDate() {
 		return openDate;
@@ -109,5 +140,31 @@ public class Project {
 	public void setProjectApps(List<ProjectApp> projectApps) {
 		this.projectApps = projectApps;
 	}
+	//methods to handle no. of 2 and 3 rooms
+	public void decrementTwoRoom() {
+	    if (this.numberOf2Rooms > 0) {
+	        this.numberOf2Rooms--;
+	    } else {
+	        System.out.println("No two-room flats remaining.");
+	    }
+	}
+	public void decrementThreeRoom() {
+	    if (this.numberOf3Rooms > 0) {
+	        this.numberOf3Rooms--;
+	    } else {
+	        System.out.println("No three-room flats remaining.");
+	    }
+	}
+	
+	//method to add projectapp
+	public void addProjectApp(ProjectApp projectApp) {
+	    this.projectApps.add(projectApp);
+	}
+	//method to toggle visibility
+	public void toggleVisibility() {
+	    this.isVisible = !this.isVisible;
+	    System.out.println("Project visibility is now: " + (this.isVisible ? "Visible" : "Hidden"));
+	}
+
 
 }
