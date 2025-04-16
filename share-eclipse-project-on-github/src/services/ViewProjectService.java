@@ -101,7 +101,7 @@ public class ViewProjectService {
                     break;
                 case "1":
                     projects = projects.stream()
-                            .filter(p -> p.getNumberof3Rooms() > 0)
+                            .filter(p -> p.getNumberOf3Rooms() > 0)
                             .collect(Collectors.toList());
                     break;
                 case "2":
@@ -110,13 +110,24 @@ public class ViewProjectService {
             }
         }
 
-        Comparator<Project> comparator = Comparator.comparing((Project p) -> {
-            if ("0".equals(flatChoice)) return p.getNumberOf2Rooms() <= 0;
-            if ("1".equals(flatChoice)) return p.getNumberof3Rooms() <= 0;
-            return false;
-        }).thenComparing(Project::getName);
+        Comparator<Project> comparator;
+
+        if ("0".equals(flatChoice)) {
+            comparator = Comparator
+                .comparingInt(Project::getNumberOf2Rooms)
+                .reversed()
+                .thenComparing(Project::getName);
+        } else if ("1".equals(flatChoice)) {
+            comparator = Comparator
+                .comparingInt(Project::getNumberOf3Rooms)
+                .reversed()
+                .thenComparing(Project::getName);
+        } else {
+            comparator = Comparator.comparing(Project::getName);
+        }
 
         projects.sort(comparator);
+
 
 
         return projects;
@@ -133,7 +144,7 @@ public class ViewProjectService {
             System.out.println("Project Name: " + p.getName());
             System.out.println("Neighbourhood: " + p.getNeighbourhood());
             System.out.println("2-Room Units: " + p.getNumberOf2Rooms());
-            System.out.println("3-Room Units: " + p.getNumberof3Rooms());
+            System.out.println("3-Room Units: " + p.getNumberOf3Rooms());
             System.out.println("Open Date: " + p.getOpenDate());
             System.out.println("Close Date: " + p.getCloseDate());
             System.out.println("Visible: " + p.isVisible());

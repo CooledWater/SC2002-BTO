@@ -33,9 +33,9 @@ public class BookingService {
                 if (choice == 0 && project.getNumberOf2Rooms() > 0) {
                     flatType = FlatType.TWO_ROOM;
                     project.setNumberOf2Rooms(project.getNumberOf2Rooms() - 1);
-                } else if (choice == 1 && project.getNumberof3Rooms() > 0) {
+                } else if (choice == 1 && project.getNumberOf3Rooms() > 0) {
                     flatType = FlatType.THREE_ROOM;
-                    project.setNumberof3Rooms(project.getNumberof3Rooms() - 1);
+                    project.setNumberOf3Rooms(project.getNumberOf3Rooms() - 1);
                 } else {
                     System.out.println("Invalid selection or flat type not available.");
                 }
@@ -98,8 +98,8 @@ public class BookingService {
                     if (flatType == FlatType.TWO_ROOM && handledProject.getNumberOf2Rooms() > 0) {
                         handledProject.setNumberOf2Rooms(handledProject.getNumberOf2Rooms() - 1);
                         hasUnit = true;
-                    } else if (flatType == FlatType.THREE_ROOM && handledProject.getNumberof3Rooms() > 0) {
-                        handledProject.setNumberof3Rooms(handledProject.getNumberof3Rooms() - 1);
+                    } else if (flatType == FlatType.THREE_ROOM && handledProject.getNumberOf3Rooms() > 0) {
+                        handledProject.setNumberOf3Rooms(handledProject.getNumberOf3Rooms() - 1);
                         hasUnit = true;
                     }
 

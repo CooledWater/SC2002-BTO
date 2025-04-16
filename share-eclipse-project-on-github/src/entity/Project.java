@@ -149,8 +149,8 @@ public class Project implements Serializable {
 	    }
 	}
 	public void decrementThreeRoom() {
-	    if (this.numberof3Rooms > 0) {
-	        this.numberof3Rooms--;
+	    if (this.numberOf3Rooms > 0) {
+	        this.numberOf3Rooms--;
 	    } else {
 	        System.out.println("No three-room flats remaining.");
 	    }
