@@ -1,7 +1,8 @@
 package services;
-import java.util.List;
+import java.util.*;
 
 import entity.*;
+
 
 public interface EnquiryServiceInterface {
 	
