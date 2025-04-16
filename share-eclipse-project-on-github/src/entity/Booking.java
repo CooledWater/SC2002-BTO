@@ -12,11 +12,13 @@ public class Booking implements Serializable {
 	private FlatType flatType;
     private Project project;
     private LocalDate bookingDate;
+    private AppStatus status;
 
-    public Booking(FlatType flatType, Project project, LocalDate bookingDate) {
+    public Booking(FlatType flatType, Project project, LocalDate bookingDate, AppStatus status) {
         this.flatType = flatType;
         this.project = project;
         this.bookingDate = bookingDate;
+        this.status = status;
     }
 
     public FlatType getFlatType() {
@@ -42,5 +44,13 @@ public class Booking implements Serializable {
 
     public void setBookingDate(LocalDate bookingDate) {
         this.bookingDate = bookingDate;
+    }
+    
+    public AppStatus getStatus() {
+    	return status;
+    }
+   
+    public void setStatus(AppStatus status) {
+    	this.status = status;
     }
 }

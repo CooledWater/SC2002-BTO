@@ -23,4 +23,13 @@ public class ProjectApp {
         return status;
     }
     
+    public void setStatus(AppStatus status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectApp{" + "applicant=" + applicant.getNRIC() + ", project=" + project.getName() + ", status=" + status + '}';
+    }
+    
 }
