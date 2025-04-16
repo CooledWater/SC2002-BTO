@@ -1,7 +1,9 @@
 package services;
-import java.util.List;
+import java.util.*;
+
 import entity.*;
-import java.util.Collections;
+import repository.ApplicantRepository;
+import repository.EnquiryRepository;
 
 public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface {
 	private final ApplicantRepository applicantRepo;
