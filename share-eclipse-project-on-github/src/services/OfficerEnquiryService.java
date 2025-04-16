@@ -1,5 +1,8 @@
 package services;
-import java.util.List;
+import java.util.*;
+
+import entity.*;
+import repository.EnquiryRepository;
 
 public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 	private final EnquiryRepository enquiryRepo;
