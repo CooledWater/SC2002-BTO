@@ -1,6 +1,8 @@
 package services;
 import java.util.List;
 
+import entity.*;
+
 public interface EnquiryServiceInterface {
 	
 	default void displayEnquiries(List<Enquiry> enquiries) {
@@ -20,19 +22,19 @@ public interface EnquiryServiceInterface {
 }
 
 
-public interface ManagerEnquiryServiceInterface extends EnquiryServiceInterface {
+interface ManagerEnquiryServiceInterface extends EnquiryServiceInterface {
 	
 	void viewEnquiries(Manager manager, boolean filterByManaging);
 }
 
 
-public interface OfficerEnquiryServiceInterface extends EnquiryServiceInterface {
+interface OfficerEnquiryServiceInterface extends EnquiryServiceInterface {
 	
 	void viewEnquiries(Officer officer);
 }
 
 
-public interface ApplicantEnquiryServiceInterface extends EnquiryServiceInterface {
+interface ApplicantEnquiryServiceInterface extends EnquiryServiceInterface {
 	
 	void viewEnquiries(Applicant applicant);
 }
