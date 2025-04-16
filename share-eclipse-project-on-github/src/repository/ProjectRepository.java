@@ -101,7 +101,7 @@ public class ProjectRepository extends RepositoryWithCSV {
     
     public Project searchByName(String name) {
         for (Project project : this.getProjects()) {
-            if (project.getName().equals(name)) {
+            if (project.getName().equalsIgnoreCase(name.trim())) {
                 return project;
             }
         }

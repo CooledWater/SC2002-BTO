@@ -24,31 +24,15 @@ public class ManageProjectAppService {
 
             for (ProjectApp app : apps) {
                 if (app.getStatus() == AppStatus.PENDING) {
-                    System.out.println("Applicant: " + app.getApplicant().getName());
-                    System.out.println("Flat Type: " + app.getFlatType());
+                    System.out.println("Applicant: " + app.getApplicant().getName());               
                     System.out.println("Project: " + project.getName());
                     System.out.print("Approve this application? (y/n): ");
                     String input = sc.nextLine().trim().toLowerCase();
 
                     if (input.equals("y")) {
-                        //check flat number and update
-                        FlatType flatType = app.getFlatType();
-                        boolean approved = false;
-
-                        if (flatType == FlatType.TWO_ROOM && project.getNumberOf2Rooms() > 0) {
-                            project.setNumberOf2Rooms(project.getNumberOf2Rooms() - 1);
-                            approved = true;
-                        } else if (flatType == FlatType.THREE_ROOM && project.getNumberOf3Rooms() > 0) {
-                            project.setNumberOf3Rooms(project.getNumberOf3Rooms() - 1);
-                            approved = true;
-                        } else {
-                            System.out.println("No more units available for this flat type.");
-                        }
-
-                        if (approved) {
+                        //approve                             
                             app.setStatus(AppStatus.SUCCESSFUL);
-                            System.out.println("Application approved\n");
-                        }
+                            System.out.println("Application approved\n");                    
                     } else {
                         app.setStatus(AppStatus.UNSUCCESSFUL);
                         System.out.println("Application rejected\n");
@@ -72,7 +56,7 @@ public class ManageProjectAppService {
                     System.out.println("Applicant: " + app.getApplicant().getName());
                     System.out.println("Flat Type: " + app.getFlatType());
                     System.out.println("Project: " + project.getName());
-                    System.out.print("Withdraw this application? (y/n): ");
+                    System.out.print("Approve the application withdrawal? (y/n): ");
                     String input = sc.nextLine().trim().toLowerCase();
 
                     if (input.equals("y")) {
