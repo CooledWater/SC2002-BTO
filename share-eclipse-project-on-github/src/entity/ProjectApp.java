@@ -25,11 +25,15 @@ public class ProjectApp {
         return status;
     }
     
+    public void setStatus(AppStatus status) {
+    	this.status = status; 
+    }
 	public FlatType getFlatType() {
 	    return flatType;
 	}
 	public void setFlatType(FlatType flatType) {
 	    this.flatType = flatType;
 	}
+
 
 }
