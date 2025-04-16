@@ -32,24 +32,24 @@ public class ProjectApplicationService {
                 + " with flat type: " + flatType.name() + ". Status: PENDING");
     }
 
-    public void withdrawProject(Applicant applicant) {
-        List<ProjectApp> apps = projectAppRepo.getProjectApps();
-        boolean found = false;
-        //withdrawing project application
-        for (ProjectApp app : apps) {
-            if (app.getApplicant().equals(applicant) && app.getStatus() == AppStatus.PENDING) {
-                app.setStatus(AppStatus.UNSUCCESSFUL);
-                found = true;
-            }
-        }
+    //public void withdrawProject(Applicant applicant) {
+        //List<ProjectApp> apps = projectAppRepo.getProjectApps();
+        //boolean found = false;
+        //this should be asking for a withdrawal not instantly withdraw
+        //for (ProjectApp app : apps) {
+            //if (app.getApplicant().equals(applicant) && app.getStatus() == AppStatus.PENDING) {
+                //app.setStatus(AppStatus.UNSUCCESSFUL);
+                //found = true;
+            //}
+        //}
 
-        if (found) {
-            projectAppRepo.saveToSer();
-            System.out.println("Your application has been withdrawn.");
-        } else {
-            System.out.println("No PENDING application found to withdraw.");
-        }
-    }
+        //if (found) {
+            //projectAppRepo.saveToSer();
+            //System.out.println("Your application has been withdrawn.");
+       //} else {
+           // System.out.println("No PENDING application found to withdraw.");
+        //}
+   // }
 
     
     public List<ProjectApp> viewMyProjectApp(Applicant applicant) {
@@ -72,9 +72,4 @@ public class ProjectApplicationService {
         return myApps;
     }
 
-    public void applyProject(Officer officer, Applicant applicant, Project project, FlatType flatType) {
-        System.out.println("Officer " + officer.getName() + " is applying on behalf of applicant: "
-                + applicant.getName());
-        applyProject(applicant, project, flatType);
-    }
 }
