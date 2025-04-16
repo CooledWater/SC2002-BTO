@@ -52,7 +52,7 @@ public class ApplicantRepository extends UserRepository<Applicant> {
 	@Override
 	public Applicant searchByNRIC(String NRIC) {
 		Applicant result = null;
-		for (Applicant applicant : this.getApplicants()) {
+		for (Applicant applicant : applicants) {
 			if (applicant.getNRIC().equals(NRIC)) result = applicant;
 		}
 		

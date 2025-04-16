@@ -15,7 +15,7 @@ public class ReceiptRepository extends Repository {
             System.out.println("Applicant Name: " + applicant.getNRIC());
             System.out.println("Age: " + applicant.getAge());
             System.out.println("Marital Status: " + (applicant.isMarried() ? "Married" : "Single"));
-            System.out.println("Flat Type Booked: " + app.getFlatType());
+            System.out.println("Flat Type Booked: " + applicant.getBooking().getFlatType());
             System.out.println("Project Name: " + app.getProject().getName());
         } else {
             System.out.println("No booked project found for applicant: " + applicant.getNRIC());
