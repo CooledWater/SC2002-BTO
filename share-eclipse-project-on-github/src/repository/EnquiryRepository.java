@@ -54,7 +54,7 @@ public class EnquiryRepository extends Repository {
     }
 	
 	
-	public void delete(int enquiryID) {
+	public boolean delete(int enquiryID) {
         return enquiries.removeIf(enquiry -> enquiry.getID().equals(enquiryID));
     }
 	
