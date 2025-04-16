@@ -2,26 +2,26 @@ package services;
 import java.util.List;
 
 public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
-	private final OfficerRepository officerRepo;
 	private final EnquiryRepository enquiryRepo;
 	
 	
-	public OfficerEnquiryService(OfficerRepository officerRepo, EnquiryRepository enquiryRepo) {
-		this.officerRepo = officerRepo;
+	public OfficerEnquiryService(EnquiryRepository enquiryRepo) {
 		this.enquiryRepo = enquiryRepo;
 	}
 	
 	
-	public List<Enquiry> viewEnquiries(Officer officer) {		
+	public void viewEnquiries(Officer officer) {
+		List<Enquiry> enquiryList;
 		Project officerHandlingProject = officer.getHandlingProj();
 		
 		if (officerHandlingProject != null) {
-			return enquiryRepo.searchByProjectName(officerHandlingProject.getName());
+			enquiryList = enquiryRepo.searchByProjectName(officerHandlingProject.getName());
 		}
 		else {
 			System.out.println("Officer currently not handling any projects.");
-			return Collections.emptyList();
+			enquiryList = Collections.emptyList();
 		}
+		displayEnquiries(enquiryList);
 	}
 	
 	

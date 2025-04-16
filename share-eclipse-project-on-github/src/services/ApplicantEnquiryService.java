@@ -19,7 +19,6 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 		
 		if (searchApplicant != null) {
 			Enquiry applicantEnquiry = new Enquiry(searchAapplicant, project, message);
-			// applicant.addEnquiry(applicantEnquiry); not sure if applicant should have enquiry list
 			enquiryRepo.addEnquiry(applicantEnquiry);
 		}
 		else {
@@ -28,16 +27,18 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	}
 	
 	
-	public List<Enquiry> viewEnquiries(Applicant applicant) {
+	public void viewEnquiries(Applicant applicant) {
+		List<Enquiry> enquiryList;
 		Applicant searchApplicant = applicantRepo.searchByNRIC(applicant.getNRIC());
 		
 		if (searchApplicant != null) {
-			return enquiryRepo.searchByApplicant(searchApplicant.getNRIC());
+			enquiryList = enquiryRepo.searchByApplicant(searchApplicant.getNRIC());
 		}
 		else {
 			System.out.println("Failed to find applicant.");
-			return Collections.emptyList();
+			enquiryList = Collections.emptyList();
 		}
+		displayEnquiries(enquiryList);
 	}
 	
 	
@@ -69,7 +70,7 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 			System.out.println("You do not have permission to edit this enquiry.");
 		}
 		else {
-			enquiryRepo.delete(searchEnquiry);
+			enquiryRepo.delete(searchEnquiry.getID());
 			System.out.println("Enquiry deleted.");
 		}
 	}
