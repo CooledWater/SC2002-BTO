@@ -4,7 +4,6 @@ import entity.*;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collector;
 
 public class BookingService {
     private Map<Project, List<Applicant>> pendingBookings = new HashMap<>();
