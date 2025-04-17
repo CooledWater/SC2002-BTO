@@ -9,6 +9,8 @@ public interface EnquiryServiceInterface {
 	default void displayEnquiries(List<Enquiry> enquiries) {
         System.out.println("--- Enquiries ---");
         for (Enquiry enquiry : enquiries) {
+        	System.out.println("Enquiry ID: " + enquiry.getID());
+        	System.out.println("Submission date/time: " + enquiry.getSubmissionDate());
         	System.out.println("Applicant Name: " + enquiry.getApplicant().getName());
         	System.out.println("Project Name: " + enquiry.getProjectName());
         	System.out.println("Message: " + enquiry.getMessage());

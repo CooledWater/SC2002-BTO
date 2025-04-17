@@ -26,7 +26,7 @@ public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
 	}
 
 		
-	public void replyEnquiry(Manager manager, int enquiryID, String response) {
+	public void replyEnquiry(Manager manager, String enquiryID, String response) {
 		Project managerManagingProject = manager.getManagingProj();
 		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
@@ -41,6 +41,7 @@ public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
 		}
 		else {
 			searchEnquiry.setResponse(response);
+			searchEnquiry.setEnquiryResponded(true);
 			enquiryRepo.update(searchEnquiry);
 			System.out.println("Response added.");
 		}

@@ -20,7 +20,7 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 		Applicant searchApplicant = applicantRepo.searchByNRIC(applicant.getNRIC());
 		
 		if (searchApplicant != null) {
-			Enquiry applicantEnquiry = new Enquiry(searchAapplicant, project, message);
+			Enquiry applicantEnquiry = new Enquiry(searchApplicant, project, message);
 			enquiryRepo.addEnquiry(applicantEnquiry);
 		}
 		else {
@@ -44,7 +44,7 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	}
 	
 	
-	public void editEnquiry(Applicant applicant, int enquiryID, String newMessage) {
+	public void editEnquiry(Applicant applicant, String enquiryID, String newMessage) {
 		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
 		// checks that enquiry exists and that the applicant who created the enquiry is the one that is editing
@@ -62,18 +62,19 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	}
 	
 	
-	public void deleteEnquiry(Applicant applicant, int enquiryID) {
-		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
+	public void deleteEnquiry(Applicant applicant, String enquiryID) {
+		Optional<Enquiry> optionalSearchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
-		if (searchEnquiry == null) {
+		if (optionalSearchEnquiry.isEmpty()) {
 			System.out.println("Enquiry not found.");
-		}
-		else if (searchEnquiry.getApplicant().getNRIC() != applicant.getNRIC()) {
-			System.out.println("You do not have permission to edit this enquiry.");
-		}
-		else {
-			enquiryRepo.delete(searchEnquiry.getID());
-			System.out.println("Enquiry deleted.");
+		} else {
+			Enquiry searchEnquiry = optionalSearchEnquiry.get();
+			if (searchEnquiry.getApplicant().getNRIC() != applicant.getNRIC()) {
+				System.out.println("You do not have permission to delete this enquiry.");
+			} else {
+				enquiryRepo.delete(searchEnquiry.getID());
+				System.out.println("Enquiry deleted.");
+			}
 		}
 	}
 	

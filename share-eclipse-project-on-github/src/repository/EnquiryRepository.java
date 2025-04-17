@@ -2,7 +2,6 @@ package repository;
 import java.util.*;
 import entity.*;
 
-
 public class EnquiryRepository extends Repository {
 	
 	private static final long serialVersionUID = -2660117034435542277L; // to be updated
@@ -38,24 +37,27 @@ public class EnquiryRepository extends Repository {
     }
 	
 	
-	public Optional<Enquiry> searchByID(int enquiryID) { // this method needs to be edited with timestamp ID, no ID attribute or getID() for enquiry class atm
+	public Optional<Enquiry> searchByID(String enquiryID) {
         return enquiries.stream()
                 .filter(enquiry -> enquiry.getID().equals(enquiryID))
                 .findFirst();
     }
 
 	
-	public void update(Enquiry updatedEnquiry) { // this method also needs to be edited w ID
+	public void update(Enquiry updatedEnquiry) {
         for (int i = 0; i < enquiries.size(); i++) {
             if (enquiries.get(i).getID().equals(updatedEnquiry.getID())) {
                 enquiries.set(i, updatedEnquiry);
+                return; // end early
             }
         }
+        // if no such enquiry found in repository
+        System.out.println("Enquiry with ID " + updatedEnquiry.getID() + " not found for update.");
     }
 	
 	
-	public boolean delete(int enquiryID) {
+	public boolean delete(String enquiryID) {
         return enquiries.removeIf(enquiry -> enquiry.getID().equals(enquiryID));
     }
-	
+		
 }
