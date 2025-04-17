@@ -4,9 +4,15 @@ import entity.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import repository.ReceiptRepository;
 
 public class BookingService {
     private Map<Project, List<Applicant>> pendingBookings = new HashMap<>();
+    private ReceiptRepository receiptRepository;
+
+    public BookingService(ReceiptRepository receiptRepository) {
+        this.receiptRepository = receiptRepository;
+    }
 
     public void bookFlat(Applicant applicant) {      
         ProjectApp app = applicant.getProjectApp();
@@ -111,13 +117,21 @@ public class BookingService {
                         app.setStatus(AppStatus.UNSUCCESSFUL);
                     } else {
                         app.setStatus(AppStatus.BOOKED);
-                        System.out.println("\n=== Booking Approved ===");
-                        System.out.println("Applicant: " + selected.getName());
-                        System.out.println("NRIC: " + selected.getNRIC());
-                        System.out.println("Project: " + handledProject.getName());
-                        System.out.println("Flat Type: " + flatType);
-                        System.out.println("Booking Date: " + LocalDate.now());
-                        System.out.println("=========================");
+                        LocalDate bookingDate = LocalDate.now();
+                        
+                        Receipt receipt = new Receipt(
+                            selected.getNRIC(),
+                            selected.getName(),
+                            selected.getAge(),
+                            selected.isMarried(),
+                            flatType,
+                            handledProject.getName(),
+                            handledProject.getNeighbourhood(),
+                            bookingDate
+                        );
+                        receiptRepository.addReceipt(receipt);
+
+                        System.out.println("Booking confirmed for applicant " + receipt.getApplicantName()); 
                     }
 
                 } else if (input.equals("n")) {

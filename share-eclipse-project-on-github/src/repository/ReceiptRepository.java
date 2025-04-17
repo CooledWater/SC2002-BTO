@@ -1,24 +1,54 @@
 package repository;
 
-import entity.AppStatus;
-import entity.ProjectApp;
-import entity.Applicant;
+import entity.Receipt;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReceiptRepository extends Repository {
-    private static final long serialVersionUID = -2825934112690495137L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1432534849144426795L;
+	private List<Receipt> receipts = new ArrayList<>();
 
-    public void generateReceipt(Applicant applicant) {
-        ProjectApp app = applicant.getProjectApp();
+    public void addReceipt(Receipt receipt) {
+        receipts.add(receipt);
+    }
 
-        if (app != null && app.getStatus() == AppStatus.BOOKED) {
-            System.out.println("\n=== Booking Receipt ===");
-            System.out.println("Applicant Name: " + applicant.getNRIC());
-            System.out.println("Age: " + applicant.getAge());
-            System.out.println("Marital Status: " + (applicant.isMarried() ? "Married" : "Single"));
-            System.out.println("Flat Type Booked: " + app.getFlatType());
-            System.out.println("Project Name: " + app.getProject().getName());
-        } else {
-            System.out.println("No booked project found for applicant: " + applicant.getNRIC());
+    public List<Receipt> getAllReceipts() {
+        return receipts;
+    }
+    
+    public void markAsWithdrawn(String nric) {
+        for (Receipt r : receipts) {
+            if (r.getApplicantNRIC().equalsIgnoreCase(nric)) {
+                r.setWithdrawn(true);
+            }
+        }
+    }
+
+    public void printAllReceipts() {
+        if (receipts.isEmpty()) {
+            System.out.println("No receipts available.");
+            return;
+        }
+
+        for (Receipt receipt : receipts) {
+            System.out.println(receipt);
+        }
+    }
+
+    public void printReceiptsByNric(String nric) {
+        boolean found = false;
+        for (Receipt r : receipts) {
+            if (r.getApplicantNRIC().equalsIgnoreCase(nric)) {
+                System.out.println(r);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No receipt found for NRIC: " + nric);
         }
     }
 }
