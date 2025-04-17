@@ -4,7 +4,11 @@ import entity.*;
 
 public class EnquiryRepository extends Repository {
 	
-	private static final long serialVersionUID = -2660117034435542277L; // to be updated
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7676844806533538365L;
 	private List<Enquiry> enquiries;
 	
 	

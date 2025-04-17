@@ -1,4 +1,5 @@
 package entity;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -6,6 +7,10 @@ import java.time.format.DateTimeFormatter;
 public class Enquiry implements Serializable {
 	// needs serialVersionUID
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -102013416830897527L;
 	private String enquiryID;
 	private LocalDateTime submissionDate; // For easy access to datetime
 	private Applicant applicant;

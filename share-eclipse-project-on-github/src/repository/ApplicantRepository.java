@@ -7,7 +7,11 @@ import entity.Applicant;
 
 public class ApplicantRepository extends UserRepository<Applicant> {
 
-	private static final long serialVersionUID = -4139573877991643327L; // to be updated
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4017571295614508912L;
 	private List<Applicant> applicants;
 	
 	public ApplicantRepository() {
