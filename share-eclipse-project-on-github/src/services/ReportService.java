@@ -59,12 +59,10 @@ public class ReportService {
                 int flatChoice = Integer.parseInt(sc.nextLine());
 
                 if (flatChoice == 0) {
-                	filter = filter.and(a -> a.getBooking() != null && a.getBooking().getFlatType() == FlatType.TWO_ROOM);
-;
+                    filter = filter.and(a -> a.getProjectApp().getFlatType() == FlatType.TWO_ROOM);
                     break;
                 } else if (flatChoice == 1) {
-                	filter = filter.and(a -> a.getBooking() != null && a.getBooking().getFlatType() == FlatType.THREE_ROOM);
-;
+                    filter = filter.and(a -> a.getProjectApp().getFlatType() == FlatType.THREE_ROOM);
                     break;
                 } else if (flatChoice == 2) {
                     break;
@@ -102,7 +100,7 @@ public class ReportService {
                 System.out.println("Age: " + applicant.getAge());
                 System.out.println("Marital Status: " + (applicant.isMarried() ? "Married" : "Single"));
                 System.out.println("Flat Type: " + 
-                	    (applicant.getBooking() != null ? applicant.getBooking().getFlatType() : "N/A"));
+                	    (app.getFlatType() != null ? app.getFlatType() : "N/A"));
                 System.out.println("Project Name: " + app.getProject().getName());
                 System.out.println("Neighbourhood: " + app.getProject().getNeighbourhood());
                 System.out.println("-----------------------------------");
