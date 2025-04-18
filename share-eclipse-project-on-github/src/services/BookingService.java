@@ -4,22 +4,29 @@ import entity.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import repository.ReceiptRepository;
 
 public class BookingService {
     private Map<Project, List<Applicant>> pendingBookings = new HashMap<>();
+    private ReceiptRepository receiptRepository;
 
-    public void bookFlat(Applicant applicant) {
-        if (applicant.getBooking() != null) {
-            System.out.println("You have already booked a flat.");
-            return;
-        }
+    public BookingService(ReceiptRepository receiptRepository) {
+        this.receiptRepository = receiptRepository;
+    }
 
-        if (applicant.getProjectApp() == null || applicant.getProjectApp().getProject() == null) {
+    public void bookFlat(Applicant applicant) {      
+        ProjectApp app = applicant.getProjectApp();
+        if (app == null || app.getProject() == null || app.getStatus() != AppStatus.SUCCESSFUL) {
             System.out.println("You must have an approved project application before booking.");
             return;
         }
 
-        Project project = applicant.getProjectApp().getProject();
+        if (app.getStatus() == AppStatus.BOOKED) {
+            System.out.println("You have already booked a flat.");
+            return;
+        }
+        
+        Project project = app.getProject();
         Scanner sc = new Scanner(System.in);
 
         FlatType flatType = null;
@@ -44,8 +51,8 @@ public class BookingService {
             }
         }
 
-        Booking booking = new Booking(flatType, project, LocalDate.now(), AppStatus.PENDING);
-        applicant.setBooking(booking);
+        app.setFlatType(flatType);
+        app.setStatus(AppStatus.PENDING);
         
         pendingBookings.computeIfAbsent(project, k -> new ArrayList<>()).add(applicant);
         System.out.println("Booking request submitted. Pending officer approval.");
@@ -70,7 +77,8 @@ public class BookingService {
             System.out.println("\nPending bookings for project: " + handledProject.getName());
             for (int i = 0; i < applicants.size(); i++) {
                 Applicant a = applicants.get(i);
-                System.out.printf("%d. %s (%d y/o), Requested: %s\n", i + 1, a.getNRIC(), a.getAge(), a.getBooking().getFlatType());
+                ProjectApp app = a.getProjectApp();
+                System.out.printf("%d. %s (%d y/o), Requested: %s\n", i + 1, a.getNRIC(), a.getAge(), app.getFlatType());
             }
 
             System.out.print("Enter number to review (or 0 to exit): ");
@@ -87,7 +95,8 @@ public class BookingService {
                 }
 
                 Applicant selected = applicants.get(choice - 1);
-                FlatType flatType = selected.getBooking().getFlatType();
+                ProjectApp app = selected.getProjectApp();
+                FlatType flatType = app.getFlatType();
 
                 System.out.printf("Approve booking for %s (%s)? (y/n): ", selected.getName(), flatType);
                 String input = sc.nextLine().trim().toLowerCase();
@@ -105,24 +114,28 @@ public class BookingService {
 
                     if (!hasUnit) {
                         System.out.println("No units available for this flat type. Booking rejected.");
-                        selected.getBooking().setStatus(AppStatus.UNSUCCESSFUL);
-                        selected.getProjectApp().setStatus(AppStatus.UNSUCCESSFUL);
+                        app.setStatus(AppStatus.UNSUCCESSFUL);
                     } else {
-                        selected.getBooking().setStatus(AppStatus.BOOKED);
-                        selected.getProjectApp().setStatus(AppStatus.BOOKED);
+                        app.setStatus(AppStatus.BOOKED);
+                        LocalDate bookingDate = LocalDate.now();
+                        
+                        Receipt receipt = new Receipt(
+                            selected.getNRIC(),
+                            selected.getName(),
+                            selected.getAge(),
+                            selected.isMarried(),
+                            flatType,
+                            handledProject.getName(),
+                            handledProject.getNeighbourhood(),
+                            bookingDate
+                        );
+                        receiptRepository.addReceipt(receipt);
 
-                        System.out.println("\n=== Booking Approved ===");
-                        System.out.println("Applicant: " + selected.getName());
-                        System.out.println("NRIC: " + selected.getNRIC());
-                        System.out.println("Project: " + handledProject.getName());
-                        System.out.println("Flat Type: " + flatType);
-                        System.out.println("Booking Date: " + selected.getBooking().getBookingDate());
-                        System.out.println("=========================");
+                        System.out.println("Booking confirmed for applicant " + receipt.getApplicantName()); 
                     }
 
                 } else if (input.equals("n")) {
-                    selected.getBooking().setStatus(AppStatus.UNSUCCESSFUL);
-                    selected.getProjectApp().setStatus(AppStatus.UNSUCCESSFUL);
+                    app.setStatus(AppStatus.UNSUCCESSFUL);
                     System.out.println("Booking marked as unsuccessful.");
                 } else {
                     System.out.println("Invalid input. Please enter 'y' or 'n'.");
@@ -142,17 +155,17 @@ public class BookingService {
 
 
     public void viewBooking(Applicant applicant) {
-        Booking booking = applicant.getBooking();
-        if (booking == null) {
+        ProjectApp app = applicant.getProjectApp();
+        if (app == null || app.getStatus() != AppStatus.BOOKED) {
             System.out.println("You have not made a booking.");
             return;
         }
 
         System.out.println("=== Booking Details ===");
-        System.out.println("Flat Type: " + booking.getFlatType());
-        System.out.println("Project Name: " + booking.getProject().getName());
-        System.out.println("Neighbourhood: " + booking.getProject().getNeighbourhood());
-        System.out.println("Booking Date: " + booking.getBookingDate());
+        System.out.println("Flat Type: " + app.getFlatType());
+        System.out.println("Project Name: " + app.getProject().getName());
+        System.out.println("Neighbourhood: " + app.getProject().getNeighbourhood());
+        System.out.println("Booking Status: " + app.getStatus());
         System.out.println("=======================");
     }
 }

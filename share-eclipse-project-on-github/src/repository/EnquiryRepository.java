@@ -1,5 +1,7 @@
 package repository;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import entity.*;
 
 public class EnquiryRepository extends Repository {
