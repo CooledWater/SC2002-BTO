@@ -8,11 +8,17 @@ public class ApplicantMainMenu implements UserMainMenu {
     private Applicant currentSessionApplicant;
     private AccountService accountService;
     private BookingService bookingService;
+    private ViewProjectService viewProjectService;
+    private ProjectApplicationService projectApplicationService;
 
-    public ApplicantMainMenu(Applicant applicant, AccountService accountService, BookingService bookingService) {
+    public ApplicantMainMenu(Applicant applicant, AccountService accountService, 
+    		BookingService bookingService, ViewProjectService viewProjectService, 
+    		ProjectApplicationService projectApplicationService) {
         this.currentSessionApplicant = applicant;
         this.accountService = accountService;
         this.bookingService = bookingService;
+        this.viewProjectService = viewProjectService;
+        this.projectApplicationService = projectApplicationService;
     }
 
     public void applicantMenu(Scanner sc) {
@@ -53,7 +59,7 @@ public class ApplicantMainMenu implements UserMainMenu {
                 bookingService.viewBooking(currentSessionApplicant);
                 break;
             case 4:
-            	// calling project app menu
+				// calling project app menu
             	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentSessionApplicant, 
             			viewProjectService, projectApplicationService, bookingService);
             	projectAppMenu.projectAppMainMenu(sc);
