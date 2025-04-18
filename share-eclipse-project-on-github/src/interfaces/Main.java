@@ -88,6 +88,22 @@ public class Main {
             applicantMainMenu.applicantMenu(sc);
         }
         // if current user is an officer: 
+        if (currentUser instanceof entity.Officer) {
+            OfficerMainMenu officerMainMenu = new OfficerMainMenu(
+                (entity.Officer) currentUser,
+                bookingService,
+                viewProjectService,
+                projectAppService,
+                joinRequestService,
+                applicantEnquiryService,
+                officerEnquiryService,
+                projectRepo, 
+                enquiryRepo,
+                receiptRepo
+
+            );
+            officerMainMenu.officerMenu(sc);
+        }
         
         // if current user is a manager: 
         

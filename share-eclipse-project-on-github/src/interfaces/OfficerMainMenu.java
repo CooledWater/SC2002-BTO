@@ -24,22 +24,22 @@ public class OfficerMainMenu implements UserMainMenu {
     
   
     public OfficerMainMenu(Officer officer, BookingService bookingService, ViewProjectService viewProjectService, 
-    		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService, OfficerEnquiryService officerEnquiryService,
+    		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService, 
+    		ApplicantEnquiryService applicantEnquiryService, OfficerEnquiryService officerEnquiryService,
     		ProjectRepository projectRepository, EnquiryRepository enquiryRepository, ReceiptRepository receiptRepository) {
         this.currentOfficer = officer;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
         this.projectApplicationService = projectApplicationService;
         this.joinRequestService = joinRequestService;
+        this.applicantEnquiryService = applicantEnquiryService;
         this.officerEnquiryService = officerEnquiryService;
         this.projectRepository = projectRepository;
         this.enquiryRepository = enquiryRepository;
         this.receiptRepository = receiptRepository;
-        
     }
 
-    public void officerMenu(Officer officer) {
-        Scanner sc = new Scanner(System.in);
+    public void officerMenu(Scanner sc) {
         int choice = -1;
 
         while (choice != 0) {
@@ -92,13 +92,13 @@ public class OfficerMainMenu implements UserMainMenu {
                 	enquiryApplicantMenu.applicantEnquiryMenu(sc);
                 	break;
             	case 6:
-                    handleProjectRegistration(officer, sc);
+                    handleProjectRegistration(currentOfficer, sc);
                     break;
                 case 7:
-                	viewJoinRequestStatus(officer);
+                	viewJoinRequestStatus(currentOfficer);
                     break;               
                 case 8:
-                	viewProjectService.viewProjectsAsOfficer(officer);
+                	viewProjectService.viewProjectsAsOfficer(currentOfficer);
                     break;
                 case 9:
                 	EnquiryMenu enquiryOfficerMenu = new EnquiryMenu(currentOfficer, projectRepository, enquiryRepository, applicantEnquiryService, officerEnquiryService);
