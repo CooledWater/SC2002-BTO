@@ -15,6 +15,7 @@ public class Main {
         OfficerRepository officerRepo = new OfficerRepository();
         ManagerRepository managerRepo = new ManagerRepository();
         ProjectRepository projectRepo = new ProjectRepository();
+        ProjectAppRepository projectAppRepo = new ProjectAppRepository();
         
         // instantiate other repositories
         ReceiptRepository receiptRepo = new ReceiptRepository();
@@ -24,6 +25,7 @@ public class Main {
         
         // check whether this is the first starting up or not, and import data
         File f = new File("save");
+
         try {
         	if (f.exists()) { // not the first starting up
             	applicantRepo.importFromSer();
@@ -48,6 +50,7 @@ public class Main {
 			e.printStackTrace();
 		}
         
+
         
         // set up entities
         List<Project> allProjects = projectRepo.getProjects();
@@ -77,10 +80,12 @@ public class Main {
                 accountService,
                 bookingService,
                 viewProjectService,
+
                 projectAppService, 
                 applicantEnquiryService, 
                 projectRepo, 
                 enquiryRepo
+
             );
             applicantMainMenu.applicantMenu(sc);
         }

@@ -1,6 +1,7 @@
 package interfaces;
 
 import entity.Applicant;
+import entity.FlatType;
 import entity.Project;
 import entity.ProjectApp;
 import entity.AppStatus;
@@ -60,7 +61,40 @@ public class ProjectAppMenu {
             case 2:
                 System.out.print("Enter project name to apply: ");
                 String projName = sc.nextLine().trim();
-                projectApplicationService.apply(currentSessionApplicant, projName);
+                
+                // Fetch project by name
+                Project selectedProject = viewService.getProjectByName(projName);
+                if (selectedProject == null) {
+                    System.out.println("Project not found. Please check the name and try again.");
+                    break;
+                }
+                
+                // Show flat type options from enum
+                FlatType selectedFlatType = null;
+                while (selectedFlatType == null) {
+                    System.out.println("Select flat type:");
+                    System.out.println("1. TWO_ROOM");
+                    System.out.println("2. THREE_ROOM");
+                    System.out.print("Enter choice (1-2): ");
+                    try {
+                        int flatChoice = Integer.parseInt(sc.nextLine());
+                        switch (flatChoice) {
+                            case 1:
+                                selectedFlatType = FlatType.TWO_ROOM;
+                                break;
+                            case 2:
+                                selectedFlatType = FlatType.THREE_ROOM;
+                                break;
+                            default:
+                                System.out.println("Invalid option. Try 1 or 2.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter 1 or 2.");
+                    }
+                }
+
+                // Call the updated service method with enum
+                projectApplicationService.applyProject(currentSessionApplicant, selectedProject, selectedFlatType);
                 break;
             case 3:
                 // only if they have a pending or successful app
@@ -68,7 +102,7 @@ public class ProjectAppMenu {
                 if (app == null || app.getStatus() == AppStatus.BOOKED) {
                     System.out.println("No application to withdraw.");
                 } else {
-                    projectApplicationService.withdraw(currentSessionApplicant);
+                    projectApplicationService.requestWithdrawal(currentSessionApplicant);
                 }
                 break;
             case 4:

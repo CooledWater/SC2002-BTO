@@ -71,7 +71,7 @@ public class OfficerMainMenu {
     
 
     private void handleProjectRegistration(Officer officer, Scanner sc) {
-        List<Project> allProjects = projectRepository.getAllProjects();
+        List<Project> allProjects = projectRepository.getProjects();
         System.out.println("\n=== Available Projects ===");
 
         for (int i = 0; i < allProjects.size(); i++) {
@@ -107,6 +107,26 @@ public class OfficerMainMenu {
             System.out.println("You have not submitted a join request yet.");
         } else {
             System.out.println("Your join request status: " + joinRequestService.getJoinRequestStatus(officer));
+        }
+    }
+    
+    public void viewProfile() {
+        System.out.println("\n--- Profile ---");
+        System.out.println("Name: " + currentOfficer.getName());
+        System.out.println("NRIC: " + currentOfficer.getNRIC());
+        System.out.println("Age: " + currentOfficer.getAge());
+        System.out.println("Marital Status: " + (currentOfficer.isMarried() ? "Married" : "Single"));
+        
+        if (currentOfficer.getHandlingProj() != null) {
+            System.out.println("Handling Project: " + currentOfficer.getHandlingProj().getName());
+        } else {
+            System.out.println("Handling Project: None");
+        }
+
+        if (currentOfficer.getJoinRequest() != null) {
+            System.out.println("Join Request Status: " + currentOfficer.getJoinRequest().getStatus());
+        } else {
+            System.out.println("Join Request Status: None");
         }
     }
 

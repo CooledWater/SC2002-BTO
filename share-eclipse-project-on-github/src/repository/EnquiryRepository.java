@@ -43,10 +43,15 @@ public class EnquiryRepository extends Repository {
     }
 	
 	
-	public Optional<Enquiry> searchByID(String enquiryID) {
-        return enquiries.stream()
-                .filter(enquiry -> enquiry.getID().equals(enquiryID))
-                .findFirst();
+	public Enquiry searchByID(String enquiryID) {
+		for (int i = 0; i < enquiries.size(); i++) {
+            if (enquiries.get(i).getID().equals(enquiryID)) {
+                return enquiries.get(i);
+            }
+        }
+        // if no such enquiry found in repository
+        System.out.println("Enquiry with ID " + enquiryID + " not found for update.");
+		return null;
     }
 
 	
