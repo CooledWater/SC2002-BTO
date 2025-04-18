@@ -50,12 +50,8 @@ public class ProjectApp implements Serializable {
         return wantToWithdraw; 
     }
 
-    public void requestWithdrawal() {
-        this.wantToWithdraw = true; 
-    }
-
-    public void approveWithdrawal() {
-        this.wantToWithdraw = false; 
+    public void setWantToWithdraw(boolean wantToWithdraw) {
+        this.wantToWithdraw = wantToWithdraw;
     }
 
 

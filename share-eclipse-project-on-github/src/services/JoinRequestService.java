@@ -14,7 +14,7 @@ public class JoinRequestService {
 	
 	public void submitJoinRequest(Officer officer, Project project) {
 		// the officer should not have applied for this project as an applicant beforehand
-		if (officer.getProjectApp().getProject().equals(project)) {
+		if (officer.getProjectApp() != null && officer.getProjectApp().getProject().equals(project)) {
 			System.out.println("You are forbidden to join this project as an officer, "
 					+ "because you have already applied to this project as an applicant. ");
 			return;

@@ -15,6 +15,14 @@ public class ProjectApplicationService {
 
     
     public void applyProject(Applicant applicant, Project project, FlatType flatType) {
+    	// check if this applicant is simultaneously an officer who is managing this project
+    	if (applicant instanceof Officer) {
+    		Officer thisOfficer = (Officer) applicant; // downcasting
+    		if (thisOfficer.getHandlingProj() == project) {
+    			System.out.println("Since you are handling this project, you cannot apply for it. ");
+    			return;
+    		}
+    	}
         // checks if they already applied
     	List<ProjectApp> apps = projectAppRepo.getProjectApps(); 
     	
@@ -24,13 +32,32 @@ public class ProjectApplicationService {
             System.out.println("You have already applied for this project.");
             return;
         }
-
+        
+        // if applicant is single 
+        if (applicant.isMarried() == false) {
+        	if (flatType == FlatType.THREE_ROOM) {
+	        	System.out.println("Since you are single, you cannot apply for a 3-room flat. ");
+	        	return;
+        	}
+        	if (applicant.getAge() < 35) {
+        		System.out.println("Since you are single and below 35 years old, you cannot apply for BTO. "); 
+        		return;
+        	}
+        } else {
+        	// married and below 21 LMAO
+        	if (applicant.getAge() < 21) {
+        		System.out.println("Since you are below 21 years old, you cannot apply for BTO. ");
+        		return;
+        	}
+        }
+       
         ProjectApp newApp = new ProjectApp(applicant, project, AppStatus.PENDING, flatType);
         projectAppRepo.add(newApp); 
 
         System.out.println("You have successfully applied to project: " + project.getName()
                 + " with flat type: " + flatType.name() + ". Status: PENDING");
     }
+    
 
     //withdrawal method 
     public void requestWithdrawal(Applicant applicant) {
@@ -43,12 +70,12 @@ public class ProjectApplicationService {
     				return;
 				}
 				
-				if (app.ApplicantWantsToWithdraw()) {
+				if (app.applicantWantsToWithdraw()) {
 				    System.out.println("You have already requested a withdrawal.");
 				    return;
 				}
 				
-				app.requestWithdrawal();
+				app.setWantToWithdraw(true);
 				projectAppRepo.saveToSer();
 				System.out.println("Withdrawal request submitted for project: " + app.getProject().getName());
 				return;
@@ -68,7 +95,7 @@ public class ProjectApplicationService {
                         app.getFlatType().name(),
                         app.getStatus().name());
 
-                if (app.ApplicantWantsToWithdraw()) {
+                if (app.applicantWantsToWithdraw()) {
                     System.out.println("Note: You have requested to withdraw this application.");
                 }
                 return;
