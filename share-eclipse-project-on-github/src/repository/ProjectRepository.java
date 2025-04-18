@@ -31,8 +31,7 @@ public class ProjectRepository extends RepositoryWithCSV {
 	
     
     
-	@Override
-	public void importFromCSV() {
+	public void importFromCSV(ManagerRepository managerRepo, OfficerRepository officerRepo) {
 		// TODO Auto-generated method stub
 		String filePath = "csv\\ProjectList.csv";
 		Scanner sc; 
@@ -48,7 +47,7 @@ public class ProjectRepository extends RepositoryWithCSV {
 		sc.nextLine();
 		while(sc.hasNext()) {
 			String line = sc.nextLine();
-			String[] parts = line.split(", ");
+			String[] parts = line.split(",");
 			
 			Manager manager = managerRepo.searchByName(parts[10].trim());
 			
@@ -129,5 +128,11 @@ public class ProjectRepository extends RepositoryWithCSV {
         }
         return result;
     }
+
+	@Override
+	public void importFromCSV() {
+		// TODO Auto-generated method stub
+		// place holder
+	}
 	
 }

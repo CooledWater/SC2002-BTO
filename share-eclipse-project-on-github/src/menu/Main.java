@@ -39,7 +39,7 @@ public class Main {
             	applicantRepo.importFromCSV();
             	officerRepo.importFromCSV();
             	managerRepo.importFromCSV();
-            	projectRepo.importFromCSV();
+            	projectRepo.importFromCSV(managerRepo, officerRepo);
             }
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
