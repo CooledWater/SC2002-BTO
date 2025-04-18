@@ -4,7 +4,6 @@ import entity.*;
 import repository.ProjectAppRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProjectApplicationService {
 
@@ -17,59 +16,66 @@ public class ProjectApplicationService {
     
     public void applyProject(Applicant applicant, Project project, FlatType flatType) {
         // checks if they already applied
-        boolean hasApplied = projectAppRepo.getProjectApps().stream()
-                .anyMatch(app -> app.getApplicant().equals(applicant) && app.getProject().equals(project));
+    	List<ProjectApp> apps = projectAppRepo.getProjectApps(); 
+    	
+        boolean hasApplied = apps.stream().anyMatch(app -> app.getApplicant().equals(applicant)); 
 
         if (hasApplied) {
             System.out.println("You have already applied for this project.");
             return;
         }
 
-        ProjectApp app = new ProjectApp(applicant, project, AppStatus.PENDING, flatType);
-        projectAppRepo.add(app);
+        ProjectApp newApp = new ProjectApp(applicant, project, AppStatus.PENDING, flatType);
+        projectAppRepo.add(newApp); 
 
         System.out.println("You have successfully applied to project: " + project.getName()
                 + " with flat type: " + flatType.name() + ". Status: PENDING");
     }
 
-    //public void withdrawProject(Applicant applicant) {
-        //List<ProjectApp> apps = projectAppRepo.getProjectApps();
-        //boolean found = false;
-        //this should be asking for a withdrawal not instantly withdraw
-        //for (ProjectApp app : apps) {
-            //if (app.getApplicant().equals(applicant) && app.getStatus() == AppStatus.PENDING) {
-                //app.setStatus(AppStatus.UNSUCCESSFUL);
-                //found = true;
-            //}
-        //}
-
-        //if (found) {
-            //projectAppRepo.saveToSer();
-            //System.out.println("Your application has been withdrawn.");
-       //} else {
-           // System.out.println("No PENDING application found to withdraw.");
-        //}
-   // }
-
+    //withdrawal method 
+    public void requestWithdrawal(Applicant applicant) {
+    	List<ProjectApp> apps = projectAppRepo.getProjectApps(); 
+    	
+    	for (ProjectApp app : apps) { 
+    		if(app.getApplicant().equals(applicant)) {
+    			if (app.getStatus() == AppStatus.UNSUCCESSFUL) {
+    				System.out.println("Your application has already been marked unsuccessful and cannot be withdrawn.");
+    				return;
+				}
+				
+				if (app.ApplicantWantsToWithdraw()) {
+				    System.out.println("You have already requested a withdrawal.");
+				    return;
+				}
+				
+				app.requestWithdrawal();
+				projectAppRepo.saveToSer();
+				System.out.println("Withdrawal request submitted for project: " + app.getProject().getName());
+				return;
+    		}
+    	}
+    }
     
-    public List<ProjectApp> viewMyProjectApp(Applicant applicant) {
-        List<ProjectApp> myApps = projectAppRepo.getProjectApps().stream()
-                .filter(app -> app.getApplicant().equals(applicant))
-                .collect(Collectors.toList());
-        
-        if (myApps.isEmpty()) {
-            System.out.println("You have no project applications.");
-        } else {
-            System.out.println("Your project applications:");
-            for (ProjectApp app : myApps) {
+    
+    public void viewMyProjectApp(Applicant applicant) {
+        List<ProjectApp> apps = projectAppRepo.getProjectApps();
+
+        for (ProjectApp app : apps) {
+            if (app.getApplicant().equals(applicant)) {
+                System.out.println("Your project application:");
                 System.out.printf("Project: %s | Flat Type: %s | Status: %s%n",
                         app.getProject().getName(),
                         app.getFlatType().name(),
                         app.getStatus().name());
+
+                if (app.ApplicantWantsToWithdraw()) {
+                    System.out.println("Note: You have requested to withdraw this application.");
+                }
+                return;
             }
         }
 
-        return myApps;
+        System.out.println("You have no project applications.");
     }
 
 }
