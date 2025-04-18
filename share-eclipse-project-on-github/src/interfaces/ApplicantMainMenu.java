@@ -87,7 +87,8 @@ public class ApplicantMainMenu implements UserMainMenu {
             }
         }
     }
-
+    
+    @Override
     public void viewProfile() {
         System.out.println("\n--- Profile ---");
         System.out.println("Name: " + currentSessionApplicant.getName());
