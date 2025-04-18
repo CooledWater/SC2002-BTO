@@ -1,8 +1,12 @@
 package interfaces;
 import entity.*; 
 import repository.*; 
-import services.*; 
+import services.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 public class ManagerMainMenu implements UserMainMenu{
@@ -13,22 +17,19 @@ public class ManagerMainMenu implements UserMainMenu{
     private ManageProjectAppService manageProjectAppService;
     private ManagerEnquiryService managerEnquiryService;
     private JoinRequestService joinRequestService;
-    private ProjectRepository projectRepo; 
     private ReportService reportService; 
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
 							ProjectListingService projectListingService, 
 							ManageProjectAppService manageProjectAppService,
 							ManagerEnquiryService managerEnquiryService,
-							JoinRequestService joinRequestService,
-							ProjectRepository projectRepo, ReportService reportService) {
+							JoinRequestService joinRequestService, ReportService reportService) {
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
         this.projectListingService = projectListingService;
         this.manageProjectAppService = manageProjectAppService;
         this.managerEnquiryService = managerEnquiryService;
-        this.joinRequestService = joinRequestService;
-        this.projectRepo = projectRepo; 
+        this.joinRequestService = joinRequestService;   
         this.reportService = reportService; 
 	}
 	
@@ -48,6 +49,8 @@ public class ManagerMainMenu implements UserMainMenu{
             System.out.println("5. Process Withdrawal Requests");
             System.out.println("6. View and Reply to Project Enquiries");         
             System.out.println("7. Generate Report");
+            System.out.println("8. Change Password");
+            System.out.println("9. View Profile");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
             
@@ -61,13 +64,13 @@ public class ManagerMainMenu implements UserMainMenu{
 
             switch (choice) {
                 case 1:
-                    viewProjectService.viewProjectsAsManager(currentSessionManager); //no filters implemented yet 
+                    viewProjectService.viewProjectsAsManager(currentSessionManager);
                     break;
                 case 2:
-                	projectListingService.createNewProjectListing(currentSessionManager); //a single method to create new projects
+                	projectListingService.createNewProjectListing(currentSessionManager); 
                     break;
                 case 3:
-                	processJoinRequests(sc); //implement function 
+                	processJoinRequests(currentSessionManager, joinRequestService); 
                     break;
                 case 4:
                 	manageProjectAppService.processProjectApp(currentSessionManager);
@@ -76,11 +79,17 @@ public class ManagerMainMenu implements UserMainMenu{
                 	manageProjectAppService.processWithdrawal(currentSessionManager);
                     break;
                 case 6:
-                    processEnquiries(sc); //should work
+                    processEnquiries(sc); 
                     break;
                 case 7: 
-                	reportService.generateFilteredApplicantReport(); //self-explanatory      
+                	reportService.generateFilteredApplicantReport(); 
                 	break; 
+                case 8: 
+                	changePassword(sc);
+                	break; 
+                case 9: 
+                	viewProfile();
+                	break;
                 case 0:
                     System.out.println("Logging out...");
                     break;
@@ -90,10 +99,30 @@ public class ManagerMainMenu implements UserMainMenu{
         }
 	}
 	
-	
-	
-	public void processJoinRequests(Scanner sc) {
-		
+	public void processJoinRequests(Manager manager, JoinRequestService joinRequestService) {
+	    List<JoinRequest> requests = new ArrayList<>(manager.getJoinRequests());
+
+	    if (requests.isEmpty()) {
+	        System.out.println("No join requests to process.");
+	        return;
+	    }
+
+	    for (JoinRequest request : requests) {
+	        System.out.println("Officer: " + request.getOfficer().getName());
+	        System.out.println("Project: " + request.getProject().getName());
+	        System.out.println("Request Status: " + request.getStatus());
+	        System.out.print("Approve this join request? (y/n): ");
+	        Scanner sc = new Scanner(System.in); 
+			String input = sc.nextLine().trim().toLowerCase();
+
+	        if (input.equals("y")) {
+	            joinRequestService.approveJoinRequest(manager, request);
+	            System.out.println("Join request approved.");
+	        } else {
+	            joinRequestService.rejectJoinRequest(manager, request);
+	            System.out.println("Join request rejected.");
+	        }
+	    }
 	}
 	
 	//test
@@ -114,14 +143,19 @@ public class ManagerMainMenu implements UserMainMenu{
 	    }	
 	}
 	
-	public void processWi (Scanner sc) {
-		
-	}
 	
-	@Override
 	public void changePassword(Scanner sc) {
-		// TODO Auto-generated method stub
-		
+	    UserMainMenu.super.changePassword(sc, currentSessionManager);
+	    System.out.println("Password successfully changed.");
+	}
+
+	@Override
+	public void viewProfile() {
+		System.out.println("\n--- Manager Profile ---");
+        System.out.println("Name: " + currentSessionManager.getName());
+        System.out.println("NRIC: " + currentSessionManager.getNRIC());
+        System.out.println("Age: " + currentSessionManager.getAge());
+        System.out.println("Marital Status: " + (currentSessionManager.isMarried() ? "Married" : "Single"));
 	}
 
 }
