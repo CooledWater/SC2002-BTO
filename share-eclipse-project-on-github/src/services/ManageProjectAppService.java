@@ -54,7 +54,7 @@ public class ManageProjectAppService {
             while (iterator.hasNext()) {
                 ProjectApp app = iterator.next();
 
-                if (app.ApplicantWantsToWithdraw()) {
+                if (app.applicantWantsToWithdraw()) {
                     System.out.println("Withdrawal request found:");
                     System.out.println("Applicant: " + app.getApplicant().getName());
                     System.out.println("Project: " + project.getName());
