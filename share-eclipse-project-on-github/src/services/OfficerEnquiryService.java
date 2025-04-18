@@ -28,7 +28,7 @@ public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 	}
 	
 	
-	public void replyEnquiry(Officer officer, int enquiryID, String response) {
+	public void replyEnquiry(Officer officer, String enquiryID, String response) {
 		Project officerHandlingProject = officer.getHandlingProj();
 		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
@@ -40,6 +40,7 @@ public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 		}
 		else {
 			searchEnquiry.setResponse(response);
+			searchEnquiry.setEnquiryResponded(true);
 			enquiryRepo.update(searchEnquiry);
 			System.out.println("Response added.");
 		}
