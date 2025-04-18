@@ -1,0 +1,40 @@
+# Eclipse Metadata
+.metadata/
+.plugins/
+org.eclipse.core.resources/.snap
+
+# Project-specific Eclipse files
+.project
+.classpath
+.settings/
+
+# Java-specific
+bin/
+tmp/
+*.launch
+*.jlaunch
+.apt_generated/
+.factorypath
+.jdt.ls-java/ # Language Server Protocol for Java
+.gradle/       # If using Gradle
+build/        # If using Gradle
+target/       # If using Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+.mvn/         # If using Maven
+
+# Other common build and IDE artifacts
+out/
+dist/
+build/
+target/
+*.iml         # IntelliJ IDEA project files (if you sometimes use it)
+.idea/        # IntelliJ IDEA project files
+nbproject/    # NetBeans project files
+
+# OS Specific
+.DS_Store
+Thumbs.db
+/bin/
+/bin/
