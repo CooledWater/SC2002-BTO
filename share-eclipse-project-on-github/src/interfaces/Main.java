@@ -19,36 +19,55 @@ public class Main {
         
         // instantiate other repositories
         ReceiptRepository receiptRepo = new ReceiptRepository();
+        EnquiryRepository enquiryRepo = new EnquiryRepository();
+        JoinRequestRepository joinRequestRepo = new JoinRequestRepository();
+        ProjectAppRepository projectAppRepo = new ProjectAppRepository();
         
         // check whether this is the first starting up or not, and import data
         File f = new File("save");
-        if (f.exists()) {
-        	try {
-	        	applicantRepo.importFromSer();
-	        	officerRepo.importFromSer();
-	        	managerRepo.importFromSer();
-	        	projectRepo.importFromSer();
-				receiptRepo.importFromSer();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        } else {
-        	applicantRepo.importFromCSV();
-        	officerRepo.importFromCSV();
-        	managerRepo.importFromCSV();
-        	projectRepo.importFromCSV();
-        }
+
+        try {
+        	if (f.exists()) { // not the first starting up
+            	applicantRepo.importFromSer();
+            	officerRepo.importFromSer();
+            	managerRepo.importFromSer();
+            	projectRepo.importFromSer();
+            	receiptRepo.importFromSer();
+            	enquiryRepo.importFromSer();
+            	joinRequestRepo.importFromSer();
+            	projectAppRepo.importFromSer();
+            } else {// is the first starting up
+            	applicantRepo.importFromCSV();
+            	officerRepo.importFromCSV();
+            	managerRepo.importFromCSV();
+            	projectRepo.importFromCSV();
+            }
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+
         
         // set up entities
         List<Project> allProjects = projectRepo.getProjects();
         
-        // set up services
+        // set up all services
         AccountService accountService = new AccountService();
+        ApplicantEnquiryService applicantEnquiryService = new ApplicantEnquiryService(applicantRepo, enquiryRepo);
         BookingService bookingService = new BookingService(receiptRepo);
-        ViewProjectService viewProjectService = new ViewProjectService(allProjects);
+        JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo);
+        ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo);
+        ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
+        OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);
         ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
+        ProjectListingService projectListingService = new ProjectListingService();
+        ReportService reportService = new ReportService(applicantRepo);
+        ViewProjectService viewProjectService = new ViewProjectService(allProjects);
+
         
         // log in 
         LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
@@ -61,7 +80,12 @@ public class Main {
                 accountService,
                 bookingService,
                 viewProjectService,
-                projectAppService
+
+                projectAppService, 
+                applicantEnquiryService, 
+                projectRepo, 
+                enquiryRepo
+
             );
             applicantMainMenu.applicantMenu(sc);
         }

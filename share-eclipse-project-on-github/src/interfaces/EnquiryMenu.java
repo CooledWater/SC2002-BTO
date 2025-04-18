@@ -20,10 +20,10 @@ public class EnquiryMenu {
 		
 	}
 	
-	public void enquiryMainMenu(Scanner sc) {
+	public void applicantEnquiryMenu(Scanner sc) {
 		int choice = -1;
         
-        System.out.println("You are now managing your enquiries.");
+        System.out.println("You are now managing your enquiries as an applicant.");
         System.out.println("To choose an option, input the corresponding number.");
         System.out.println();
 
@@ -31,7 +31,7 @@ public class EnquiryMenu {
             System.out.println("\n=== Enquiry Menu ===");
             System.out.println("0. Return to Main Menu");
             System.out.println("1. Submit a new enquiry");
-            System.out.println("2. View and manage your past enquiries")
+            System.out.println("2. View and manage your past enquiries");
             System.out.print("Enter choice: ");
             
             while (true) {
