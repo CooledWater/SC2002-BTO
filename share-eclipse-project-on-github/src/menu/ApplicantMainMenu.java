@@ -15,8 +15,7 @@ public class ApplicantMainMenu implements UserMainMenu {
     private ProjectRepository projectRepo;
     private EnquiryRepository enquiryRepo;
 
-    public ApplicantMainMenu(Applicant applicant, 
-    						 AccountService accountService, 
+    public ApplicantMainMenu(Applicant applicant,
     						 BookingService bookingService, 
     						 ViewProjectService viewProjectService, 
     						 ProjectApplicationService projectApplicationService,

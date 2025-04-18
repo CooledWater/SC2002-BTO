@@ -7,31 +7,39 @@ import services.*;
 import java.util.Scanner;
 import java.util.List;
 
+
 public class OfficerMainMenu implements UserMainMenu {
     private Officer currentOfficer;
     private BookingService bookingService;
     private ViewProjectService viewProjectService;
     private ProjectApplicationService projectApplicationService;
+    private ApplicantEnquiryService applicantEnquiryService;
     
     private JoinRequestService joinRequestService;
-    private ProjectRepository projectRepository;   
+    private OfficerEnquiryService officerEnquiryService;
+    private ProjectRepository projectRepository;
+    private EnquiryRepository enquiryRepository;
+    private ReceiptRepository receiptRepository;
     // private OfficerEnquiryService officerEnquiryService; put in officerService
     
   
     public OfficerMainMenu(Officer officer, BookingService bookingService, ViewProjectService viewProjectService, 
-    		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService,
-    		ProjectRepository projectRepository) {
+    		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService, 
+    		ApplicantEnquiryService applicantEnquiryService, OfficerEnquiryService officerEnquiryService,
+    		ProjectRepository projectRepository, EnquiryRepository enquiryRepository, ReceiptRepository receiptRepository) {
         this.currentOfficer = officer;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
         this.projectApplicationService = projectApplicationService;
         this.joinRequestService = joinRequestService;
+        this.applicantEnquiryService = applicantEnquiryService;
+        this.officerEnquiryService = officerEnquiryService;
         this.projectRepository = projectRepository;
-        
+        this.enquiryRepository = enquiryRepository;
+        this.receiptRepository = receiptRepository;
     }
 
-    public void officerMenu(Officer officer) {
-        Scanner sc = new Scanner(System.in);
+    public void officerMenu(Scanner sc) {
         int choice = -1;
 
         while (choice != 0) {
@@ -45,7 +53,7 @@ public class OfficerMainMenu implements UserMainMenu {
             System.out.println("5. Manage your enquiries");     	
             System.out.println();
             System.out.println("\n== Officer Functions ==");
-            System.out.println("6. Register to Handle Project");
+            System.out.println("6. View and register to handle projects");
             System.out.println("7. View Registration Status");
             System.out.println("8. View Project Details");
             System.out.println("9. Manage Project Enquiries");
@@ -80,26 +88,29 @@ public class OfficerMainMenu implements UserMainMenu {
                 	projectAppMenu.projectAppMainMenu(sc);
                     break;
                 case 5: 
-
-            
+                	EnquiryMenu enquiryApplicantMenu = new EnquiryMenu(currentOfficer, projectRepository, enquiryRepository, applicantEnquiryService, officerEnquiryService);
+                	enquiryApplicantMenu.applicantEnquiryMenu(sc);
+                	break;
             	case 6:
-                    handleProjectRegistration(officer, sc);
+                    handleProjectRegistration(currentOfficer, sc);
                     break;
                 case 7:
-                	viewJoinRequestStatus(officer);
-                    break;
+                	viewJoinRequestStatus(currentOfficer);
+                    break;               
                 case 8:
-                	currentOfficer.getHandlingProj(); // maybe method in Project to print all details of the project
-                    officerService.viewHandledProjectDetails(currentOfficer);
+                	viewProjectService.viewProjectsAsOfficer(currentOfficer);
                     break;
                 case 9:
-                    officerService.manageEnquiries(currentOfficer);
+                	EnquiryMenu enquiryOfficerMenu = new EnquiryMenu(currentOfficer, projectRepository, enquiryRepository, applicantEnquiryService, officerEnquiryService);
+                	enquiryOfficerMenu.officerEnquiryMenu(sc);
                     break;
                 case 10:
-                    officerService.assistFlatBooking(currentOfficer);
+                    bookingService.assistBookingFlat(currentOfficer);
                     break;
                 case 11:
-                    officerService.generateReceipt(currentOfficer);
+                	System.out.println("Enter applicant NRIC: ");
+                	String applicantNRIC = sc.nextLine();
+                    receiptRepository.printReceiptsByNric(applicantNRIC);
                     break;
                 case 0:
                     System.out.println("Logging out...");
