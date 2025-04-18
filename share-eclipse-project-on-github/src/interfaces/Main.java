@@ -15,7 +15,6 @@ public class Main {
         OfficerRepository officerRepo = new OfficerRepository();
         ManagerRepository managerRepo = new ManagerRepository();
         ProjectRepository projectRepo = new ProjectRepository();
-        ProjectAppRepository projectAppRepo = new ProjectAppRepository();
         
         // instantiate other repositories
         ReceiptRepository receiptRepo = new ReceiptRepository();
@@ -73,7 +72,8 @@ public class Main {
         LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
         Scanner sc = new Scanner(System.in);
         User currentUser = loginInterface.login(sc);
-
+        
+        // if current user is an applicant: 
         if (currentUser instanceof entity.Applicant) {
             ApplicantMainMenu applicantMainMenu = new ApplicantMainMenu(
                 (entity.Applicant) currentUser,
@@ -88,7 +88,21 @@ public class Main {
             );
             applicantMainMenu.applicantMenu(sc);
         }
-        // Later you can handle OfficerMainMenu or ManagerMainMenu here.
+        // if current user is an officer: 
+        
+        // if current user is a manager: 
+        
+        
+        
+        // save repositories to .ser file before exiting
+        applicantRepo.saveToSer();
+    	officerRepo.saveToSer();
+    	managerRepo.saveToSer();
+    	projectRepo.saveToSer();
+    	receiptRepo.saveToSer();
+    	enquiryRepo.saveToSer();
+    	joinRequestRepo.saveToSer();
+    	projectAppRepo.saveToSer();
     }
 
 }
