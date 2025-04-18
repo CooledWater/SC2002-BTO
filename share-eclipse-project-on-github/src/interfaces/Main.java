@@ -77,7 +77,6 @@ public class Main {
         if (currentUser instanceof entity.Applicant) {
             ApplicantMainMenu applicantMainMenu = new ApplicantMainMenu(
                 (entity.Applicant) currentUser,
-                accountService,
                 bookingService,
                 viewProjectService,
 

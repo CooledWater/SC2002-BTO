@@ -7,16 +7,27 @@ import services.*;
 import java.util.Scanner;
 import java.util.List;
 
-public class OfficerMainMenu {
+public class OfficerMainMenu implements UserMainMenu {
     private Officer currentOfficer;
+    private BookingService bookingService;
+    private ViewProjectService viewProjectService;
+    private ProjectApplicationService projectApplicationService;
+    
     private JoinRequestService joinRequestService;
-    private ProjectRepository projectRepository;
-
-    public OfficerMainMenu(Officer officer, JoinRequestService joinRequestService,
+    private ProjectRepository projectRepository;   
+    // private OfficerEnquiryService officerEnquiryService; put in officerService
+    
+  
+    public OfficerMainMenu(Officer officer, BookingService bookingService, ViewProjectService viewProjectService, 
+    		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService,
     		ProjectRepository projectRepository) {
         this.currentOfficer = officer;
+        this.bookingService = bookingService;
+        this.viewProjectService = viewProjectService;
+        this.projectApplicationService = projectApplicationService;
         this.joinRequestService = joinRequestService;
         this.projectRepository = projectRepository;
+        
     }
 
     public void officerMenu(Officer officer) {
@@ -24,14 +35,24 @@ public class OfficerMainMenu {
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\n=== Officer Main Menu ===");
-            System.out.println("1. Register to Handle Project");
-            System.out.println("2. View Registration Status");
-            System.out.println("3. View Project Details");
-            System.out.println("4. Manage Project Enquiries");
-            System.out.println("5. Assist in Flat Booking");
-            System.out.println("6. Generate Booking Receipt");
+        	System.out.println("\n=== Officer Main Menu ===");
+        	
+        	System.out.println("\n== Applicant Functions ==");
+            System.out.println("1. View Profile");
+            System.out.println("2. Change Password");
+            System.out.println("3. View Booking");
+            System.out.println("4. Manage your project application");
+            System.out.println("5. Manage your enquiries");     	
+            System.out.println();
+            System.out.println("\n== Officer Functions ==");
+            System.out.println("6. Register to Handle Project");
+            System.out.println("7. View Registration Status");
+            System.out.println("8. View Project Details");
+            System.out.println("9. Manage Project Enquiries");
+            System.out.println("10. Assist in Flat Booking");
+            System.out.println("11. Generate Booking Receipt");
             System.out.println("0. Logout");
+            System.out.println();
             System.out.print("Enter choice: ");
 
             try {
@@ -42,22 +63,42 @@ public class OfficerMainMenu {
             }
 
             switch (choice) {
-                case 1:
+            	case 1:
+            		viewProfile();
+                    break;
+            	case 2:
+                    changePassword(sc, currentOfficer);
+                    break;
+            	case 3:
+                	System.out.println("Loading booking details...");
+                    bookingService.viewBooking(currentOfficer);
+                    break;
+            	case 4:
+    				// calling project app menu
+                	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentOfficer, 
+                			viewProjectService, projectApplicationService, bookingService);
+                	projectAppMenu.projectAppMainMenu(sc);
+                    break;
+                case 5: 
+
+            
+            	case 6:
                     handleProjectRegistration(officer, sc);
                     break;
-                case 2:
+                case 7:
                 	viewJoinRequestStatus(officer);
                     break;
-                case 3:
+                case 8:
+                	currentOfficer.getHandlingProj(); // maybe method in Project to print all details of the project
                     officerService.viewHandledProjectDetails(currentOfficer);
                     break;
-                case 4:
+                case 9:
                     officerService.manageEnquiries(currentOfficer);
                     break;
-                case 5:
+                case 10:
                     officerService.assistFlatBooking(currentOfficer);
                     break;
-                case 6:
+                case 11:
                     officerService.generateReceipt(currentOfficer);
                     break;
                 case 0:

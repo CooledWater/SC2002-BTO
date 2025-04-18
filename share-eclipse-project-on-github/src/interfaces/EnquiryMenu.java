@@ -78,7 +78,7 @@ public class EnquiryMenu {
             	String enquireID = sc.nextLine();
             	Enquiry enquiry = null;
             	try {
-            		enquiry = enquiryRepo.searchByID(enquireID).get();
+            		enquiry = enquiryRepo.searchByID(enquireID);
             	} catch (NoSuchElementException e) {
             		System.out.println("No enquiries are found with this ID. ");
             		break;
