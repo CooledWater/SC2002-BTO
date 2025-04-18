@@ -63,7 +63,7 @@ public class Main {
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
         OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);
         ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
-        ProjectListingService projectListingService = new ProjectListingService();
+        ProjectListingService projectListingService = new ProjectListingService(projectRepo);
         ReportService reportService = new ReportService(applicantRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
 
@@ -77,9 +77,9 @@ public class Main {
         if (currentUser instanceof entity.Applicant) {
             ApplicantMainMenu applicantMainMenu = new ApplicantMainMenu(
                 (entity.Applicant) currentUser,
+                accountService,
                 bookingService,
                 viewProjectService,
-
                 projectAppService, 
                 applicantEnquiryService, 
                 projectRepo, 
