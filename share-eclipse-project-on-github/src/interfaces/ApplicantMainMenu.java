@@ -1,6 +1,7 @@
 package interfaces;
 
 import entity.Applicant;
+import repository.*;
 import services.*;
 import java.util.Scanner;
 
@@ -10,15 +11,27 @@ public class ApplicantMainMenu implements UserMainMenu {
     private BookingService bookingService;
     private ViewProjectService viewProjectService;
     private ProjectApplicationService projectApplicationService;
+    private ApplicantEnquiryService applicantEnquiryService;
+    
+    private ProjectRepository projectRepo;
+    private EnquiryRepository enquiryRepo;
 
-    public ApplicantMainMenu(Applicant applicant, AccountService accountService, 
-    		BookingService bookingService, ViewProjectService viewProjectService, 
-    		ProjectApplicationService projectApplicationService) {
+    public ApplicantMainMenu(Applicant applicant, 
+    						 AccountService accountService, 
+    						 BookingService bookingService, 
+    						 ViewProjectService viewProjectService, 
+    						 ProjectApplicationService projectApplicationService,
+    						 ApplicantEnquiryService applicantEnquiryService,
+    						 ProjectRepository projectRepo,
+    						 EnquiryRepository enquiryRepo) {
         this.currentSessionApplicant = applicant;
         this.accountService = accountService;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
         this.projectApplicationService = projectApplicationService;
+        this.applicantEnquiryService = applicantEnquiryService;
+        this.projectRepo = projectRepo;
+        this.enquiryRepo = enquiryRepo;
     }
 
     public void applicantMenu(Scanner sc) {
@@ -65,7 +78,8 @@ public class ApplicantMainMenu implements UserMainMenu {
             	projectAppMenu.projectAppMainMenu(sc);
                 break;
             case 5: 
-            	
+            	EnquiryMenu enquiryMenu = new EnquiryMenu(currentSessionApplicant, projectRepo, enquiryRepo, applicantEnquiryService);
+            	enquiryMenu.applicantEnquiryMenu(sc);
             case 0:
                 System.out.println("Logging out...");
                 break;

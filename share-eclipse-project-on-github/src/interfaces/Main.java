@@ -18,6 +18,7 @@ public class Main {
         
         // instantiate other repositories
         ReceiptRepository receiptRepo = new ReceiptRepository();
+        EnquiryRepository enquiryRepo = new EnquiryRepository();
         
         // check whether this is the first starting up or not, and import data
         File f = new File("save");
@@ -41,7 +42,7 @@ public class Main {
         AccountService accountService = new AccountService();
         BookingService bookingService = new BookingService(receiptRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
-        ProjectApplicationService projectAppService = new ProjectApplicationService();
+        ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
         
         // log in 
         LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
