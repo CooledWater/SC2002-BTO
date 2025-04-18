@@ -15,6 +15,7 @@ public class Main {
         OfficerRepository officerRepo = new OfficerRepository();
         ManagerRepository managerRepo = new ManagerRepository();
         ProjectRepository projectRepo = new ProjectRepository();
+        ProjectAppRepository projectAppRepo = new ProjectAppRepository();
         
         // instantiate other repositories
         ReceiptRepository receiptRepo = new ReceiptRepository();
@@ -41,7 +42,7 @@ public class Main {
         AccountService accountService = new AccountService();
         BookingService bookingService = new BookingService(receiptRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
-        ProjectApplicationService projectAppService = new ProjectApplicationService();
+        ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
         
         // log in 
         LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
@@ -54,7 +55,7 @@ public class Main {
                 accountService,
                 bookingService,
                 viewProjectService,
-                projectApplicationService
+                projectAppService
             );
             applicantMainMenu.applicantMenu(sc);
         }
