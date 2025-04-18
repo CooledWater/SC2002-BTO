@@ -32,9 +32,14 @@ target/
 *.iml         # IntelliJ IDEA project files (if you sometimes use it)
 .idea/        # IntelliJ IDEA project files
 nbproject/    # NetBeans project files
+*.class
+*.exe
+*.out
+*.DS_Store
 
 # OS Specific
 .DS_Store
 Thumbs.db
 /bin/
 /bin/
+
