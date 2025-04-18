@@ -40,3 +40,7 @@ Thumbs.db
 /bin/
 /bin/
 
+*.class
+bin/
+**/bin/
+
