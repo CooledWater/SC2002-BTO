@@ -1,9 +1,9 @@
-package interfaces;
+package menu;
 
 import java.io.*;
 import java.util.*;
 import entity.*;
-import interfaces.*;
+import menu.*;
 import repository.*;
 import services.*;
 
