@@ -23,11 +23,17 @@ public class Main {
         // check whether this is the first starting up or not, and import data
         File f = new File("save");
         if (f.exists()) {
-        	applicantRepo.importFromSer();
-        	officerRepo.importFromSer();
-        	managerRepo.importFromSer();
-        	projectRepo.importFromSer();
-        	receiptRepo.importFromSer();
+        	try {
+	        	applicantRepo.importFromSer();
+	        	officerRepo.importFromSer();
+	        	managerRepo.importFromSer();
+	        	projectRepo.importFromSer();
+				receiptRepo.importFromSer();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         } else {
         	applicantRepo.importFromCSV();
         	officerRepo.importFromCSV();
