@@ -109,5 +109,25 @@ public class OfficerMainMenu {
             System.out.println("Your join request status: " + joinRequestService.getJoinRequestStatus(officer));
         }
     }
+    
+    public void viewProfile() {
+        System.out.println("\n--- Profile ---");
+        System.out.println("Name: " + currentOfficer.getName());
+        System.out.println("NRIC: " + currentOfficer.getNRIC());
+        System.out.println("Age: " + currentOfficer.getAge());
+        System.out.println("Marital Status: " + (currentOfficer.isMarried() ? "Married" : "Single"));
+        
+        if (currentOfficer.getHandlingProj() != null) {
+            System.out.println("Handling Project: " + currentOfficer.getHandlingProj().getName());
+        } else {
+            System.out.println("Handling Project: None");
+        }
+
+        if (currentOfficer.getJoinRequest() != null) {
+            System.out.println("Join Request Status: " + currentOfficer.getJoinRequest().getStatus());
+        } else {
+            System.out.println("Join Request Status: None");
+        }
+    }
 
 }
