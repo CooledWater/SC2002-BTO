@@ -1,12 +1,8 @@
 package interfaces;
 
-import java.util.*;
-
 import entity.*;
-import repository.ApplicantRepository;
-import repository.OfficerRepository;
-import repository.ManagerRepository;
 import services.*;
+import java.util.*;
 
 
 public class OfficerMainMenu implements OfficerInterface {
@@ -64,7 +60,7 @@ public class OfficerMainMenu implements OfficerInterface {
                 viewProfile();
                 break;
             case 2:
-                changePassword(sc);
+                changePassword(sc, currentSessionOfficer);
                 break;
             case 3:
             	System.out.println("Loading booking details...");

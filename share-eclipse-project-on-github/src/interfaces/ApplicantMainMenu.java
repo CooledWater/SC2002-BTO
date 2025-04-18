@@ -46,7 +46,7 @@ public class ApplicantMainMenu implements UserMainMenu {
                 viewProfile();
                 break;
             case 2:
-                changePassword(sc);
+                changePassword(sc, currentSessionApplicant);
                 break;
             case 3:
             	System.out.println("Loading booking details...");
@@ -75,12 +75,6 @@ public class ApplicantMainMenu implements UserMainMenu {
         System.out.println("NRIC: " + currentSessionApplicant.getNRIC());
         System.out.println("Age: " + currentSessionApplicant.getAge());
         System.out.println("Marital Status: " + (currentSessionApplicant.isMarried() ? "Married" : "Single"));
-    }
-
-    public void changePassword(Scanner sc) {
-        System.out.print("Enter new password: ");
-        String newPassword = sc.nextLine();
-        accountService.changePassword(currentSessionApplicant, newPassword);
     }
 
 }
