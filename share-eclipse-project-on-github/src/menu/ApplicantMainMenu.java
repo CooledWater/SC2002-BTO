@@ -11,6 +11,7 @@ public class ApplicantMainMenu implements UserMainMenu {
     private ViewProjectService viewProjectService;
     private ProjectApplicationService projectApplicationService;
     private ApplicantEnquiryService applicantEnquiryService;
+    private OfficerEnquiryService officerEnquiryService;
     
     private ProjectRepository projectRepo;
     private EnquiryRepository enquiryRepo;
@@ -21,7 +22,8 @@ public class ApplicantMainMenu implements UserMainMenu {
     						 ProjectApplicationService projectApplicationService,
     						 ApplicantEnquiryService applicantEnquiryService,
     						 ProjectRepository projectRepo,
-    						 EnquiryRepository enquiryRepo) {
+    						 EnquiryRepository enquiryRepo,
+    						 OfficerEnquiryService officerEnquiryService) {
 
         this.currentSessionApplicant = applicant;
         this.bookingService = bookingService;
@@ -30,6 +32,7 @@ public class ApplicantMainMenu implements UserMainMenu {
         this.applicantEnquiryService = applicantEnquiryService;
         this.projectRepo = projectRepo;
         this.enquiryRepo = enquiryRepo;
+        this.officerEnquiryService = officerEnquiryService;
     }
 
     public void applicantMenu(Scanner sc) {
@@ -76,7 +79,7 @@ public class ApplicantMainMenu implements UserMainMenu {
             	projectAppMenu.projectAppMainMenu(sc);
                 break;
             case 5: 
-            	EnquiryMenu enquiryMenu = new EnquiryMenu(currentSessionApplicant, projectRepo, enquiryRepo, applicantEnquiryService);
+            	EnquiryMenu enquiryMenu = new EnquiryMenu(currentSessionApplicant, projectRepo, enquiryRepo, applicantEnquiryService, officerEnquiryService);
             	enquiryMenu.applicantEnquiryMenu(sc);
             case 0:
                 System.out.println("Logging out...");
