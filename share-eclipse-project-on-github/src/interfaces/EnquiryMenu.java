@@ -31,7 +31,7 @@ public class EnquiryMenu {
             System.out.println("\n=== Enquiry Menu ===");
             System.out.println("0. Return to Main Menu");
             System.out.println("1. Submit a new enquiry");
-            System.out.println("2. View and manage your past enquiries")
+            System.out.println("2. View and manage your past enquiries");
             System.out.print("Enter choice: ");
             
             while (true) {
@@ -78,7 +78,7 @@ public class EnquiryMenu {
             	String enquireID = sc.nextLine();
             	Enquiry enquiry = null;
             	try {
-            		enquiry = enquiryRepo.searchByID(enquireID).get();
+            		enquiry = enquiryRepo.searchByID(enquireID);
             	} catch (NoSuchElementException e) {
             		System.out.println("No enquiries are found with this ID. ");
             		break;
