@@ -63,12 +63,11 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	
 	
 	public void deleteEnquiry(Applicant applicant, String enquiryID) {
-		Optional<Enquiry> optionalSearchEnquiry = enquiryRepo.searchByID(enquiryID);
+		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
-		if (optionalSearchEnquiry.isEmpty()) {
+		if (searchEnquiry == null) {
 			System.out.println("Enquiry not found.");
 		} else {
-			Enquiry searchEnquiry = optionalSearchEnquiry.get();
 			if (searchEnquiry.getApplicant().getNRIC() != applicant.getNRIC()) {
 				System.out.println("You do not have permission to delete this enquiry.");
 			} else {
