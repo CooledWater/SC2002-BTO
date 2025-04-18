@@ -20,10 +20,10 @@ public class EnquiryMenu {
 		
 	}
 	
-	public void enquiryMainMenu(Scanner sc) {
+	public void applicantEnquiryMenu(Scanner sc) {
 		int choice = -1;
         
-        System.out.println("You are now managing your enquiries.");
+        System.out.println("You are now managing your enquiries as an applicant.");
         System.out.println("To choose an option, input the corresponding number.");
         System.out.println();
 

@@ -45,7 +45,13 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	
 	
 	public void editEnquiry(Applicant applicant, String enquiryID, String newMessage) {
-		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
+		Enquiry searchEnquiry = null;
+		try {
+			searchEnquiry = enquiryRepo.searchByID(enquiryID).get();
+		} catch (NoSuchElementException e) {
+			System.out.println("Enquiry not found.");
+			return;
+		}
 		
 		// checks that enquiry exists and that the applicant who created the enquiry is the one that is editing
 		if (searchEnquiry == null) {
