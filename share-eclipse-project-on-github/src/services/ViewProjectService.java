@@ -1,6 +1,8 @@
 package services;
 
 import entity.*;
+import repository.ProjectRepository;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -150,5 +152,12 @@ public class ViewProjectService {
             System.out.println("Visible: " + p.isVisible());
             System.out.println("-----------------------------");
         }
+    }
+
+    public Project getProjectByName(String projName) {
+        return allProjects.stream()
+                .filter(p -> p.getName().equalsIgnoreCase(projName))
+                .findFirst()
+                .orElse(null);
     }
 }
