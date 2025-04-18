@@ -85,7 +85,7 @@ public class ManagerMainMenu implements UserMainMenu{
                 	reportService.generateFilteredApplicantReport(); 
                 	break; 
                 case 8: 
-                	changePassword(sc);
+                	changePassword(sc, currentSessionManager);
                 	break; 
                 case 9: 
                 	viewProfile();
@@ -141,12 +141,6 @@ public class ManagerMainMenu implements UserMainMenu{
 	    } else {
 	        System.out.println("Returning to main menu.");
 	    }	
-	}
-	
-	
-	public void changePassword(Scanner sc) {
-	    UserMainMenu.super.changePassword(sc, currentSessionManager);
-	    System.out.println("Password successfully changed.");
 	}
 
 	@Override
