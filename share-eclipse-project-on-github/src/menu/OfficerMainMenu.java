@@ -1,4 +1,4 @@
-package interfaces;
+package menu;
 
 import entity.*;
 import repository.*;

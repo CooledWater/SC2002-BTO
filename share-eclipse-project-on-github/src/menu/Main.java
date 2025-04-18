@@ -1,9 +1,9 @@
-package interfaces;
+package menu;
 
 import java.io.*;
 import java.util.*;
 import entity.*;
-import interfaces.*;
+import menu.*;
 import repository.*;
 import services.*;
 
@@ -69,7 +69,7 @@ public class Main {
 
         
         // log in 
-        LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
+        LoginMenu loginInterface = new LoginMenu(applicantRepo, officerRepo, managerRepo, accountService);
         Scanner sc = new Scanner(System.in);
         User currentUser = loginInterface.login(sc);
         

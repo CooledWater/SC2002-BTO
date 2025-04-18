@@ -1,4 +1,4 @@
-package interfaces;
+package menu;
 
 import java.util.Scanner;
 
@@ -8,13 +8,13 @@ import repository.OfficerRepository;
 import repository.ManagerRepository;
 import services.AccountService;
 
-public class LoginInterface {
+public class LoginMenu {
     private ApplicantRepository applicantRepository;
     private OfficerRepository officerRepository;
     private ManagerRepository managerRepository;
     private AccountService accountService;
 
-    public LoginInterface(ApplicantRepository applicantRepository,
+    public LoginMenu(ApplicantRepository applicantRepository,
                           OfficerRepository officerRepository,
                           ManagerRepository managerRepository,
                           AccountService accountService) {
