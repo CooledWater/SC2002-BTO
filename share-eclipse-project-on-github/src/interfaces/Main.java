@@ -15,6 +15,7 @@ public class Main {
         OfficerRepository officerRepo = new OfficerRepository();
         ManagerRepository managerRepo = new ManagerRepository();
         ProjectRepository projectRepo = new ProjectRepository();
+        ProjectAppRepository projectAppRepo = new ProjectAppRepository();
         
         // instantiate other repositories
         ReceiptRepository receiptRepo = new ReceiptRepository();
@@ -22,11 +23,17 @@ public class Main {
         // check whether this is the first starting up or not, and import data
         File f = new File("save");
         if (f.exists()) {
-        	applicantRepo.importFromSer();
-        	officerRepo.importFromSer();
-        	managerRepo.importFromSer();
-        	projectRepo.importFromSer();
-        	receiptRepo.importFromSer();
+        	try {
+	        	applicantRepo.importFromSer();
+	        	officerRepo.importFromSer();
+	        	managerRepo.importFromSer();
+	        	projectRepo.importFromSer();
+				receiptRepo.importFromSer();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         } else {
         	applicantRepo.importFromCSV();
         	officerRepo.importFromCSV();
@@ -41,7 +48,7 @@ public class Main {
         AccountService accountService = new AccountService();
         BookingService bookingService = new BookingService(receiptRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
-        ProjectApplicationService projectAppService = new ProjectApplicationService();
+        ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
         
         // log in 
         LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
@@ -54,7 +61,7 @@ public class Main {
                 accountService,
                 bookingService,
                 viewProjectService,
-                projectApplicationService
+                projectAppService
             );
             applicantMainMenu.applicantMenu(sc);
         }
