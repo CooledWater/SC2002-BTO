@@ -1,12 +1,10 @@
 package repository;
 
-import entity.*;
+import entity.*; 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectAppRepository extends Repository {
-
-    
 
     /**
 	 * 
