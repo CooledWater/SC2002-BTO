@@ -106,6 +106,11 @@ public class Main {
         }
         
         // if current user is a manager: 
+        if (currentUser instanceof entity.Manager) {
+        	ManagerMainMenu managerMainMenu = new ManagerMainMenu((entity.Manager)currentUser,
+           viewProjectService, projectListingService, manageProjectAppService, managerEnquiryService, joinRequestService, reportService);
+			managerMainMenu.managerMenu(sc); 
+        }
         
         
         
