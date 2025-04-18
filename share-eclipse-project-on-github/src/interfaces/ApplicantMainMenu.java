@@ -28,6 +28,7 @@ public class ApplicantMainMenu implements UserMainMenu {
             System.out.println("2. Change Password");
             System.out.println("3. View Booking");
             System.out.println("4. Manage your project application");
+            System.out.println("5. Manage your enquiries");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
             
@@ -48,11 +49,17 @@ public class ApplicantMainMenu implements UserMainMenu {
                 changePassword(sc);
                 break;
             case 3:
-                viewBooking();
+            	System.out.println("Loading booking details...");
+                bookingService.viewBooking(currentSessionApplicant);
                 break;
             case 4:
-            	projectAppMenu(sc, viewProjectService, projectApplicationService, bookingService);
+            	// calling project app menu
+            	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentSessionApplicant, 
+            			viewProjectService, projectApplicationService, bookingService);
+            	projectAppMenu.projectAppMainMenu(sc);
                 break;
+            case 5: 
+            	
             case 0:
                 System.out.println("Logging out...");
                 break;
@@ -76,16 +83,4 @@ public class ApplicantMainMenu implements UserMainMenu {
         accountService.changePassword(currentSessionApplicant, newPassword);
     }
 
-    public void projectAppMenu(Scanner sc, ViewProjectService viewProjectService, 
-    		ProjectApplicationService projectApplicationService,
-            BookingService bookingService) {
-    	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentSessionApplicant, 
-    			viewProjectService, projectApplicationService, bookingService);
-    	projectAppMenu.projectAppMainMenu(sc);
-    }
-
-    private void viewBooking() {
-    	System.out.println("Loading booking details...");
-        bookingService.viewBooking(currentSessionApplicant);
-    }
 }
