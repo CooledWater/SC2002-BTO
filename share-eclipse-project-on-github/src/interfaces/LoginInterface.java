@@ -24,8 +24,7 @@ public class LoginInterface {
         this.accountService = accountService;
     }
 
-    public User login() {
-        Scanner sc = new Scanner(System.in);
+    public User login(Scanner sc) {
         System.out.println("Login as: ");
         System.out.println("1. Applicant");
         System.out.println("2. Officer");

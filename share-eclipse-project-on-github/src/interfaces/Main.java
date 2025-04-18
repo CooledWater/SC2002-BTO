@@ -1,41 +1,62 @@
 package interfaces;
 
-import java.util.List;
+import java.io.*;
+import java.util.*;
 import entity.*;
 import interfaces.*;
 import repository.*;
 import services.*;
 
-public class MainInterface {
+public class Main {
 
     public static void main(String[] args) {
-        // Setup repositories and services
+    	// instantiate repositories with csv	
         ApplicantRepository applicantRepo = new ApplicantRepository();
         OfficerRepository officerRepo = new OfficerRepository();
         ManagerRepository managerRepo = new ManagerRepository();
-        ReceiptRepository receiptRepo = new ReceiptRepository();
         ProjectRepository projectRepo = new ProjectRepository();
         
-     // Setup services
+        // instantiate other repositories
+        ReceiptRepository receiptRepo = new ReceiptRepository();
+        
+        // check whether this is the first starting up or not, and import data
+        File f = new File("save");
+        if (f.exists()) {
+        	applicantRepo.importFromSer();
+        	officerRepo.importFromSer();
+        	managerRepo.importFromSer();
+        	projectRepo.importFromSer();
+        	receiptRepo.importFromSer();
+        } else {
+        	applicantRepo.importFromCSV();
+        	officerRepo.importFromCSV();
+        	managerRepo.importFromCSV();
+        	projectRepo.importFromCSV();
+        }
+        
+        // set up entities
+        List<Project> allProjects = projectRepo.getProjects();
+        
+        // set up services
         AccountService accountService = new AccountService();
         BookingService bookingService = new BookingService(receiptRepo);
-        List<Project> allProjects = projectRepo.getProjects();
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
         ProjectApplicationService projectAppService = new ProjectApplicationService();
-
-        // Login
+        
+        // log in 
         LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
-        User currentUser = loginInterface.login();
+        Scanner sc = new Scanner(System.in);
+        User currentUser = loginInterface.login(sc);
 
         if (currentUser instanceof entity.Applicant) {
-            ApplicantMainMenu appMenu = new ApplicantMainMenu(
+            ApplicantMainMenu applicantMainMenu = new ApplicantMainMenu(
                 (entity.Applicant) currentUser,
                 accountService,
                 bookingService,
                 viewProjectService,
                 projectApplicationService
             );
-            appMenu.applicantMenu();
+            applicantMainMenu.applicantMenu(sc);
         }
         // Later you can handle OfficerMainMenu or ManagerMainMenu here.
     }

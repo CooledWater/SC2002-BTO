@@ -4,7 +4,7 @@ import entity.Applicant;
 import services.*;
 import java.util.Scanner;
 
-public class ApplicantMainMenu {
+public class ApplicantMainMenu implements UserMainMenu {
     private Applicant currentSessionApplicant;
     private AccountService accountService;
     private BookingService bookingService;
@@ -15,8 +15,7 @@ public class ApplicantMainMenu {
         this.bookingService = bookingService;
     }
 
-    public void applicantMenu() {
-        Scanner sc = new Scanner(System.in);
+    public void applicantMenu(Scanner sc) {
         int choice = -1;
         
         System.out.println("You have logged in as an applicant.");
@@ -31,36 +30,39 @@ public class ApplicantMainMenu {
             System.out.println("4. Manage your project application");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-
-                switch (choice) {
-                    case 1:
-                        viewProfile();
-                        break;
-                    case 2:
-                        changePassword(sc);
-                        break;
-                    case 3:
-                        viewBooking();
-                        break;
-                    case 4:
-                    	projectAppMenu(viewProjectService, projectApplicationService, bookingService);
-                        break;
-                    case 0:
-                        System.out.println("Logging out...");
-                        break;
-                    default:
-                        System.out.println("Invalid option. Try again.");
+            
+            while (true) {
+            	try {
+                    choice = Integer.parseInt(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid number.");
                 }
-
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+            }
+            
+            switch (choice) {
+            case 1:
+                viewProfile();
+                break;
+            case 2:
+                changePassword(sc);
+                break;
+            case 3:
+                viewBooking();
+                break;
+            case 4:
+            	projectAppMenu(sc, viewProjectService, projectApplicationService, bookingService);
+                break;
+            case 0:
+                System.out.println("Logging out...");
+                break;
+            default:
+                System.out.println("Invalid option. Try again.");
             }
         }
     }
 
-    private void viewProfile() {
+    public void viewProfile() {
         System.out.println("\n--- Profile ---");
         System.out.println("Name: " + currentSessionApplicant.getName());
         System.out.println("NRIC: " + currentSessionApplicant.getNRIC());
@@ -68,22 +70,22 @@ public class ApplicantMainMenu {
         System.out.println("Marital Status: " + (currentSessionApplicant.isMarried() ? "Married" : "Single"));
     }
 
-    private void changePassword(Scanner sc) {
+    public void changePassword(Scanner sc) {
         System.out.print("Enter new password: ");
         String newPassword = sc.nextLine();
         accountService.changePassword(currentSessionApplicant, newPassword);
     }
 
-    public void projectAppMenu(ViewProjectService viewProjectService, 
+    public void projectAppMenu(Scanner sc, ViewProjectService viewProjectService, 
     		ProjectApplicationService projectApplicationService,
             BookingService bookingService) {
     	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentSessionApplicant, 
     			viewProjectService, projectApplicationService, bookingService);
-    	projectAppMenu.projectAppMainMenu();
+    	projectAppMenu.projectAppMainMenu(sc);
     }
 
     private void viewBooking() {
+    	System.out.println("Loading booking details...");
         bookingService.viewBooking(currentSessionApplicant);
-        System.out.println("Loading booking details...");
     }
 }

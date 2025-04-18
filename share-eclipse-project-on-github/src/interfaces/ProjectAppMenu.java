@@ -26,8 +26,7 @@ public class ProjectAppMenu {
         this.bookingService = bookingService;
     }
 
-    public void projectAppMainMenu() {
-        Scanner sc = new Scanner(System.in);
+    public void projectAppMainMenu(Scanner sc) {
         int choice = -1;
         
         System.out.println("You are now managing your project application.");
@@ -42,39 +41,44 @@ public class ProjectAppMenu {
             System.out.println("4. View Project Details");
             System.out.println("0. Return to Applicant Menu");
             System.out.print("Enter choice: ");
-
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-                switch (choice) {
-                    case 1:
-                        // show all projects applicant can see
-                        viewService.viewProjectsAsApplicant(currentSessionApplicant);
-                        break;
-                    case 2:
-                        System.out.print("Enter project name to apply: ");
-                        String projName = sc.nextLine().trim();
-                        projectApplicationService.apply(currentSessionApplicant, projName);
-                        break;
-                    case 3:
-                        // only if they have a pending or successful app
-                        ProjectApp app = currentSessionApplicant.getProjectApp();
-                        if (app == null || app.getStatus() == AppStatus.BOOKED) {
-                            System.out.println("No application to withdraw.");
-                        } else {
-                            projectApplicationService.withdraw(currentSessionApplicant);
-                        }
-                        break;
-                    case 4:
-                        viewProjectDetails();
-                        break;
-                    case 0:
-                        System.out.println("Returning to Applicant Main Menu...");
-                        break;
-                    default:
-                        System.out.println("Invalid option. Try again.");
+            
+            while (true) {
+            	try {
+                    choice = Integer.parseInt(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a valid number.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+            }
+            
+            
+            switch (choice) {
+            case 1:
+                // show all projects applicant can see
+                viewService.viewProjectsAsApplicant(currentSessionApplicant);
+                break;
+            case 2:
+                System.out.print("Enter project name to apply: ");
+                String projName = sc.nextLine().trim();
+                projectApplicationService.apply(currentSessionApplicant, projName);
+                break;
+            case 3:
+                // only if they have a pending or successful app
+                ProjectApp app = currentSessionApplicant.getProjectApp();
+                if (app == null || app.getStatus() == AppStatus.BOOKED) {
+                    System.out.println("No application to withdraw.");
+                } else {
+                    projectApplicationService.withdraw(currentSessionApplicant);
+                }
+                break;
+            case 4:
+                viewProjectDetails();
+                break;
+            case 0:
+                System.out.println("Returning to Applicant Main Menu...");
+                break;
+            default:
+                System.out.println("Invalid option. Try again.");
             }
         }
     }
