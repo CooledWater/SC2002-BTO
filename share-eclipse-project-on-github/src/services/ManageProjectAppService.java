@@ -1,5 +1,6 @@
 package services;
 import java.util.Scanner;
+
 import repository.*; 
 import entity.*;
 
@@ -7,6 +8,7 @@ import java.util.*;
 
 public class ManageProjectAppService {
     private ProjectRepository projectRepo;
+    private ProjectAppRepository projectAppRepo;
     private Scanner sc = new Scanner(System.in);
 
     public ManageProjectAppService(ProjectRepository projectRepo) {
@@ -24,8 +26,9 @@ public class ManageProjectAppService {
 
             for (ProjectApp app : apps) {
                 if (app.getStatus() == AppStatus.PENDING) {
-                    System.out.println("Applicant: " + app.getApplicant().getName());               
+                	System.out.println("\n\n================================");
                     System.out.println("Project: " + project.getName());
+                    System.out.println("Applicant: " + app.getApplicant().getName());               
                     System.out.println("Flat Type: " + app.getFlatType()); 
                     System.out.print("Approve this application? (y/n): ");
                     String input = sc.nextLine().trim().toLowerCase();
@@ -55,6 +58,7 @@ public class ManageProjectAppService {
                 ProjectApp app = iterator.next();
 
                 if (app.applicantWantsToWithdraw()) {
+                	System.out.println("\n\n================================");
                     System.out.println("Withdrawal request found:");
                     System.out.println("Applicant: " + app.getApplicant().getName());
                     System.out.println("Project: " + project.getName());
@@ -64,8 +68,8 @@ public class ManageProjectAppService {
                     String input = sc.nextLine().trim().toLowerCase();
 
                     if (input.equals("y")) {
-                        // return flat number to original amount 
-                        if (app.getStatus() == AppStatus.SUCCESSFUL || app.getStatus() == AppStatus.BOOKED) {
+                    	// if booked, return flat number to original amount 
+                    	if (app.getStatus() == AppStatus.BOOKED) {
                             FlatType flatType = app.getFlatType();
                             if (flatType == FlatType.TWO_ROOM) {
                                 project.setNumberOf2Rooms(project.getNumberOf2Rooms() + 1);
@@ -73,13 +77,21 @@ public class ManageProjectAppService {
                                 project.setNumberOf3Rooms(project.getNumberOf3Rooms() + 1);
                             }
                         }
-
-                        app.setStatus(AppStatus.UNSUCCESSFUL);
-                        app.approveWithdrawal(); //reset withdrawal status
-                        iterator.remove(); 
+                    	app.setStatus(AppStatus.UNSUCCESSFUL);
+                        app.setWantToWithdraw(false); //reset withdrawal status
+                        
+                        // deletion
+                    	iterator.remove(); // removed from the list of project apps kept under the project
+                		app.getApplicant().setProjectApp(null); // removed from the applicant
+                		projectAppRepo.getProjectApps().remove(app); // removed from projectAppRepo
+                		
+                        
                         System.out.println("Withdrawal approved.\n");
                     } else {
-                    	//im not sure if when manager rejects withdrawal request will the withdrawal request be deleted so they can request again or just left as is 
+                    	// all withdrawal should be approved, according to Prof Li
+                    	// in the hypothetical case of withdrawal being rejected, 
+                    	// set wantToWithdraw to false and leave it as it is. 
+                    	app.setWantToWithdraw(false);
                         System.out.println("Withdrawal request denied.\n");
                     }
                 }

@@ -35,7 +35,7 @@ public class ReceiptRepository extends Repository {
         }
 
         for (Receipt receipt : receipts) {
-            System.out.println(receipt);
+            System.out.println(receipt.toString());
         }
     }
 
@@ -43,7 +43,7 @@ public class ReceiptRepository extends Repository {
         boolean found = false;
         for (Receipt r : receipts) {
             if (r.getApplicantNRIC().equalsIgnoreCase(nric)) {
-                System.out.println(r);
+                System.out.println(r.toString());
                 found = true;
             }
         }

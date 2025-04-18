@@ -63,13 +63,13 @@ public class Main {
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
         OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);
         ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
-        ProjectListingService projectListingService = new ProjectListingService();
+        ProjectListingService projectListingService = new ProjectListingService(projectRepo);
         ReportService reportService = new ReportService(applicantRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
 
         
         // log in 
-        LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
+        LoginMenu loginInterface = new LoginMenu(applicantRepo, officerRepo, managerRepo, accountService);
         Scanner sc = new Scanner(System.in);
         User currentUser = loginInterface.login(sc);
         
@@ -79,16 +79,31 @@ public class Main {
                 (entity.Applicant) currentUser,
                 bookingService,
                 viewProjectService,
-
                 projectAppService, 
                 applicantEnquiryService, 
                 projectRepo, 
-                enquiryRepo
-
+                enquiryRepo,
+                officerEnquiryService
             );
             applicantMainMenu.applicantMenu(sc);
         }
         // if current user is an officer: 
+        if (currentUser instanceof entity.Officer) {
+            OfficerMainMenu officerMainMenu = new OfficerMainMenu(
+                (entity.Officer) currentUser,
+                bookingService,
+                viewProjectService,
+                projectAppService,
+                joinRequestService,
+                applicantEnquiryService,
+                officerEnquiryService,
+                projectRepo, 
+                enquiryRepo,
+                receiptRepo
+
+            );
+            officerMainMenu.officerMenu(sc);
+        }
         
         // if current user is a manager: 
         if (currentUser instanceof entity.Manager) {
