@@ -1,9 +1,9 @@
-package interfaces;
+package menu;
 
 import java.io.*;
 import java.util.*;
 import entity.*;
-import interfaces.*;
+import menu.*;
 import repository.*;
 import services.*;
 
@@ -63,13 +63,13 @@ public class Main {
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
         OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);
         ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
-        ProjectListingService projectListingService = new ProjectListingService();
+        ProjectListingService projectListingService = new ProjectListingService(projectRepo);
         ReportService reportService = new ReportService(applicantRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
 
         
         // log in 
-        LoginInterface loginInterface = new LoginInterface(applicantRepo, officerRepo, managerRepo, accountService);
+        LoginMenu loginInterface = new LoginMenu(applicantRepo, officerRepo, managerRepo, accountService);
         Scanner sc = new Scanner(System.in);
         User currentUser = loginInterface.login(sc);
         
@@ -77,9 +77,9 @@ public class Main {
         if (currentUser instanceof entity.Applicant) {
             ApplicantMainMenu applicantMainMenu = new ApplicantMainMenu(
                 (entity.Applicant) currentUser,
+                accountService,
                 bookingService,
                 viewProjectService,
-
                 projectAppService, 
                 applicantEnquiryService, 
                 projectRepo, 

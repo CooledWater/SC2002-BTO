@@ -7,14 +7,12 @@ import entity.*;
 import repository.*;
 
 public class ProjectListingService {
-//	private final ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 	
-//	public ProjectListingService(ProjectRepository projectRepository) {
-//		this.projectRepository = projectRepository;
-//	};
-	public ProjectListingService() {
-		;
-	}
+    public ProjectListingService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    };
+	
 	public Project createNewProjectListing(Manager manager) {
 		// initialize attributes
 		 String name;
@@ -35,13 +33,13 @@ public class ProjectListingService {
 	    
 	    // check for duplicate project
 		System.out.println("Please enter project name: ");
-		name = sc.nextLine();
+		name = sc.nextLine().trim();
 		
-//		if (projectRepository.searchByName(name) != null) {
-//			System.out.println("Project already exists. ");
-//			newProject = projectRepository.searchByName(name);
-//			return newProject;
-//		}
+		if (projectRepository.searchByName(name) != null) {
+			System.out.println("Project already exists. ");
+			newProject = projectRepository.searchByName(name);
+			return newProject;
+		}
 		
 		
 		System.out.println("Please enter the neighbourhood: ");
