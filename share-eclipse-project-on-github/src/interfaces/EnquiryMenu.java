@@ -9,14 +9,18 @@ public class EnquiryMenu {
 	private ProjectRepository projectRepo;
 	private EnquiryRepository enquiryRepo;
 	private ApplicantEnquiryService aeservice;
+	private OfficerEnquiryService oeservice;
+	
 	public EnquiryMenu(User currentSessionUser,
 					   ProjectRepository projectRepo,
 					   EnquiryRepository enquiryRepo,
-					   ApplicantEnquiryService aeservice) {
+					   ApplicantEnquiryService aeservice,
+					   OfficerEnquiryService oeservice) {
 		this.currentSessionUser = currentSessionUser;
 		this.projectRepo = projectRepo;
 		this.enquiryRepo = enquiryRepo;
 		this.aeservice = aeservice;
+		this.oeservice = oeservice;
 		
 	}
 	
@@ -117,4 +121,83 @@ public class EnquiryMenu {
         }
         return;
 	}
+	
+	public void officerEnquiryMenu(Scanner sc) {
+		int choice = -1;
+        
+        System.out.println("You are now managing your enquiries as an officer.");
+        System.out.println("To choose an option, input the corresponding number.");
+        System.out.println();
+
+        while (choice != 0) {
+            System.out.println("\n=== Enquiry Menu ===");
+            System.out.println("0. Return to Main Menu");
+            System.out.println("1. View and respond to project enquiries");
+            System.out.print("Enter choice: ");
+        
+	        while (true) {
+	        	try {
+	                choice = Integer.parseInt(sc.nextLine());
+	                if (choice == 0 || choice == 1) {break;}
+	                else {System.out.println("Invalid input. Please enter 0 or 1. ");}
+	            } catch (NumberFormatException e) {
+	                System.out.println("Please enter a valid number.");
+	            }
+	        }
+	        
+	        switch (choice) {
+            case 0:
+            	break;
+            
+            case 1:
+            	oeservice.viewEnquiries((Officer) currentSessionUser);
+            	String subChoice = null;
+            	while (true) {
+            		System.out.println("\n\nDo you wish to respond to any enquiries? ");
+                	System.out.println("Please enter y or n. ");
+                	subChoice = sc.nextLine();
+                	if (subChoice == "y" || subChoice == "n") {break;}
+                    else {System.out.println("Invalid input. Please enter y or n. ");}
+            	}
+            	if (subChoice == "n") {break;}
+            	
+            	System.out.println("\n\nEnter the ID of the enquiry: ");
+            	String enquireID = sc.nextLine();
+            	Enquiry enquiry = null;
+            	try {
+            		enquiry = enquiryRepo.searchByID(enquireID);
+            	} catch (NoSuchElementException e) {
+            		System.out.println("No enquiries are found with this ID. ");
+            		break;
+            	}
+            	
+            	// choose to respond to enquiry or exit
+            	System.out.println("\n\nEnter 0 to respond to enquiry");
+            	System.out.println("\n\nEnter 1 to exit");
+            	int choice01 = -1;
+            	while (true) {
+                	try {
+                        choice01 = Integer.parseInt(sc.nextLine());
+                        if (choice01 == 0 || choice01 == 1) {break;}
+                        else {System.out.println("Invalid input. Please enter 0 or 1. ");}  
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid number.");
+                    }
+                }
+            	
+            	if (choice01 == 0) {
+            		// respond to enquiry
+            		System.out.println("Please enter your response: ");
+            		String newMessage = sc.nextLine();
+            		oeservice.replyEnquiry((Officer)currentSessionUser, enquireID, newMessage);
+            		break;
+            	}
+            	else {
+            		break;
+            	}
+            }
+        }
+        return;
+	}
+	
 }

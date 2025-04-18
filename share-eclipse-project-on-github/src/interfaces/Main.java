@@ -79,7 +79,6 @@ public class Main {
                 (entity.Applicant) currentUser,
                 bookingService,
                 viewProjectService,
-
                 projectAppService, 
                 applicantEnquiryService, 
                 projectRepo, 
