@@ -6,16 +6,13 @@ import java.util.Scanner;
 
 public class ApplicantMainMenu implements UserMainMenu {
     private Applicant currentSessionApplicant;
-    private AccountService accountService;
     private BookingService bookingService;
     private ViewProjectService viewProjectService;
     private ProjectApplicationService projectApplicationService;
 
-    public ApplicantMainMenu(Applicant applicant, AccountService accountService, 
-    		BookingService bookingService, ViewProjectService viewProjectService, 
-    		ProjectApplicationService projectApplicationService) {
+    public ApplicantMainMenu(Applicant applicant, BookingService bookingService, 
+    		ViewProjectService viewProjectService, ProjectApplicationService projectApplicationService) {
         this.currentSessionApplicant = applicant;
-        this.accountService = accountService;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
         this.projectApplicationService = projectApplicationService;
@@ -52,7 +49,7 @@ public class ApplicantMainMenu implements UserMainMenu {
                 viewProfile();
                 break;
             case 2:
-                changePassword(sc);
+                changePassword(sc, currentSessionApplicant);
                 break;
             case 3:
             	System.out.println("Loading booking details...");
@@ -81,12 +78,6 @@ public class ApplicantMainMenu implements UserMainMenu {
         System.out.println("NRIC: " + currentSessionApplicant.getNRIC());
         System.out.println("Age: " + currentSessionApplicant.getAge());
         System.out.println("Marital Status: " + (currentSessionApplicant.isMarried() ? "Married" : "Single"));
-    }
-
-    public void changePassword(Scanner sc) {
-        System.out.print("Enter new password: ");
-        String newPassword = sc.nextLine();
-        accountService.changePassword(currentSessionApplicant, newPassword);
     }
 
 }

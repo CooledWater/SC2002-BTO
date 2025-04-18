@@ -71,7 +71,7 @@ public class OfficerMainMenu {
     
 
     private void handleProjectRegistration(Officer officer, Scanner sc) {
-        List<Project> allProjects = projectRepository.getAllProjects();
+        List<Project> allProjects = projectRepository.getProjects();
         System.out.println("\n=== Available Projects ===");
 
         for (int i = 0; i < allProjects.size(); i++) {
