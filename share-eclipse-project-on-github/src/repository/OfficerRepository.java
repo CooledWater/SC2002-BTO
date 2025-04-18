@@ -60,4 +60,13 @@ public class OfficerRepository extends UserRepository<Officer> {
 		
 		return result;
 	}
+	
+	public Officer searchByName(String name) {
+	    for (Officer officer : this.getOfficers()) {
+	        if (officer.getName().equalsIgnoreCase(name.trim())) {
+	            return officer;
+	        }
+	    }
+	    return null;
+	}
 }
