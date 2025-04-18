@@ -26,6 +26,7 @@ public class ManageProjectAppService {
                 if (app.getStatus() == AppStatus.PENDING) {
                     System.out.println("Applicant: " + app.getApplicant().getName());               
                     System.out.println("Project: " + project.getName());
+                    System.out.println("Flat Type: " + app.getFlatType()); 
                     System.out.print("Approve this application? (y/n): ");
                     String input = sc.nextLine().trim().toLowerCase();
 
@@ -52,25 +53,34 @@ public class ManageProjectAppService {
             Iterator<ProjectApp> iterator = apps.iterator();
             while (iterator.hasNext()) {
                 ProjectApp app = iterator.next();
-                if (app.getStatus() == AppStatus.SUCCESSFUL) {
+
+                if (app.ApplicantWantsToWithdraw()) {
+                    System.out.println("Withdrawal request found:");
                     System.out.println("Applicant: " + app.getApplicant().getName());
-                    System.out.println("Flat Type: " + app.getFlatType());
                     System.out.println("Project: " + project.getName());
-                    System.out.print("Approve the application withdrawal? (y/n): ");
+                    System.out.println("Flat Type: " + app.getFlatType());
+                    System.out.println("Current Status: " + app.getStatus());
+                    System.out.print("Approve this withdrawal request? (y/n): ");
                     String input = sc.nextLine().trim().toLowerCase();
 
                     if (input.equals("y")) {
-                    	//add flat number 
-                        FlatType flatType = app.getFlatType();
-                        if (flatType == FlatType.TWO_ROOM) {
-                            project.setNumberOf2Rooms(project.getNumberOf2Rooms() + 1);
-                        } else if (flatType == FlatType.THREE_ROOM) {
-                            project.setNumberOf3Rooms(project.getNumberOf3Rooms() + 1);
+                        // return flat number to original amount 
+                        if (app.getStatus() == AppStatus.SUCCESSFUL || app.getStatus() == AppStatus.BOOKED) {
+                            FlatType flatType = app.getFlatType();
+                            if (flatType == FlatType.TWO_ROOM) {
+                                project.setNumberOf2Rooms(project.getNumberOf2Rooms() + 1);
+                            } else if (flatType == FlatType.THREE_ROOM) {
+                                project.setNumberOf3Rooms(project.getNumberOf3Rooms() + 1);
+                            }
                         }
 
                         app.setStatus(AppStatus.UNSUCCESSFUL);
-                        iterator.remove();
-                        System.out.println("Application withdrawn\n");
+                        app.approveWithdrawal(); //reset withdrawal status
+                        iterator.remove(); 
+                        System.out.println("Withdrawal approved.\n");
+                    } else {
+                    	//im not sure if when manager rejects withdrawal request will the withdrawal request be deleted so they can request again or just left as is 
+                        System.out.println("Withdrawal request denied.\n");
                     }
                 }
             }
