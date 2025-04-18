@@ -42,8 +42,8 @@ public class ProjectApplicationService {
     				System.out.println("Your application has already been marked unsuccessful and cannot be withdrawn.");
     				return;
 				}
-				
-				if (app.ApplicantWantsToWithdraw()) {
+    			
+				if (app.applicantWantsToWithdraw()) {
 				    System.out.println("You have already requested a withdrawal.");
 				    return;
 				}
@@ -68,7 +68,7 @@ public class ProjectApplicationService {
                         app.getFlatType().name(),
                         app.getStatus().name());
 
-                if (app.ApplicantWantsToWithdraw()) {
+                if (app.applicantWantsToWithdraw()) {
                     System.out.println("Note: You have requested to withdraw this application.");
                 }
                 return;
