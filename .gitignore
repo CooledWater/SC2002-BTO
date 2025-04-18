@@ -32,59 +32,7 @@ target/
 *.iml         # IntelliJ IDEA project files (if you sometimes use it)
 .idea/        # IntelliJ IDEA project files
 nbproject/    # NetBeans project files
-bin/.project
-bin/README.md
-bin/share-eclipse-project-on-github/.classpath
-bin/share-eclipse-project-on-github/.gitignore
-bin/share-eclipse-project-on-github/.project
-bin/share-eclipse-project-on-github/.settings/org.eclipse.core.resources.prefs
-bin/share-eclipse-project-on-github/.settings/org.eclipse.jdt.core.prefs
-bin/share-eclipse-project-on-github/csv/ApplicantList.csv
-bin/share-eclipse-project-on-github/csv/ManagerList.csv
-bin/share-eclipse-project-on-github/csv/OfficerList.csv
-bin/share-eclipse-project-on-github/csv/ProjectList.csv
-bin/share-eclipse-project-on-github/save/ManagerRepository.ser
-bin/share-eclipse-project-on-github/src/.project
-bin/share-eclipse-project-on-github/src/entity/AppStatus.class
-bin/share-eclipse-project-on-github/src/entity/Applicant.class
-bin/share-eclipse-project-on-github/src/entity/Booking.class
-bin/share-eclipse-project-on-github/src/entity/Enquiry.class
-bin/share-eclipse-project-on-github/src/entity/FlatType.class
-bin/share-eclipse-project-on-github/src/entity/JoinRequest$Status.class
-bin/share-eclipse-project-on-github/src/entity/JoinRequest.class
-bin/share-eclipse-project-on-github/src/entity/Manager.class
-bin/share-eclipse-project-on-github/src/entity/Officer.class
-bin/share-eclipse-project-on-github/src/entity/Project.class
-bin/share-eclipse-project-on-github/src/entity/ProjectApp.class
-bin/share-eclipse-project-on-github/src/entity/User.class
-bin/share-eclipse-project-on-github/src/interfaces/LoginInterface.class
-bin/share-eclipse-project-on-github/src/repository/ApplicantRepository.class
-bin/share-eclipse-project-on-github/src/repository/EnquiryRepository.class
-bin/share-eclipse-project-on-github/src/repository/JoinRequestRepository.class
-bin/share-eclipse-project-on-github/src/repository/ManagerRepository.class
-bin/share-eclipse-project-on-github/src/repository/OfficerRepository.class
-bin/share-eclipse-project-on-github/src/repository/ReceiptRepository.class
-bin/share-eclipse-project-on-github/src/repository/Repository.class
-bin/share-eclipse-project-on-github/src/repository/RepositoryWithCSV.class
-bin/share-eclipse-project-on-github/src/repository/UserRepository.class
-bin/share-eclipse-project-on-github/src/services/AccountService.class
-bin/share-eclipse-project-on-github/src/services/ApplicantEnquiryService.class
-bin/share-eclipse-project-on-github/src/services/ApplicantEnquiryServiceInterface.class
-bin/share-eclipse-project-on-github/src/services/BookingService.class
-bin/share-eclipse-project-on-github/src/services/EnquiryServiceInterface.class
-bin/share-eclipse-project-on-github/src/services/JoinRequestService.class
-bin/share-eclipse-project-on-github/src/services/ManagerEnquiryService.class
-bin/share-eclipse-project-on-github/src/services/ManagerEnquiryServiceInterface.class
-bin/share-eclipse-project-on-github/src/services/OfficerEnquiryService.class
-bin/share-eclipse-project-on-github/src/services/OfficerEnquiryServiceInterface.class
-bin/share-eclipse-project-on-github/src/services/ProjectListingService.class
-bin/share-eclipse-project-on-github/src/services/ReportService.class
-bin/share-eclipse-project-on-github/src/services/ViewProjectService.class
-bin/share-eclipse-project-on-github/src/test/ManagerImportFromCSVTest.class
-bin/share-eclipse-project-on-github/src/test/OfficerImportFromCSVTest.class
-bin/share-eclipse-project-on-github/src/test/ProjectListingServiceTest.class
-bin/share-eclipse-project-on-github/src/test/RepositoryImportFromSerTest.class
-bin/share-eclipse-project-on-github/src/test/RepositorySaveToSerTest.class
+*.class
 
 # OS Specific
 .DS_Store
