@@ -1,7 +1,13 @@
 package entity;
 
-public class ProjectApp {
-    private Applicant applicant;
+import java.io.Serializable;
+
+public class ProjectApp implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5424508601355554350L;
+	private Applicant applicant;
     private Project project;
     private AppStatus status;
     private FlatType flatType;
