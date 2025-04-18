@@ -1,29 +1,32 @@
 package services;
-import java.util.List;
+import java.util.*;
+
+import entity.*;
+import repository.EnquiryRepository;
 
 public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
-	private final ManagerRepository managerRepo;
 	private final EnquiryRepository enquiryRepo;
 	
 	
-	public ManagerEnquiryService(ManagerRepository managerRepo, EnquiryRepository enquiryRepo) {
-		this.managerRepo = managerRepo;
+	public ManagerEnquiryService(EnquiryRepository enquiryRepo) {
 		this.enquiryRepo = enquiryRepo;
 	}
 	
 	
-	public List<Enquiry> viewEnquiries(Manager manager, boolean filterByManaging) {
+	public void viewEnquiries(Manager manager, boolean filterByManaging) {
+		List<Enquiry> enquiryList;
 		
 		if (filterByManaging) {
-			return enquiryRepo.searchByManager(manager);
+			enquiryList = enquiryRepo.searchByProjectName(manager.getManagingProj().getName());
 		}
 		else {
-			return enquiryRepo.getAllEnquiries();
+			enquiryList = enquiryRepo.getAllEnquiries();
 		}
+		displayEnquiries(enquiryList);
 	}
 
 		
-	public void replyEnquiry(Manager manager, int enquiryID, String response) {
+	public void replyEnquiry(Manager manager, String enquiryID, String response) {
 		Project managerManagingProject = manager.getManagingProj();
 		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
@@ -38,6 +41,7 @@ public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
 		}
 		else {
 			searchEnquiry.setResponse(response);
+			searchEnquiry.setEnquiryResponded(true);
 			enquiryRepo.update(searchEnquiry);
 			System.out.println("Response added.");
 		}

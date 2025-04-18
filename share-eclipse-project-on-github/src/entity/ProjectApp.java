@@ -37,20 +37,21 @@ public class ProjectApp {
     public void setFlatType(FlatType flatType) {
         this.flatType = flatType;
     }
+
     
     //withdrawal checks
-    public boolean ApplicantWantsToWithdraw() { 
-    	return wantToWithdraw; 
+    public boolean applicantWantsToWithdraw() { 
+        return wantToWithdraw; 
     }
-    
+
     public void requestWithdrawal() {
-    	this.wantToWithdraw = true; 
+        this.wantToWithdraw = true; 
     }
-    
-    //reset after approval 
+
     public void approveWithdrawal() {
-    	this.wantToWithdraw = false; 
+        this.wantToWithdraw = false; 
     }
+
 
     @Override
     public String toString() {

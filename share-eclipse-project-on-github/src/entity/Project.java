@@ -140,6 +140,32 @@ public class Project implements Serializable {
 	public void setProjectApps(List<ProjectApp> projectApps) {
 		this.projectApps = projectApps;
 	}
+	//methods to handle no. of 2 and 3 rooms
+	public void decrementTwoRoom() {
+	    if (this.numberOf2Rooms > 0) {
+	        this.numberOf2Rooms--;
+	    } else {
+	        System.out.println("No two-room flats remaining.");
+	    }
+	}
+	public void decrementThreeRoom() {
+	    if (this.numberOf3Rooms > 0) {
+	        this.numberOf3Rooms--;
+	    } else {
+	        System.out.println("No three-room flats remaining.");
+	    }
+	}
+	
+	//method to add projectapp
+	public void addProjectApp(ProjectApp projectApp) {
+	    this.projectApps.add(projectApp);
+	}
+	//method to toggle visibility
+	public void toggleVisibility() {
+	    this.isVisible = !this.isVisible;
+	    System.out.println("Project visibility is now: " + (this.isVisible ? "Visible" : "Hidden"));
+	}
+
 
 
 }
