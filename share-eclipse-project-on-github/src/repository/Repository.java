@@ -31,15 +31,21 @@ public abstract class Repository implements Serializable {
 				break;
 			}
 		}
-	}; 
+	}
 		
 	
 	// this method does not require overriding, because its the same method body for all repositories
 	public Repository importFromSer() throws IOException, ClassNotFoundException {
 		String filePath = "save\\" + this.getClass().getSimpleName() + ".ser";
-		FileInputStream fis = new FileInputStream(filePath);
-		ObjectInputStream in = new ObjectInputStream(fis);
-		return (Repository) in.readObject();
-	}; 
-	
+		
+		try(FileInputStream fis = new FileInputStream(filePath);
+		ObjectInputStream in = new ObjectInputStream(fis)){
+			
+			return (Repository) in.readObject();
+			
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 }

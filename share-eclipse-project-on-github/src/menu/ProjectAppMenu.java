@@ -72,36 +72,51 @@ public class ProjectAppMenu {
                 
                 // Show flat type options from enum
                 FlatType selectedFlatType = null;
-                int flatChoice = -1;
                 
-                
-	            while (true) {
-	            	System.out.println("Select flat type:");
-	                System.out.println("2. TWO_ROOM");
-	                System.out.println("3. THREE_ROOM");
-	                System.out.print("Enter choice: ");
-	            	try {
-	                    flatChoice = Integer.parseInt(sc.nextLine());
-	                    if (flatChoice == 2 || flatChoice == 3) {break;}
-	                    else {System.out.println("Invalid input. Please enter 2 or 3. ");}
-	                } catch (NumberFormatException e) {
-	                    System.out.println("Please enter a valid number.");
-	                }
-	            }
-            
-	            switch (flatChoice) {
-	            case 2:
-	                selectedFlatType = FlatType.TWO_ROOM;
-	                break;
-	            case 3:
-	                selectedFlatType = FlatType.THREE_ROOM;
-	                break;
-	            default:
-	                System.out.println("Invalid option. Try 2 or 3.");
-	            }
+                // If married, ask for flat type
+                if (currentSessionApplicant.isMarried()) {
+                    int flatChoice = -1;
+                    while (true) {
+                        System.out.println("Select flat type:");
+                        System.out.println("2. TWO_ROOM");
+                        System.out.println("3. THREE_ROOM");
+                        System.out.println("0. Cancel Application");
+                        System.out.print("Enter choice: ");
+                        try {
+                            flatChoice = Integer.parseInt(sc.nextLine());
+                            if (flatChoice == 0) {
+                                System.out.println("Returning to Project Application Menu...");
+                                break; // break out of loop and case
+                            } else if (flatChoice == 2 || flatChoice == 3) {
+                                selectedFlatType = (flatChoice == 2) ? FlatType.TWO_ROOM : FlatType.THREE_ROOM;
+                                break;
+                            } else {
+                                System.out.println("Invalid input. Please enter 2, 3, or 0.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Please enter a valid number.");
+                        }
+                    }
+
+                    if (flatChoice == 0) break;
+                } else {
+                    // Applicant is single — inform them and ask if they want to proceed
+                    System.out.println("As a single applicant, you are only eligible for TWO_ROOM flats.");
+                    System.out.print("Would you still like to proceed with the application? (y/n): ");
+                    String response = sc.nextLine().trim().toLowerCase();
+
+                    if (response.equals("y")) {
+                        selectedFlatType = FlatType.TWO_ROOM;
+                    } else {
+                        System.out.println("Application cancelled. Returning to previous menu...");
+                        break;
+                    }
+                }
 
                 // Call the updated service method with enum
-                projectApplicationService.applyProject(currentSessionApplicant, selectedProject, selectedFlatType);
+                if (selectedFlatType != null) {
+                    projectApplicationService.applyProject(currentSessionApplicant, selectedProject, selectedFlatType);
+                }
                 break;
             case 3:
                 // only if they have a pending or successful app
