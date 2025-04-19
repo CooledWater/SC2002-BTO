@@ -75,9 +75,9 @@ public class Main {
 
         
         // log in 
-        LoginMenu loginInterface = new LoginMenu(applicantRepo, officerRepo, managerRepo, accountService);
+        LoginMenu loginMenu = new LoginMenu(applicantRepo, officerRepo, managerRepo, accountService);
         Scanner sc = new Scanner(System.in);
-        User currentUser = loginInterface.login(sc);
+        User currentUser = loginMenu.login(sc);   
         
         // if current user is an applicant: 
         if (currentUser instanceof entity.Applicant) {
@@ -94,7 +94,7 @@ public class Main {
             applicantMainMenu.applicantMenu(sc);
         }
         // if current user is an officer: 
-        if (currentUser instanceof entity.Officer) {
+        else if (currentUser instanceof entity.Officer) {
             OfficerMainMenu officerMainMenu = new OfficerMainMenu(
                 (entity.Officer) currentUser,
                 bookingService,
@@ -112,10 +112,19 @@ public class Main {
         }
         
         // if current user is a manager: 
-        if (currentUser instanceof entity.Manager) {
+        else if (currentUser instanceof entity.Manager) {
         	ManagerMainMenu managerMainMenu = new ManagerMainMenu((entity.Manager)currentUser,
-           viewProjectService, projectListingService, manageProjectAppService, managerEnquiryService, joinRequestService, reportService);
+			           viewProjectService, 
+			           projectListingService, 
+			           manageProjectAppService, 
+			           managerEnquiryService, 
+			           joinRequestService, 
+			           reportService);
 			managerMainMenu.managerMenu(sc); 
+        }
+        // if login failed, current user is null
+        else {
+        	System.out.println("Login failed. The program has terminated. ");
         }
         
         
@@ -130,5 +139,4 @@ public class Main {
     	joinRequestRepo.saveToSer();
     	projectAppRepo.saveToSer();
     }
-
 }

@@ -30,7 +30,18 @@ public class LoginMenu {
         System.out.println("2. Officer");
         System.out.println("3. Manager");
         System.out.print("Enter choice: ");
-        int choice = Integer.parseInt(sc.nextLine());
+        
+        int choice = -1;
+        
+        while (true) {
+        	try {
+                choice = Integer.parseInt(sc.nextLine());
+                if (choice == 1 || choice == 2 || choice == 3) {break;}
+                else {System.out.println("Invalid input. Please enter 1 or 2 or 3. ");}
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
 
         System.out.print("Enter NRIC: ");
         String nric = sc.nextLine();

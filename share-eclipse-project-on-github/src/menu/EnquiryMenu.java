@@ -73,10 +73,13 @@ public class EnquiryMenu {
             		System.out.println("\n\nDo you wish to edit or delete any of your enquiries? ");
                 	System.out.println("Please enter y or n. ");
                 	subChoice = sc.nextLine();
-                	if (subChoice == "y" || subChoice == "n") {break;}
+                	if (subChoice.equals("y") || subChoice.equals("n")) {break;}
                     else {System.out.println("Invalid input. Please enter y or n. ");}
             	}
-            	if (subChoice == "n") {break;}
+            	if (subChoice.equals("n")) {break;}
+            	// string comparison issue fixed
+            	// DO NOT use == for string comparison, as it tests for object identity
+            	// use .equals() to test for value equality
             	
             	System.out.println("\n\nEnter the ID of the enquiry: ");
             	String enquireID = sc.nextLine();

@@ -46,7 +46,8 @@ public class ProjectAppMenu {
             while (true) {
             	try {
                     choice = Integer.parseInt(sc.nextLine());
-                    break;
+                    if (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 0) {break;}
+                    else {System.out.println("Invalid input. Please enter 1, 2, 3, 4 or 0. ");}
                 } catch (NumberFormatException e) {
                     System.out.println("Please enter a valid number.");
                 }
@@ -71,27 +72,33 @@ public class ProjectAppMenu {
                 
                 // Show flat type options from enum
                 FlatType selectedFlatType = null;
-                while (selectedFlatType == null) {
-                    System.out.println("Select flat type:");
-                    System.out.println("1. TWO_ROOM");
-                    System.out.println("2. THREE_ROOM");
-                    System.out.print("Enter choice (1-2): ");
-                    try {
-                        int flatChoice = Integer.parseInt(sc.nextLine());
-                        switch (flatChoice) {
-                            case 1:
-                                selectedFlatType = FlatType.TWO_ROOM;
-                                break;
-                            case 2:
-                                selectedFlatType = FlatType.THREE_ROOM;
-                                break;
-                            default:
-                                System.out.println("Invalid option. Try 1 or 2.");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter 1 or 2.");
-                    }
-                }
+                int flatChoice = -1;
+                
+                
+	            while (true) {
+	            	System.out.println("Select flat type:");
+	                System.out.println("2. TWO_ROOM");
+	                System.out.println("3. THREE_ROOM");
+	                System.out.print("Enter choice: ");
+	            	try {
+	                    flatChoice = Integer.parseInt(sc.nextLine());
+	                    if (flatChoice == 2 || flatChoice == 3) {break;}
+	                    else {System.out.println("Invalid input. Please enter 2 or 3. ");}
+	                } catch (NumberFormatException e) {
+	                    System.out.println("Please enter a valid number.");
+	                }
+	            }
+            
+	            switch (flatChoice) {
+	            case 2:
+	                selectedFlatType = FlatType.TWO_ROOM;
+	                break;
+	            case 3:
+	                selectedFlatType = FlatType.THREE_ROOM;
+	                break;
+	            default:
+	                System.out.println("Invalid option. Try 2 or 3.");
+	            }
 
                 // Call the updated service method with enum
                 projectApplicationService.applyProject(currentSessionApplicant, selectedProject, selectedFlatType);
@@ -136,9 +143,6 @@ public class ProjectAppMenu {
             : app.getProject().getOfficers().get(0).getName();
         System.out.println("Assigned Officer: " + officerName);
         System.out.println("-------------------------------");
-        Scanner sc = new Scanner(System.in);
-        sc.nextLine();
     }
-
 }
 

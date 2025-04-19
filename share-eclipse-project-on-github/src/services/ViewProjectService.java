@@ -69,17 +69,17 @@ public class ViewProjectService {
         
         while (true) {
             System.out.println("Filter by flat type?");
-            System.out.println("Enter 0 to view 2 room flats.");
-            System.out.println("Enter 1 to view 3 room flats.");
-            System.out.println("Enter 2 to view all flats.");
+            System.out.println("Enter 2 to view 2 room flats.");
+            System.out.println("Enter 3 to view 3 room flats.");
+            System.out.println("Enter 0 to view all flats.");
             System.out.print("Enter choice: ");
             String flatChoice = sc.nextLine().trim();
 
-            if (flatChoice.equals("0") || flatChoice.equals("1") || flatChoice.equals("2")) {
+            if (flatChoice.equals("2") || flatChoice.equals("3") || flatChoice.equals("0")) {
                 savedFilters.put("flatType", flatChoice);
                 break;
             } else {
-                System.out.println("Invalid input. Please enter 0, 1, or 2.");
+                System.out.println("Invalid input. Please enter 2, 3 or 0.");
             }
         }
     }
@@ -96,17 +96,17 @@ public class ViewProjectService {
 
         if (flatChoice != null) {
             switch (flatChoice) {
-                case "0":
+                case "2":
                     projects = projects.stream()
                             .filter(p -> p.getNumberOf2Rooms() > 0)
                             .collect(Collectors.toList());
                     break;
-                case "1":
+                case "3":
                     projects = projects.stream()
                             .filter(p -> p.getNumberOf3Rooms() > 0)
                             .collect(Collectors.toList());
                     break;
-                case "2":
+                case "0":
                 default:
                     break;
             }

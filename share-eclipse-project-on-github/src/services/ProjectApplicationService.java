@@ -53,6 +53,8 @@ public class ProjectApplicationService {
        
         ProjectApp newApp = new ProjectApp(applicant, project, AppStatus.PENDING, flatType);
         projectAppRepo.add(newApp); 
+        applicant.setProjectApp(newApp);
+        project.addProjectApp(newApp);
 
         System.out.println("You have successfully applied to project: " + project.getName()
                 + " with flat type: " + flatType.name() + ". Status: PENDING");
