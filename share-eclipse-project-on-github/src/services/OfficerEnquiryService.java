@@ -13,7 +13,7 @@ public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 	}
 	
 	
-	public void viewEnquiries(Officer officer) {
+	public boolean viewEnquiries(Officer officer) {
 		List<Enquiry> enquiryList;
 		Project officerHandlingProject = officer.getHandlingProj();
 		
@@ -25,6 +25,11 @@ public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 			enquiryList = Collections.emptyList();
 		}
 		displayEnquiries(enquiryList);
+		
+		if (enquiryList.isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 	
 	

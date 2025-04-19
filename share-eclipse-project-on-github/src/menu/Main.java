@@ -79,36 +79,36 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         User currentUser = loginMenu.login(sc);   
         
+        // if current user is an officer: 
+        if (currentUser instanceof entity.Officer) {
+            OfficerMainMenu officerMainMenu = new OfficerMainMenu(
+                    (entity.Officer) currentUser,
+                    bookingService,
+                    viewProjectService,
+                    projectAppService,
+                    joinRequestService,
+                    applicantEnquiryService,
+                    officerEnquiryService,
+                    projectRepo, 
+                    enquiryRepo,
+                    receiptRepo
+                );
+                officerMainMenu.officerMenu(sc);
+        }
+        
         // if current user is an applicant: 
-        if (currentUser instanceof entity.Applicant) {
+        else if (currentUser instanceof entity.Applicant) {
             ApplicantMainMenu applicantMainMenu = new ApplicantMainMenu(
                 (entity.Applicant) currentUser,
                 bookingService,
                 viewProjectService,
                 projectAppService, 
-                applicantEnquiryService, 
-                projectRepo, 
-                enquiryRepo,
-                officerEnquiryService
-            );
-            applicantMainMenu.applicantMenu(sc);
-        }
-        // if current user is an officer: 
-        else if (currentUser instanceof entity.Officer) {
-            OfficerMainMenu officerMainMenu = new OfficerMainMenu(
-                (entity.Officer) currentUser,
-                bookingService,
-                viewProjectService,
-                projectAppService,
-                joinRequestService,
                 applicantEnquiryService,
                 officerEnquiryService,
                 projectRepo, 
-                enquiryRepo,
-                receiptRepo
-
+                enquiryRepo
             );
-            officerMainMenu.officerMenu(sc);
+            applicantMainMenu.applicantMenu(sc);
         }
         
         // if current user is a manager: 

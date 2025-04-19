@@ -29,7 +29,7 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	}
 	
 	
-	public void viewEnquiries(Applicant applicant) {
+	public boolean viewEnquiries(Applicant applicant) {
 		List<Enquiry> enquiryList;
 		Applicant searchApplicant = applicantRepo.searchByNRIC(applicant.getNRIC());
 		
@@ -41,6 +41,11 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 			enquiryList = Collections.emptyList();
 		}
 		displayEnquiries(enquiryList);
+		
+		if (enquiryList.isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 	
 	

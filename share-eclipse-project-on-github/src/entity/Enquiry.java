@@ -31,7 +31,7 @@ public class Enquiry implements Serializable {
 	private String generateTimestampID() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss"); // Format: yyyyMMddHHmmssSSS includes milliseconds
-        return "ENQ-" + now.format(formatter); // ENQ prefix is for clarity
+        return now.format(formatter);
     }
 	
 	
