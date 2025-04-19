@@ -18,7 +18,7 @@ public class ViewProjectService {
     }
 
     public void viewProjectsAsManager(Manager manager) {
-        showFilterMenu();
+        showFilterMenu(true);
         List<Project> filtered = applyFilters(allProjects);
 
         Scanner sc = new Scanner(System.in);
@@ -44,13 +44,15 @@ public class ViewProjectService {
         List<Project> handledProjects = allProjects.stream()
                 .filter(p -> p.getOfficers().contains(officer))
                 .collect(Collectors.toList());
-        showFilterMenu();
+        showFilterMenu(true);
         List<Project> filtered = applyFilters(handledProjects);
         printProjects(filtered);
     }
 
     public void viewProjectsAsApplicant(Applicant applicant) {
-        showFilterMenu();
+    	boolean isMarried = applicant.isMarried();
+    	
+        showFilterMenu(isMarried);
         List<Project> visibleProjects = allProjects.stream()
                 .filter(Project::isVisible)
                 .filter(p -> applicant.isMarried() || p.getNumberOf2Rooms() > 0)
@@ -60,27 +62,31 @@ public class ViewProjectService {
         printProjects(filtered);
     }
 
-    private void showFilterMenu() {
+    private void showFilterMenu(boolean allowFlatTypeFilter) {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Filter by neighbourhood (leave blank for no filter): ");
         String neighbourhood = sc.nextLine().trim();
         savedFilters.put("neighbourhood", neighbourhood);
         
-        while (true) {
-            System.out.println("Filter by flat type?");
-            System.out.println("Enter 2 to view 2 room flats.");
-            System.out.println("Enter 3 to view 3 room flats.");
-            System.out.println("Enter 0 to view all flats.");
-            System.out.print("Enter choice: ");
-            String flatChoice = sc.nextLine().trim();
+        if (allowFlatTypeFilter) {
+            while (true) {
+                System.out.println("Filter by flat type?");
+                System.out.println("Enter 2 to view 2-room flats.");
+                System.out.println("Enter 3 to view 3-room flats.");
+                System.out.println("Enter 0 to view all flats.");
+                System.out.print("Enter choice: ");
+                String flatChoice = sc.nextLine().trim();
 
-            if (flatChoice.equals("2") || flatChoice.equals("3") || flatChoice.equals("0")) {
-                savedFilters.put("flatType", flatChoice);
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter 2, 3 or 0.");
+                if (flatChoice.equals("2") || flatChoice.equals("3") || flatChoice.equals("0")) {
+                    savedFilters.put("flatType", flatChoice);
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter 2, 3 or 0.");
+                }
             }
+        } else {
+            savedFilters.put("flatType", "0"); // Show all by default if not filtering
         }
     }
 
@@ -119,7 +125,7 @@ public class ViewProjectService {
                 .comparingInt(Project::getNumberOf2Rooms)
                 .reversed()
                 .thenComparing(Project::getName);
-        } else if ("1".equals(flatChoice)) {
+        } else if ("3".equals(flatChoice)) {
             comparator = Comparator
                 .comparingInt(Project::getNumberOf3Rooms)
                 .reversed()
