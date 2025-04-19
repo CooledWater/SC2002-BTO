@@ -11,11 +11,19 @@ public class EnquiryRepository extends Repository {
 	 * 
 	 */
 	private static final long serialVersionUID = 7676844806533538365L;
+	private static EnquiryRepository instance;
 	private List<Enquiry> enquiries;
 	
 	
 	public EnquiryRepository() {
 		this.enquiries = new ArrayList<Enquiry>();
+	}
+	
+	public static EnquiryRepository getInstance() {
+        if (instance == null) {
+            instance = new EnquiryRepository();
+        }
+        return instance;
 	}
 	
 	

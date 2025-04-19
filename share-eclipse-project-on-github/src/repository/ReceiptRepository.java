@@ -10,7 +10,15 @@ public class ReceiptRepository extends Repository {
 	 * 
 	 */
 	private static final long serialVersionUID = -1432534849144426795L;
+	private static ReceiptRepository instance;
 	private List<Receipt> receipts = new ArrayList<>();
+	
+	public static ReceiptRepository getInstance() {
+        if (instance == null) {
+            instance = new ReceiptRepository();
+        }
+        return instance;
+	}
 
     public void addReceipt(Receipt receipt) {
         receipts.add(receipt);

@@ -13,12 +13,19 @@ public class ApplicantRepository extends UserRepository<Applicant> {
 	 * 
 	 */
 	private static final long serialVersionUID = -4017571295614508912L;
+	private static ApplicantRepository instance;
 	private List<Applicant> applicants;
 	
 	public ApplicantRepository() {
 		this.applicants = new ArrayList<Applicant>();
 	}
 	
+	public static ApplicantRepository getInstance() {
+        if (instance == null) {
+            instance = new ApplicantRepository();
+        }
+        return instance;
+	}
 	
 	@Override
 	public void importFromCSV() {

@@ -10,11 +10,19 @@ public class ProjectAppRepository extends Repository {
 	 * 
 	 */
 	private static final long serialVersionUID = 323802748759648113L;
+	private static ProjectAppRepository instance;
 	private List<ProjectApp> projectApps;
 
     public ProjectAppRepository() {
         this.projectApps = new ArrayList<>();
     }
+    
+	public static ProjectAppRepository getInstance() {
+        if (instance == null) {
+            instance = new ProjectAppRepository();
+        }
+        return instance;
+	}
 
     public void add(ProjectApp projectApp) {
         this.projectApps.add(projectApp);

@@ -10,12 +10,20 @@ public class ProjectRepository extends Repository {
 	 * 
 	 */
 	private static final long serialVersionUID = -3057705536705508172L;
+	private static ProjectRepository instance;
 	
 	private List<Project> projects;   
     
 	public ProjectRepository() {
 		this.projects = new ArrayList<Project>(); 
 	}    
+	
+	public static ProjectRepository getInstance() {
+        if (instance == null) {
+            instance = new ProjectRepository();
+        }
+        return instance;
+	}
     
 	public void importFromCSV(ManagerRepository managerRepo, OfficerRepository officerRepo) {
 		String filePath = "csv\\ProjectList.csv";

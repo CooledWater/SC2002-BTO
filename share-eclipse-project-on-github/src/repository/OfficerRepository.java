@@ -10,10 +10,18 @@ public class OfficerRepository extends UserRepository<Officer> {
 	 * 
 	 */
 	private static final long serialVersionUID = 6513950936385511860L;
+	private static OfficerRepository instance;
 	private List<Officer> officers;
 	
 	public OfficerRepository() {
 		this.officers = new ArrayList<>();
+	}
+	
+	public static OfficerRepository getInstance() {
+        if (instance == null) {
+            instance = new OfficerRepository();
+        }
+        return instance;
 	}
 	
 	@Override
