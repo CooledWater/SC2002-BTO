@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import entity.Applicant;
+import entity.Officer;
 
 public class ApplicantRepository extends UserRepository<Applicant> {
 
@@ -64,5 +65,15 @@ public class ApplicantRepository extends UserRepository<Applicant> {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public Applicant searchByName(String name) {
+	    for (Applicant applicant: this.getApplicants()) {
+	        if (applicant.getName().equalsIgnoreCase(name.trim())) {
+	            return applicant;
+	        }
+	    }
+	    return null;
 	}
 }

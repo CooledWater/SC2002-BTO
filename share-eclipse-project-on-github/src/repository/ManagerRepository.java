@@ -66,6 +66,7 @@ public class ManagerRepository extends UserRepository<Manager> {
 		return result;
 	}
 	
+	@Override
 	public Manager searchByName(String name) {
 	    for (Manager manager : this.getManagers()) {
 	        if (manager.getName().equalsIgnoreCase(name.trim())) {

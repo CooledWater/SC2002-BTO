@@ -11,5 +11,7 @@ public abstract class UserRepository<T> extends RepositoryWithCSV {
 	public abstract void importFromCSV();
 	
 	public abstract T searchByNRIC(String NRIC);
+	
+	public abstract T searchByName(String name);
 
 }
