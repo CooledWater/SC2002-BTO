@@ -19,7 +19,12 @@ public class Manager extends User {
         this.joinRequests = new ArrayList<>();
     }
     
-    public Manager() {}
+    public Manager() {
+    	super();
+    	this.managingProj = null;
+        this.joinRequests = new ArrayList<>();
+    	
+    }
 
 	public Project getManagingProj() {
 		return managingProj;

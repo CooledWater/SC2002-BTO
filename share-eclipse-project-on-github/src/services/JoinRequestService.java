@@ -53,7 +53,7 @@ public class JoinRequestService {
 		project.getManager().getJoinRequests().add(newJoinRequest); // send to manager
 		officer.setJoinRequest(newJoinRequest); // save it to profile
 		
-		System.out.println("Your have submitted a request to join the following project as an officer: %n"
+		System.out.format("Your have submitted a request to join the following project as an officer: %n"
 				+ project.getName()
 				+ "%nYour request status is now PENDING. Please wait for the manager to review your request. %n%n");
 		return;
