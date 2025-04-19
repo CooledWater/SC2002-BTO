@@ -1,4 +1,5 @@
 package repository;
+import java.io.ObjectStreamException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ public class EnquiryRepository extends Repository {
 	 * 
 	 */
 	private static final long serialVersionUID = 7676844806533538365L;
+	private static EnquiryRepository instance;
 	private List<Enquiry> enquiries;
 	
 	
@@ -18,6 +20,17 @@ public class EnquiryRepository extends Repository {
 		this.enquiries = new ArrayList<Enquiry>();
 	}
 	
+	public static EnquiryRepository getInstance() {
+        if (instance == null) {
+            instance = new EnquiryRepository();
+        }
+        return instance;
+	}
+	
+	private Object readResolve() throws ObjectStreamException {
+		instance = this;
+		return instance;
+	}
 	
 	public void addEnquiry(Enquiry enquiry) {
         this.enquiries.add(enquiry);

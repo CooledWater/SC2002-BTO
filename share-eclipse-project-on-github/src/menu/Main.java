@@ -11,16 +11,16 @@ public class Main {
 
     public static void main(String[] args) {
     	// instantiate repositories with csv	
-        ApplicantRepository applicantRepo = new ApplicantRepository();
-        OfficerRepository officerRepo = new OfficerRepository();
-        ManagerRepository managerRepo = new ManagerRepository();
-        ProjectRepository projectRepo = new ProjectRepository();
+        ApplicantRepository applicantRepo = ApplicantRepository.getInstance();
+        OfficerRepository officerRepo = OfficerRepository.getInstance();
+        ManagerRepository managerRepo = ManagerRepository.getInstance();
+        ProjectRepository projectRepo = ProjectRepository.getInstance();
         
         // instantiate other repositories
-        ReceiptRepository receiptRepo = new ReceiptRepository();
-        EnquiryRepository enquiryRepo = new EnquiryRepository();
-        JoinRequestRepository joinRequestRepo = new JoinRequestRepository();
-        ProjectAppRepository projectAppRepo = new ProjectAppRepository();
+        ReceiptRepository receiptRepo = ReceiptRepository.getInstance();
+        EnquiryRepository enquiryRepo = EnquiryRepository.getInstance();
+        JoinRequestRepository joinRequestRepo = JoinRequestRepository.getInstance();
+        ProjectAppRepository projectAppRepo = ProjectAppRepository.getInstance();
         
         // check whether this is the first starting up or not, and import data
         File f = new File("save");
