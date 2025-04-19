@@ -4,35 +4,20 @@ import java.io.*;
 
 import entity.*;
 
-public class ProjectRepository extends RepositoryWithCSV {
+public class ProjectRepository extends Repository {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3057705536705508172L;
 	
-	private List<Project> projects; 
-    private transient ManagerRepository managerRepo;
-    private transient OfficerRepository officerRepo;
-    
-    
+	private List<Project> projects;   
     
 	public ProjectRepository() {
 		this.projects = new ArrayList<Project>(); 
-	}
-	
-	public void setManagerRepository(ManagerRepository managerRepo) {
-        this.managerRepo = managerRepo;
-    }
-    
-    public void setOfficerRepository(OfficerRepository officerRepo) {
-        this.officerRepo = officerRepo;
-    }
-	
-    
+	}    
     
 	public void importFromCSV(ManagerRepository managerRepo, OfficerRepository officerRepo) {
-		// TODO Auto-generated method stub
 		String filePath = "csv\\ProjectList.csv";
 		Scanner sc; 
 		try { 
@@ -127,12 +112,5 @@ public class ProjectRepository extends RepositoryWithCSV {
             }
         }
         return result;
-    }
-
-	@Override
-	public void importFromCSV() {
-		// TODO Auto-generated method stub
-		// place holder
-	}
-	
+    }	
 }

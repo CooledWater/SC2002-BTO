@@ -13,9 +13,8 @@ public class ProjectImportFromCSVTest {
         officerRepo.importFromCSV();
         
         ProjectRepository projectRepo = new ProjectRepository();
-        projectRepo.setManagerRepository(managerRepo);
-        projectRepo.setOfficerRepository(officerRepo);
-        projectRepo.importFromCSV();
+
+        projectRepo.importFromCSV(managerRepo, officerRepo);
         
         System.out.println("=== Projects Loaded ===");
         for (Project project : projectRepo.getProjects()) {

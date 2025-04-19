@@ -7,13 +7,22 @@ public class RepositorySaveToSerTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ManagerRepository managerRepository = new ManagerRepository();
-		Manager manager1 = new Manager("Alice", "NRIC", 35, true, "Password#$%");
-		Project project1 = new Project("Beautiful Condo"); 
-		manager1.setManagingProj(project1);
+		ManagerRepository managerRepo = new ManagerRepository();
+		ProjectRepository projectRepo = new ProjectRepository();
+		OfficerRepository officerRepo = new OfficerRepository();
+		managerRepo.importFromCSV();
+		officerRepo.importFromCSV();
+		projectRepo.importFromCSV(managerRepo, officerRepo);
 		
-		managerRepository.getManagers().add(manager1);
-		managerRepository.saveToSer();
+		Manager thisManager = managerRepo.getManagers().getFirst();
+		Project acacia = projectRepo.getProjects().getFirst();
+		thisManager.setManagingProj(acacia);
+		
+		System.out.format("Manager %s is managing project %s. ", thisManager.getName(), thisManager.getManagingProj().getName());
+		
+		projectRepo.saveToSer();
+		managerRepo.saveToSer();
+		officerRepo.saveToSer();
 		
 
 	}

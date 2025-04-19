@@ -26,16 +26,22 @@ public class Main {
         File f = new File("save");
 
         try {
-        	if (f.exists()) { // not the first starting up
-            	applicantRepo.importFromSer();
-            	officerRepo.importFromSer();
-            	managerRepo.importFromSer();
-            	projectRepo.importFromSer();
-            	receiptRepo.importFromSer();
-            	enquiryRepo.importFromSer();
-            	joinRequestRepo.importFromSer();
-            	projectAppRepo.importFromSer();
-            } else {// is the first starting up
+        	if (f.exists()) { 
+        		// not the first starting up, therefore import from .ser files
+        		// importFromSer() returns the superclass Repository
+        		// therefore need to do downcasting accordingly
+            	applicantRepo = (ApplicantRepository) applicantRepo.importFromSer();
+            	officerRepo = (OfficerRepository) officerRepo.importFromSer();
+            	managerRepo = (ManagerRepository) managerRepo.importFromSer();
+            	projectRepo = (ProjectRepository) projectRepo.importFromSer();
+            	receiptRepo = (ReceiptRepository) receiptRepo.importFromSer();
+            	enquiryRepo = (EnquiryRepository) enquiryRepo.importFromSer();
+            	joinRequestRepo = (JoinRequestRepository) joinRequestRepo.importFromSer();
+            	projectAppRepo = (ProjectAppRepository) projectAppRepo.importFromSer();
+            } else {
+            	// is the first starting up
+            	// importFromCSV() is a method that directly modifies the applicant repository
+            	// therefore no assignment is required
             	applicantRepo.importFromCSV();
             	officerRepo.importFromCSV();
             	managerRepo.importFromCSV();

@@ -67,7 +67,6 @@ public class Project implements Serializable {
     	this.officers = null;
     	this.projectApps = null;
     }
-    public Project(String name) {this.name = name;}
 
 
 	public boolean isVisible() {
