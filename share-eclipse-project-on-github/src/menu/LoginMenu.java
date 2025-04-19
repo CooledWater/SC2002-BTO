@@ -42,40 +42,42 @@ public class LoginMenu {
                 System.out.println("Please enter a valid number.");
             }
         }
-
-        System.out.print("Enter NRIC: ");
-        String nric = sc.nextLine();
+        
         User user = null;
+        
+        // First, keep prompting until NRIC is found
+        while (user == null) {
+            System.out.print("Enter NRIC: ");
+            String nric = sc.nextLine();
 
-        switch (choice) {
-            case 1:
-                user = applicantRepository.searchByNRIC(nric);
-                break;
-            case 2:
-                user = officerRepository.searchByNRIC(nric);
-                break;
-            case 3:
-                user = managerRepository.searchByNRIC(nric);
-                break;
-            default:
-                System.out.println("Invalid choice.");
-                return null;
+            switch (choice) {
+                case 1:
+                    user = applicantRepository.searchByNRIC(nric);
+                    break;
+                case 2:
+                    user = officerRepository.searchByNRIC(nric);
+                    break;
+                case 3:
+                    user = managerRepository.searchByNRIC(nric);
+                    break;
+            }
+
+            if (user == null) {
+                System.out.println("User not found. Please try again.");
+            }
         }
 
-        if (user == null) {
-            System.out.println("User not found.");
-            return null;
-        }
+        // After username found, keep prompting until correct password is entered
+        while (true) {
+            System.out.print("Enter password: ");
+            String password = sc.nextLine();
 
-        System.out.print("Enter password: ");
-        String password = sc.nextLine();
-
-        if (accountService.checkPassword(user, password)) {
-            System.out.println("Login successful.");
-            return user;
-        } else {
-            System.out.println("Incorrect password.");
-            return null;
+            if (accountService.checkPassword(user, password)) {
+                System.out.println("Login successful.");
+                return user;
+            } else {
+                System.out.println("Incorrect password. Please try again.");
+            }
         }
     }
 }
