@@ -26,7 +26,8 @@ public class ProjectRepository extends Repository {
 	}
 	
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance(); 
+		instance = this;
+		return instance;
 	}
 
     

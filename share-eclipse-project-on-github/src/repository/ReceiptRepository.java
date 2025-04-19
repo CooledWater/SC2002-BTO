@@ -22,7 +22,8 @@ public class ReceiptRepository extends Repository {
 	}
 	
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance();  // Ensures the singleton is returned after deserialization
+		instance = this;
+		return instance;
 	}
 
 

@@ -28,7 +28,8 @@ public class EnquiryRepository extends Repository {
 	}
 	
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance(); 
+		instance = this;
+		return instance;
 	}
 	
 	public void addEnquiry(Enquiry enquiry) {

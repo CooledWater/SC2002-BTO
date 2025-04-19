@@ -25,7 +25,8 @@ public class ProjectAppRepository extends Repository {
         return instance;
 	}
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance(); 
+		instance = this;
+		return instance;
 	}
 
     public void add(ProjectApp projectApp) {

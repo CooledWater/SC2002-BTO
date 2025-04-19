@@ -24,7 +24,8 @@ public class JoinRequestRepository extends Repository {
 	}
 	
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance(); 
+		instance = this;
+		return instance;
 	}
 
 	public List<JoinRequest> getJoinRequests() {

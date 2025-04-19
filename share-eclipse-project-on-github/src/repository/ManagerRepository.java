@@ -25,7 +25,8 @@ public class ManagerRepository extends UserRepository<Manager> {
 	}
 	
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance(); 
+		instance = this;
+		return instance; 
 	}
 	
 	@Override

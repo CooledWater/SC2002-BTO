@@ -28,7 +28,8 @@ public class ApplicantRepository extends UserRepository<Applicant> {
 	}
 	
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance();
+		instance = this;
+		return instance;
 	}
 	
 	@Override

@@ -24,7 +24,8 @@ public class OfficerRepository extends UserRepository<Officer> {
 	}
 	
 	private Object readResolve() throws ObjectStreamException {
-	    return getInstance(); 
+		instance = this;
+		return instance;
 	}
 	
 	@Override
