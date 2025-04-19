@@ -42,6 +42,10 @@ public class OfficerMainMenu implements UserMainMenu {
     public void officerMenu(Scanner sc) {
         int choice = -1;
 
+        System.out.println("You have logged in as an officer.");
+        System.out.println("To choose an option, input the corresponding number.");
+        System.out.println();
+        
         while (choice != 0) {
         	System.out.println("\n=== Officer Main Menu ===");
         	

@@ -33,13 +33,13 @@ interface ManagerEnquiryServiceInterface extends EnquiryServiceInterface {
 
 interface OfficerEnquiryServiceInterface extends EnquiryServiceInterface {
 	
-	void viewEnquiries(Officer officer);
+	boolean viewEnquiries(Officer officer);
 }
 
 
 interface ApplicantEnquiryServiceInterface extends EnquiryServiceInterface {
 	
-	void viewEnquiries(Applicant applicant);
+	boolean viewEnquiries(Applicant applicant);
 }
 	
 	/* implement this in application class

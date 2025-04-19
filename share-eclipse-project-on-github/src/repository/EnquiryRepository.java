@@ -50,7 +50,7 @@ public class EnquiryRepository extends Repository {
             }
         }
         // if no such enquiry found in repository
-        System.out.println("Enquiry with ID " + enquiryID + " not found for update.");
+        System.out.println("Enquiry with ID " + enquiryID + " not found.");
 		return null;
     }
 

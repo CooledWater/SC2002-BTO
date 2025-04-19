@@ -64,10 +64,15 @@ public class EnquiryMenu {
             	String message = sc.nextLine();
             	// downcasting because we know for sure this is an applicant
             	aeservice.submitEnquiry((Applicant) currentSessionUser, project, message);
+            	System.out.println("Enquiry successfully submitted");
             	break;
             	
             case 2: 
-            	aeservice.viewEnquiries((Applicant) currentSessionUser);
+            	boolean applicantEnquiries = aeservice.viewEnquiries((Applicant) currentSessionUser);
+            	if (applicantEnquiries == false) {
+            		System.out.println("You have no enquiries.");
+            		break;
+            	}
             	String subChoice = null;
             	while (true) {
             		System.out.println("\n\nDo you wish to edit or delete any of your enquiries? ");
@@ -83,13 +88,9 @@ public class EnquiryMenu {
             	
             	System.out.println("\n\nEnter the ID of the enquiry: ");
             	String enquireID = sc.nextLine();
-            	Enquiry enquiry = null;
-            	try {
-            		enquiry = enquiryRepo.searchByID(enquireID);
-            	} catch (NoSuchElementException e) {
-            		System.out.println("No enquiries are found with this ID. ");
-            		break;
-            	}
+        		Enquiry enquiry = enquiryRepo.searchByID(enquireID);
+            	if (enquiry == null) {break;}
+            	
             	
             	// choose to edit or delete or exit
             	System.out.println("\n\nEnter 0 to edit the enquiry");
@@ -153,7 +154,13 @@ public class EnquiryMenu {
             	break;
             
             case 1:
-            	oeservice.viewEnquiries((Officer) currentSessionUser);
+            	boolean officerEnquiries = oeservice.viewEnquiries((Officer) currentSessionUser);
+            	
+            	if (((Officer) currentSessionUser).getHandlingProj() == null) {break;}
+            	else if (officerEnquiries == false) {
+            		System.out.println("There are no enquiries for your project.");
+            		break;
+            	}
             	String subChoice = null;
             	while (true) {
             		System.out.println("\n\nDo you wish to respond to any enquiries? ");
@@ -166,13 +173,8 @@ public class EnquiryMenu {
             	
             	System.out.println("\n\nEnter the ID of the enquiry: ");
             	String enquireID = sc.nextLine();
-            	Enquiry enquiry = null;
-            	try {
-            		enquiry = enquiryRepo.searchByID(enquireID);
-            	} catch (NoSuchElementException e) {
-            		System.out.println("No enquiries are found with this ID. ");
-            		break;
-            	}
+        		Enquiry enquiry = enquiryRepo.searchByID(enquireID);
+            	if (enquiry == null) {break;}
             	
             	// choose to respond to enquiry or exit
             	System.out.println("\n\nEnter 0 to respond to enquiry");

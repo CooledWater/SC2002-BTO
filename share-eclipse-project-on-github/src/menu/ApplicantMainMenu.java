@@ -21,18 +21,20 @@ public class ApplicantMainMenu implements UserMainMenu {
     						 ViewProjectService viewProjectService, 
     						 ProjectApplicationService projectApplicationService,
     						 ApplicantEnquiryService applicantEnquiryService,
+    						 OfficerEnquiryService officerEnquiryService,
     						 ProjectRepository projectRepo,
-    						 EnquiryRepository enquiryRepo,
-    						 OfficerEnquiryService officerEnquiryService) {
+    						 EnquiryRepository enquiryRepo
+    						 ) {
 
         this.currentSessionApplicant = applicant;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
         this.projectApplicationService = projectApplicationService;
         this.applicantEnquiryService = applicantEnquiryService;
+        this.officerEnquiryService = officerEnquiryService;
         this.projectRepo = projectRepo;
         this.enquiryRepo = enquiryRepo;
-        this.officerEnquiryService = officerEnquiryService;
+        
     }
 
     public void applicantMenu(Scanner sc) {
