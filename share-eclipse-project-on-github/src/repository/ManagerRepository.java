@@ -24,6 +24,10 @@ public class ManagerRepository extends UserRepository<Manager> {
         return instance;
 	}
 	
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance(); 
+	}
+	
 	@Override
 	public void importFromCSV() {
 		String filePath = "csv\\ManagerList.csv";

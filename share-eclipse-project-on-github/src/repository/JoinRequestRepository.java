@@ -1,5 +1,7 @@
 package repository;
 import entity.*;
+
+import java.io.ObjectStreamException;
 import java.util.*;
 public class JoinRequestRepository extends Repository {
 
@@ -19,6 +21,10 @@ public class JoinRequestRepository extends Repository {
             instance = new JoinRequestRepository();
         }
         return instance;
+	}
+	
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance(); 
 	}
 
 	public List<JoinRequest> getJoinRequests() {

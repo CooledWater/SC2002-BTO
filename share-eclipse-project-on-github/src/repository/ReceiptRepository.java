@@ -4,6 +4,7 @@ import entity.Receipt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
 
 public class ReceiptRepository extends Repository {
     /**
@@ -19,6 +20,11 @@ public class ReceiptRepository extends Repository {
         }
         return instance;
 	}
+	
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance();  // Ensures the singleton is returned after deserialization
+	}
+
 
     public void addReceipt(Receipt receipt) {
         receipts.add(receipt);

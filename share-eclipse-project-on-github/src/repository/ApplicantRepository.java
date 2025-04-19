@@ -27,6 +27,10 @@ public class ApplicantRepository extends UserRepository<Applicant> {
         return instance;
 	}
 	
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance();
+	}
+	
 	@Override
 	public void importFromCSV() {
 		String filePath = "csv\\ApplicantList.csv";

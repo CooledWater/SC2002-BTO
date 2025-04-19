@@ -1,8 +1,7 @@
 package repository;
 import entity.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 public class OfficerRepository extends UserRepository<Officer> {
 
@@ -22,6 +21,10 @@ public class OfficerRepository extends UserRepository<Officer> {
             instance = new OfficerRepository();
         }
         return instance;
+	}
+	
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance(); 
 	}
 	
 	@Override

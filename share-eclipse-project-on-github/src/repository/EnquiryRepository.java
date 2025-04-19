@@ -1,4 +1,5 @@
 package repository;
+import java.io.ObjectStreamException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,9 @@ public class EnquiryRepository extends Repository {
         return instance;
 	}
 	
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance(); 
+	}
 	
 	public void addEnquiry(Enquiry enquiry) {
         this.enquiries.add(enquiry);

@@ -3,6 +3,7 @@ package repository;
 import entity.*; 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
 
 public class ProjectAppRepository extends Repository {
 
@@ -22,6 +23,9 @@ public class ProjectAppRepository extends Repository {
             instance = new ProjectAppRepository();
         }
         return instance;
+	}
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance(); 
 	}
 
     public void add(ProjectApp projectApp) {

@@ -24,6 +24,11 @@ public class ProjectRepository extends Repository {
         }
         return instance;
 	}
+	
+	private Object readResolve() throws ObjectStreamException {
+	    return getInstance(); 
+	}
+
     
 	public void importFromCSV(ManagerRepository managerRepo, OfficerRepository officerRepo) {
 		String filePath = "csv\\ProjectList.csv";
