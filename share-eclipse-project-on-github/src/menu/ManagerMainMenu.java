@@ -20,21 +20,27 @@ public class ManagerMainMenu implements UserMainMenu{
     private ManagerEnquiryService managerEnquiryService;
     private JoinRequestService joinRequestService;
     private ReportService reportService;
-    private ProjectRepository projectRepo;
+    private ProjectRepository projectRepo;    
+    private LoginMenu loginMenu;
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
 							ProjectListingService projectListingService, 
 							ManageProjectAppService manageProjectAppService,
 							ManagerEnquiryService managerEnquiryService,
-							JoinRequestService joinRequestService, ReportService reportService, ProjectRepository projectRepo) {
+							JoinRequestService joinRequestService, 
+							ReportService reportService,
+							ProjectRepository projectRepo,
+							LoginMenu loginMenu) {
+
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
         this.projectListingService = projectListingService;
         this.manageProjectAppService = manageProjectAppService;
         this.managerEnquiryService = managerEnquiryService;
-        this.joinRequestService = joinRequestService;   
+        this.joinRequestService = joinRequestService;
         this.reportService = reportService;
         this.projectRepo = projectRepo;
+        this.loginMenu = loginMenu;
 	}
 	
 	
@@ -57,6 +63,7 @@ public class ManagerMainMenu implements UserMainMenu{
             System.out.println("7. Generate Report");
             System.out.println("8. Change Password");
             System.out.println("9. View Profile");
+            System.out.println("10. Change project visibility");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
             
@@ -91,11 +98,13 @@ public class ManagerMainMenu implements UserMainMenu{
                 	reportService.generateFilteredApplicantReport(); 
                 	break; 
                 case 8: 
-                	changePassword(sc, currentSessionManager);
+                	changePassword(sc, currentSessionManager, loginMenu);
                 	break; 
                 case 9: 
                 	viewProfile();
                 	break;
+                case 10:
+                	manageProjectAppService.toggleVisibility(currentSessionManager);
                 case 0:
                     System.out.println("Logging out...");
                     break;

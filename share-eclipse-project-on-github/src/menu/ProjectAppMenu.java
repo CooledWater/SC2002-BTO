@@ -60,6 +60,13 @@ public class ProjectAppMenu {
                 viewService.viewProjectsAsApplicant(currentSessionApplicant);
                 break;
             case 2:
+                ProjectApp existingApp = currentSessionApplicant.getProjectApp();
+                if (existingApp != null && existingApp.getStatus() != AppStatus.UNSUCCESSFUL) {
+                    System.out.println("You already have an ongoing application for project: " + existingApp.getProject().getName());
+                    System.out.println("Please withdraw your existing application before applying for a new project.");
+                    break;
+                }
+                
                 System.out.print("Enter project name to apply: ");
                 String projName = sc.nextLine().trim();
                 

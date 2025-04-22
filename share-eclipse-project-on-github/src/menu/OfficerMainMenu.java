@@ -24,11 +24,20 @@ public class OfficerMainMenu implements UserMainMenu {
     private ReceiptRepository receiptRepository;
     // private OfficerEnquiryService officerEnquiryService; put in officerService
     
+    private LoginMenu loginMenu;
+    
   
-    public OfficerMainMenu(Officer officer, BookingService bookingService, ViewProjectService viewProjectService, 
-    		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService, 
-    		ApplicantEnquiryService applicantEnquiryService, OfficerEnquiryService officerEnquiryService,
-    		ProjectRepository projectRepository, EnquiryRepository enquiryRepository, ReceiptRepository receiptRepository) {
+    public OfficerMainMenu(Officer officer, 
+    		BookingService bookingService, 
+    		ViewProjectService viewProjectService, 
+    		ProjectApplicationService projectApplicationService, 
+    		JoinRequestService joinRequestService, 
+    		ApplicantEnquiryService applicantEnquiryService, 
+    		OfficerEnquiryService officerEnquiryService,
+    		ProjectRepository projectRepository, 
+    		EnquiryRepository enquiryRepository, 
+    		ReceiptRepository receiptRepository,
+    		LoginMenu loginMenu) {
         this.currentOfficer = officer;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
@@ -39,6 +48,7 @@ public class OfficerMainMenu implements UserMainMenu {
         this.projectRepository = projectRepository;
         this.enquiryRepository = enquiryRepository;
         this.receiptRepository = receiptRepository;
+        this.loginMenu = loginMenu;
     }
 
     public void officerMenu(Scanner sc) {
@@ -81,7 +91,7 @@ public class OfficerMainMenu implements UserMainMenu {
             		viewProfile();
                     break;
             	case 2:
-                    changePassword(sc, currentOfficer);
+                    changePassword(sc, currentOfficer, loginMenu);
                     break;
             	case 3:
                 	System.out.println("Loading booking details...");
