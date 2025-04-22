@@ -25,7 +25,7 @@ public class Project implements Serializable {
     
     // other attributes
     private boolean isVisible;
-    private List<ProjectApp> projectApps;
+    private List<ProjectApp> projectApps = new ArrayList<>();
     
 //    // this constructor can be used while importing from CSV
 //    public Project(String name, String neighbourhood, int numberOf2Rooms,
@@ -86,6 +86,18 @@ public class Project implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getSellingPrice2Room() {
+		return sellingPrice2Room;
+	}
+	public void setSellingPrice2Room(int sellingPrice2Room) {
+		this.sellingPrice2Room = sellingPrice2Room;
+	}
+	public int getSellingPrice3Room() {
+		return sellingPrice3Room;
+	}
+	public void setSellingPrice3Room(int sellingPrice3Room) {
+		this.sellingPrice3Room = sellingPrice3Room;
 	}
 	public String getNeighbourhood() {
 		return neighbourhood;
@@ -170,7 +182,7 @@ public class Project implements Serializable {
 	    }
 	}
 	
-	//method to add projectapp
+	//method to add projectappbut
 	public void addProjectApp(ProjectApp projectApp) {
 	    this.projectApps.add(projectApp);
 	}
@@ -189,6 +201,8 @@ public class Project implements Serializable {
         + "%nNumber of available 3-Room Units: " + this.getNumberOf3Rooms()
         + "%nOpen Date: " + this.getOpenDate()
         + "%nClose Date: " + this.getCloseDate()
+        + "%nSelling Price for 2 rooms: " + this.getSellingPrice2Room()
+        + "%nSelling Price for 3 rooms: " + this.getSellingPrice3Room()
         + "%nVisible: " + this.isVisible()
 		+ "%nOfficers: " + this.getOfficerNameStrings()
 		);

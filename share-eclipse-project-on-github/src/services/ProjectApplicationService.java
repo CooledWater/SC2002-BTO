@@ -94,8 +94,8 @@ public class ProjectApplicationService {
                 System.out.println("Your project application:");
                 System.out.printf("Project: %s | Flat Type: %s | Status: %s%n",
                         app.getProject().getName(),
-                        app.getFlatType().name(),
-                        app.getStatus().name());
+                        app.getFlatType(),
+                        app.getStatus());
 
                 if (app.applicantWantsToWithdraw()) {
                     System.out.println("Note: You have requested to withdraw this application.");
@@ -103,7 +103,6 @@ public class ProjectApplicationService {
                 return;
             }
         }
-
         System.out.println("You have no project applications.");
     }
 

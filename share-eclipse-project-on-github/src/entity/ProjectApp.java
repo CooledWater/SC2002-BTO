@@ -27,6 +27,10 @@ public class ProjectApp implements Serializable {
     public Project getProject() {
         return project;
     }
+    
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     public AppStatus getStatus() {
         return status;

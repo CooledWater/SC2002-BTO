@@ -47,6 +47,9 @@ public class Main {
             	managerRepo.importFromCSV();
             	projectRepo.importFromCSV(managerRepo, officerRepo);
             }
+        	
+            projectAppRepo.relinkApplicationsToProjects(projectRepo.getProjects());
+            
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

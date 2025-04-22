@@ -41,4 +41,18 @@ public class ProjectAppRepository extends Repository {
     public void setProjectApps(List<ProjectApp> projectApps) {
         this.projectApps = projectApps;
     }
+    
+    public void relinkApplicationsToProjects(List<Project> allProjects) {
+        for (ProjectApp app : projectApps) {
+            Project matchingProject = allProjects.stream()
+                .filter(p -> p.getName().equals(app.getProject().getName()))
+                .findFirst()
+                .orElse(null);
+
+            if (matchingProject != null) {
+                app.setProject(matchingProject);       // Relink the app to the correct project instance
+                matchingProject.addProjectApp(app);    // Also add the app to the project's app list
+            }
+        }
+    }
 }
