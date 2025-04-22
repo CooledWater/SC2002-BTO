@@ -36,7 +36,6 @@ public class ManagerRepository extends UserRepository<Manager> {
 		try {
 			sc = new Scanner(new FileReader(filePath));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println("ManagerList.csv file is not found. Please ensure that the file is inside csv folder. ");
 			return;
 		}
@@ -71,8 +70,10 @@ public class ManagerRepository extends UserRepository<Manager> {
 	public Manager searchByNRIC(String NRIC) {
 		Manager result = null;
 		for (Manager manager : managers) {
-			if (manager.getNRIC().equals(NRIC)) result = manager;
-			break;
+			if (manager.getNRIC().equals(NRIC)) {
+				result = manager;
+				break;
+			}
 		}
 		
 		return result;
