@@ -3,6 +3,8 @@ import entity.*;
 import repository.*; 
 import services.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,25 +19,29 @@ public class ManagerMainMenu implements UserMainMenu{
     private ManageProjectAppService manageProjectAppService;
     private ManagerEnquiryService managerEnquiryService;
     private JoinRequestService joinRequestService;
-    private ReportService reportService; 
+    private ReportService reportService;
+    private ProjectRepository projectRepo;
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
 							ProjectListingService projectListingService, 
 							ManageProjectAppService manageProjectAppService,
 							ManagerEnquiryService managerEnquiryService,
-							JoinRequestService joinRequestService, ReportService reportService) {
+							JoinRequestService joinRequestService, ReportService reportService, ProjectRepository projectRepo) {
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
         this.projectListingService = projectListingService;
         this.manageProjectAppService = manageProjectAppService;
         this.managerEnquiryService = managerEnquiryService;
         this.joinRequestService = joinRequestService;   
-        this.reportService = reportService; 
+        this.reportService = reportService;
+        this.projectRepo = projectRepo;
 	}
 	
 	
 	public void managerMenu (Scanner sc) {
 		int choice = -1;
+		projectRepo.updateManagerHandlingProj(currentSessionManager);
+
 		System.out.println("You have logged in as a manager.");
         System.out.println("To choose an option, input the corresponding number.");
         System.out.println();

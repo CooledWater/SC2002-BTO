@@ -1,6 +1,8 @@
 package repository;
 import java.util.*;
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import entity.*;
 
@@ -138,5 +140,22 @@ public class ProjectRepository extends Repository {
             }
         }
         return result;
-    }	
+    }
+    
+    public void updateManagerHandlingProj(Manager manager) {
+    	List<Project> managerProjects = getProjectsByManager(manager);
+    	LocalDate today = LocalDate.now();
+    	for (Project project: managerProjects) {
+    		String opening = project.getOpenDate();
+    		String closing = project.getCloseDate();
+    		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
+    		LocalDate open = LocalDate.parse(opening, dateFormat);
+            LocalDate close = LocalDate.parse(closing, dateFormat);
+    		if (today.isAfter(open) && today.isBefore(close)) {
+    			manager.setManagingProj(project);
+    			return;
+    		}
+    	}
+    }
+    
 }

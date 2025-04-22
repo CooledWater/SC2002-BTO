@@ -1,6 +1,8 @@
 package services;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import entity.*;
@@ -14,6 +16,7 @@ public class ProjectListingService {
     };
 	
 	public Project createNewProjectListing(Manager manager) {
+				
 		// initialize attributes
 		 String name;
 	     String neighbourhood;
@@ -29,7 +32,7 @@ public class ProjectListingService {
 	     
 
 	    Scanner sc = new Scanner(System.in);
-	    System.out.println("Creating a new project: ");
+	    System.out.println("Creating a new project...");
 	    
 	    // check for duplicate project
 		System.out.println("Please enter project name: ");
@@ -149,6 +152,18 @@ public class ProjectListingService {
 					continue;
 				}
 				
+				// check that dates do not overlap with other projects
+				List<Project> managerProjects = projectRepository.getProjectsByManager(manager);
+		    	for (Project project: managerProjects) {
+		    		String opening = project.getOpenDate();
+		    		String closing = project.getCloseDate();
+		    		
+		    		if ((openDate.compareTo(opening) >= 0 && openDate.compareTo(closing) <= 0) ||
+		    				(closeDate.compareTo(opening) >= 0 && closeDate.compareTo(closing) <= 0)) {
+		    			System.out.printf("You are already handling a project from %s to %s\n", opening, closing);
+		    			return null;
+		    		}
+		    	}
 				break;
 				
 			} catch (InputMismatchException e) {

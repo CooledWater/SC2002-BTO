@@ -119,7 +119,8 @@ public class Main {
 			           manageProjectAppService, 
 			           managerEnquiryService, 
 			           joinRequestService, 
-			           reportService);
+			           reportService,
+			           projectRepo);
 			managerMainMenu.managerMenu(sc); 
         }
         // if login failed, current user is null
