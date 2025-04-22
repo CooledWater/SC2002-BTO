@@ -1,2 +1,11 @@
 ﻿Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,Manager,Officer Slot,Officer
-Acacia Breeze,Yishun,2-Room,2,350000,3-Room,3,450000,15/2/2025,20/3/2025,Jessica,3,"Daniel,Emily"
+Acacia Breeze,Yishun,2-Room,2,350000,3-Room,3,450000,15/2/2025,20/6/2025,Liam Yeo,2,"Melissa Choo,Howard Chong"
+Cedar Heights,Tampines,2-Room,4,340000,3-Room,2,460000,16/2/2025,21/6/2025,Sophia Goh,2,"Tiffany Lee,Irene Gwee"
+Jade Grove,Sengkang,2-Room,3,355000,3-Room,3,455000,17/2/2025,22/6/2025,Aaron Lim,2,"Yvonne Chew,Jeremy Tan"
+Serenity Park,Choa Chu Kang,2-Room,5,345000,3-Room,4,470000,18/2/2025,23/6/2025,Jasmine Tay,2,"Charlene Yap,Justin Sim"
+Maple Residences,Bukit Panjang,2-Room,2,360000,3-Room,3,465000,19/2/2025,24/6/2025,Marcus Chua,2,"Caleb Heng,Michelle Toh"
+Palm View,Jurong West,2-Room,3,340000,3-Room,5,455000,20/2/2025,25/6/2025,Fiona Toh,2,"Belinda Ho,Nigel Wong"
+Willow Crest,Woodlands,2-Room,4,350000,3-Room,4,460000,21/2/2025,26/6/2025,Darren Leong,2,"Desmond Kwan,Rachel Lim"
+Horizon Reach,Pasir Ris,2-Room,3,355000,3-Room,3,450000,22/2/2025,27/6/2025,Alyssa Tan,2,"Elaine Koh,Victor Tan"
+Amber Rise,Toa Payoh,2-Room,2,360000,3-Room,2,470000,23/2/2025,28/6/2025,Joel Ang,2,"Sabrina Loh,Wesley Foo"
+Skyline Vale,Sembawang,2-Room,4,350000,3-Room,3,455000,24/2/2025,29/6/2025,Clara Ng,1,Gavin Seow

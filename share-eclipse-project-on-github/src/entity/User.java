@@ -1,7 +1,7 @@
 package entity;
 import java.io.*;
 
-public class User implements Serializable {
+public abstract class User implements Serializable {
 	/**
 	 * 
 	 */
