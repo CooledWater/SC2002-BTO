@@ -18,12 +18,16 @@ public class ManagerMainMenu implements UserMainMenu{
     private ManagerEnquiryService managerEnquiryService;
     private JoinRequestService joinRequestService;
     private ReportService reportService; 
+    
+    private LoginMenu loginMenu;
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
 							ProjectListingService projectListingService, 
 							ManageProjectAppService manageProjectAppService,
 							ManagerEnquiryService managerEnquiryService,
-							JoinRequestService joinRequestService, ReportService reportService) {
+							JoinRequestService joinRequestService, 
+							ReportService reportService,
+							LoginMenu loginMenu) {
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
         this.projectListingService = projectListingService;
@@ -31,6 +35,7 @@ public class ManagerMainMenu implements UserMainMenu{
         this.managerEnquiryService = managerEnquiryService;
         this.joinRequestService = joinRequestService;   
         this.reportService = reportService; 
+        this.loginMenu = loginMenu;
 	}
 	
 	
@@ -85,7 +90,7 @@ public class ManagerMainMenu implements UserMainMenu{
                 	reportService.generateFilteredApplicantReport(); 
                 	break; 
                 case 8: 
-                	changePassword(sc, currentSessionManager);
+                	changePassword(sc, currentSessionManager, loginMenu);
                 	break; 
                 case 9: 
                 	viewProfile();

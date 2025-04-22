@@ -80,4 +80,17 @@ public class LoginMenu {
             }
         }
     }
+    
+    public User reLogin(Scanner sc, User existingUser) {
+        while (true) {
+            System.out.print("Re-enter new password: ");
+            String password = sc.nextLine();
+
+            if (accountService.checkPassword(existingUser, password)) {
+                return existingUser;
+            } else {
+                System.out.println("Incorrect password. Please try again.");
+            }
+        }
+    }
 }

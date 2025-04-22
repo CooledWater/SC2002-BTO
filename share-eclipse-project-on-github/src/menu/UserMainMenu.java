@@ -8,9 +8,9 @@ public interface UserMainMenu {
 	
 	public void viewProfile();
 	
-    public default void changePassword(Scanner sc, User user) {
+    public default void changePassword(Scanner sc, User user, LoginMenu loginMenu) {
         System.out.print("Enter new password: ");
         String newPassword = sc.nextLine();
-        accountService.changePassword(user, newPassword);
+        accountService.changePassword(user, newPassword, loginMenu, sc);
     }
 }
