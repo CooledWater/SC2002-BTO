@@ -149,14 +149,8 @@ public class ViewProjectService {
 
         System.out.println("\n=== Project List ===");
         for (Project p : projects) {
-            System.out.println("Project Name: " + p.getName());
-            System.out.println("Neighbourhood: " + p.getNeighbourhood());
-            System.out.println("2-Room Units: " + p.getNumberOf2Rooms());
-            System.out.println("3-Room Units: " + p.getNumberOf3Rooms());
-            System.out.println("Open Date: " + p.getOpenDate());
-            System.out.println("Close Date: " + p.getCloseDate());
-            System.out.println("Visible: " + p.isVisible());
-            System.out.println("-----------------------------");
+            System.out.print(p.toString());
+            System.out.println("\n\n\n-----------------------------");
         }
     }
 

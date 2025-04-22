@@ -27,29 +27,29 @@ public class Project implements Serializable {
     private boolean isVisible;
     private List<ProjectApp> projectApps;
     
-    // this constructor can be used while importing from CSV
-    public Project(String name, String neighbourhood, int numberOf2Rooms,
-    		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
-    		String openDate, String closeDate, Manager manager, int numberOfOfficers,
-    		List<Officer> officers) { 
-    	this.name = name;
-    	this.neighbourhood = neighbourhood;
-    	this.numberOf2Rooms = numberOf2Rooms;
-    	this.sellingPrice2Room = sellingPrice2Room;
-    	this.numberOf3Rooms = numberOf3Rooms;
-    	this.sellingPrice3Room = sellingPriceOf3Room;
-    	this.openDate = openDate;
-    	this.closeDate = closeDate;
-    	this.manager = manager;
-    	this.numberOfOfficers = numberOfOfficers;
-    	this.officers = officers;
-    	
-    	this.isVisible = true;
-    	this.projectApps = new ArrayList<>();
-    }
+//    // this constructor can be used while importing from CSV
+//    public Project(String name, String neighbourhood, int numberOf2Rooms,
+//    		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
+//    		String openDate, String closeDate, Manager manager, int numberOfOfficers,
+//    		List<Officer> officers) { 
+//    	this.name = name;
+//    	this.neighbourhood = neighbourhood;
+//    	this.numberOf2Rooms = numberOf2Rooms;
+//    	this.sellingPrice2Room = sellingPrice2Room;
+//    	this.numberOf3Rooms = numberOf3Rooms;
+//    	this.sellingPrice3Room = sellingPriceOf3Room;
+//    	this.openDate = openDate;
+//    	this.closeDate = closeDate;
+//    	this.manager = manager;
+//    	this.numberOfOfficers = numberOfOfficers;
+//    	this.officers = officers;
+//    	
+//    	this.isVisible = true;
+//    	this.projectApps = new ArrayList<>();
+//    }
     
 
-    // this constructor is used in ProjectListingService
+    // this constructor takes in 10 arguments, and initializes all 13 attributes
     public Project(String name, String neighbourhood, int numberOf2Rooms,
     		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
     		String openDate, String closeDate, boolean isVisible, Manager manager) { 
@@ -63,9 +63,11 @@ public class Project implements Serializable {
     	this.closeDate = closeDate;
     	this.isVisible = isVisible;
     	this.manager = manager;
+    	
+    	// null initialization
     	this.numberOfOfficers = 0;
-    	this.officers = null;
-    	this.projectApps = null;
+    	this.officers = new ArrayList<>();
+    	this.projectApps = new ArrayList<>();
     }
 
 
@@ -124,6 +126,19 @@ public class Project implements Serializable {
 	public List<Officer> getOfficers() {
 		return officers;
 	}
+	
+	private String getOfficerNameStrings() {
+		String result = "";
+		if (officers.size() == 0) {
+			return result;
+		}
+		for (Officer officer: officers) {
+			result += (officer.getName() + ", ");
+		}
+		result = result.substring(0, result.length()-2);
+		
+		return result;
+	}
 	public void setOfficers(List<Officer> officers) {
 		this.officers = officers;
 	}
@@ -163,6 +178,20 @@ public class Project implements Serializable {
 	public void toggleVisibility() {
 	    this.isVisible = !this.isVisible;
 	    System.out.println("Project visibility is now: " + (this.isVisible ? "Visible" : "Hidden"));
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+		  "Project Name: " + this.getName()
+        + "%nNeighbourhood: " + this.getNeighbourhood()
+        + "%nNumber of available 2-Room Units: " + this.getNumberOf2Rooms()
+        + "%nNumber of available 3-Room Units: " + this.getNumberOf3Rooms()
+        + "%nOpen Date: " + this.getOpenDate()
+        + "%nClose Date: " + this.getCloseDate()
+        + "%nVisible: " + this.isVisible()
+		+ "%nOfficers: " + this.getOfficerNameStrings()
+		);
 	}
 
 

@@ -50,6 +50,7 @@ public class ProjectRepository extends Repository {
 			
 			Manager manager = managerRepo.searchByName(parts[10].trim());
 			
+			// constructor initialize 10 attributes
 			Project project = new Project(
 	                parts[0].trim(), 
 	                parts[1].trim(),
@@ -62,23 +63,34 @@ public class ProjectRepository extends Repository {
 	                true,
 	                manager
 	            );
-			 project.setNumberOfOfficers(Integer.parseInt(parts[11].trim()));
+			if (manager != null) {
+				manager.setManagingProj(project);
+			}
+			
+			 // initialize number of officers
+			 int numOfficers = Integer.parseInt(parts[11].trim());
+			 project.setNumberOfOfficers(numOfficers);
 			 
-			 if (parts.length > 12 && !parts[12].trim().isEmpty()) {
-	                String[] officerNames = parts[12].trim().split(",");
-	                List<Officer> officers = new ArrayList<>();
-	                for (String name : officerNames) {
-	                    Officer officer = officerRepo.searchByName(name.trim());
+			 // initialize list of officers
+			 if (numOfficers > 1) { 
+	                for (int i = 12; i < 12+numOfficers; i++) {
+	                	String officerName = parts[i];
+	                	if (i == 12) {officerName = officerName.substring(1,officerName.length());}
+	                	if (i == 12+numOfficers-1) {officerName = officerName.substring(0,officerName.length()-1);}
+	                    Officer officer = officerRepo.searchByName(officerName.trim());
 	                    if (officer != null) {
-	                        officers.add(officer);
-	                    }
+	                        project.getOfficers().add(officer);
+	                        officer.setHandlingProj(project);
+	                    }                	
 	                }
-	                project.setOfficers(officers);
-	            } else {
-	                project.setOfficers(new ArrayList<>());
-	            }
-			 
-			 project.setProjectApps(new ArrayList<>());
+			 }
+			 if (numOfficers == 1) {
+				 Officer officer = officerRepo.searchByName(parts[12].trim());
+                 if (officer != null) {
+                     project.getOfficers().add(officer);
+                     officer.setHandlingProj(project);
+                 } 
+			 }
 	         projects.add(project);
 		}
 		sc.close();
