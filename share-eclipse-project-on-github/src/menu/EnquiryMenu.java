@@ -64,7 +64,7 @@ public class EnquiryMenu {
             	String message = sc.nextLine();
             	// downcasting because we know for sure this is an applicant
             	aeservice.submitEnquiry((Applicant) currentSessionUser, project, message);
-            	System.out.println("Enquiry successfully submitted");
+            	System.out.println("Enquiry successfully submitted. ");
             	break;
             	
             case 2: 
@@ -166,10 +166,10 @@ public class EnquiryMenu {
             		System.out.println("\n\nDo you wish to respond to any enquiries? ");
                 	System.out.println("Please enter y or n. ");
                 	subChoice = sc.nextLine();
-                	if (subChoice == "y" || subChoice == "n") {break;}
+                	if (subChoice.equals("y") || subChoice.equals("n")) {break;}
                     else {System.out.println("Invalid input. Please enter y or n. ");}
             	}
-            	if (subChoice == "n") {break;}
+            	if (subChoice.equals("n")) {break;}
             	
             	System.out.println("\n\nEnter the ID of the enquiry: ");
             	String enquireID = sc.nextLine();

@@ -125,22 +125,37 @@ public class ManagerMainMenu implements UserMainMenu{
 	    }
 	}
 	
-	//test
 	public void processEnquiries(Scanner sc) {
-	    managerEnquiryService.viewEnquiries(currentSessionManager, true);
+		// filter not necessary to save state for enquiry
+		while (true) {
+    		System.out.println("Do you want to see only enquiries regarding your active project? (y/n): ");
+        	String filterByManaging = sc.nextLine().trim().toLowerCase();
+        	if (filterByManaging.equals("y")) {
+    			managerEnquiryService.viewEnquiries(currentSessionManager, true);
+    			break;
+    		} else if (filterByManaging.equals("n")) {
+    			managerEnquiryService.viewEnquiries(currentSessionManager, false);
+    			break;
+    		}
+            else {System.out.println("Invalid input. Please enter y or n. ");}
+    	}
+		
+		while (true) {
+			System.out.print("\nDo you want to reply to an enquiry? (y/n): ");
+			String input = sc.nextLine().trim().toLowerCase();
 
-	    System.out.print("\nDo you want to reply to an enquiry? (y/n): ");
-	    String input = sc.nextLine().trim().toLowerCase();
-
-	    if (input.equals("y")) {
-	        System.out.print("Enter Enquiry ID to reply to: ");
-	        String enquiryID = sc.nextLine();
-	        System.out.print("Enter your response: ");
-	        String response = sc.nextLine();
-	        managerEnquiryService.replyEnquiry(currentSessionManager, enquiryID, response);
-	    } else {
-	        System.out.println("Returning to main menu.");
-	    }	
+		    if (input.equals("y")) {
+		        System.out.print("Enter Enquiry ID to reply to: ");
+		        String enquiryID = sc.nextLine();
+		        System.out.print("Enter your response: ");
+		        String response = sc.nextLine();
+		        managerEnquiryService.replyEnquiry(currentSessionManager, enquiryID, response);
+		        break;
+		    } else if (input.equals("n")) {
+		        System.out.println("Returning to main menu.");
+		        break;
+		    } else {System.out.println("Invalid input. Please enter y or n. ");}
+		}
 	}
 
 	@Override

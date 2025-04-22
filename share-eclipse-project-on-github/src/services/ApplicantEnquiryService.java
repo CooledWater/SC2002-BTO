@@ -3,14 +3,17 @@ import java.util.*;
 
 import entity.*;
 import repository.ApplicantRepository;
+import repository.OfficerRepository;
 import repository.EnquiryRepository;
 
 public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface {
 	private final ApplicantRepository applicantRepo;
+	private final OfficerRepository officerRepo;
 	private final EnquiryRepository enquiryRepo;
 	
-	public ApplicantEnquiryService(ApplicantRepository applicantRepo, EnquiryRepository enquiryRepo) {
+	public ApplicantEnquiryService(ApplicantRepository applicantRepo, OfficerRepository officerRepo, EnquiryRepository enquiryRepo) {
 		this.applicantRepo = applicantRepo;
+		this.officerRepo = officerRepo;
 		this.enquiryRepo = enquiryRepo;
 	}
 	
@@ -18,7 +21,9 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	public void submitEnquiry(Applicant applicant, Project project, String message) {
 		// checking that applicant exists
 		Applicant searchApplicant = applicantRepo.searchByNRIC(applicant.getNRIC());
-		
+		if (searchApplicant == null) {
+			searchApplicant = officerRepo.searchByNRIC(applicant.getNRIC());
+		}
 		if (searchApplicant != null) {
 			Enquiry applicantEnquiry = new Enquiry(searchApplicant, project, message);
 			enquiryRepo.addEnquiry(applicantEnquiry);
@@ -32,7 +37,9 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 	public boolean viewEnquiries(Applicant applicant) {
 		List<Enquiry> enquiryList;
 		Applicant searchApplicant = applicantRepo.searchByNRIC(applicant.getNRIC());
-		
+		if (searchApplicant == null) {
+			searchApplicant = officerRepo.searchByNRIC(applicant.getNRIC());
+		}
 		if (searchApplicant != null) {
 			enquiryList = enquiryRepo.searchByApplicant(searchApplicant.getNRIC());
 		}
@@ -62,7 +69,7 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 		if (searchEnquiry == null) {
 			System.out.println("Enquiry not found.");
 		}
-		else if (searchEnquiry.getApplicant().getNRIC() != applicant.getNRIC()) {
+		else if (!searchEnquiry.getApplicant().getNRIC().equals(applicant.getNRIC())) {
 			System.out.println("You do not have permission to edit this enquiry.");
 		}
 		else {
@@ -79,7 +86,7 @@ public class ApplicantEnquiryService implements ApplicantEnquiryServiceInterface
 		if (searchEnquiry == null) {
 			System.out.println("Enquiry not found.");
 		} else {
-			if (searchEnquiry.getApplicant().getNRIC() != applicant.getNRIC()) {
+			if (!searchEnquiry.getApplicant().getNRIC().equals(applicant.getNRIC())) {
 				System.out.println("You do not have permission to delete this enquiry.");
 			} else {
 				enquiryRepo.delete(searchEnquiry.getID());
