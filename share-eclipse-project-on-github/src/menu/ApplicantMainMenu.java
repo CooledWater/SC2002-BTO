@@ -15,6 +15,8 @@ public class ApplicantMainMenu implements UserMainMenu {
     
     private ProjectRepository projectRepo;
     private EnquiryRepository enquiryRepo;
+    
+    private LoginMenu loginMenu;
 
     public ApplicantMainMenu(Applicant applicant,
     						 BookingService bookingService, 
@@ -23,8 +25,8 @@ public class ApplicantMainMenu implements UserMainMenu {
     						 ApplicantEnquiryService applicantEnquiryService,
     						 OfficerEnquiryService officerEnquiryService,
     						 ProjectRepository projectRepo,
-    						 EnquiryRepository enquiryRepo
-    						 ) {
+    						 EnquiryRepository enquiryRepo,
+    						 LoginMenu loginMenu) {
 
         this.currentSessionApplicant = applicant;
         this.bookingService = bookingService;
@@ -34,7 +36,7 @@ public class ApplicantMainMenu implements UserMainMenu {
         this.officerEnquiryService = officerEnquiryService;
         this.projectRepo = projectRepo;
         this.enquiryRepo = enquiryRepo;
-        
+        this.loginMenu = loginMenu;
     }
 
     public void applicantMenu(Scanner sc) {
@@ -68,7 +70,7 @@ public class ApplicantMainMenu implements UserMainMenu {
                 viewProfile();
                 break;
             case 2:
-                changePassword(sc, currentSessionApplicant);
+                changePassword(sc, currentSessionApplicant, loginMenu);
                 break;
             case 3:
             	System.out.println("Loading booking details...");

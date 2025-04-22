@@ -91,7 +91,8 @@ public class Main {
                     officerEnquiryService,
                     projectRepo, 
                     enquiryRepo,
-                    receiptRepo
+                    receiptRepo,
+                    loginMenu
                 );
                 officerMainMenu.officerMenu(sc);
         }
@@ -106,7 +107,8 @@ public class Main {
                 applicantEnquiryService,
                 officerEnquiryService,
                 projectRepo, 
-                enquiryRepo
+                enquiryRepo,
+                loginMenu
             );
             applicantMainMenu.applicantMenu(sc);
         }
@@ -119,7 +121,8 @@ public class Main {
 			           manageProjectAppService, 
 			           managerEnquiryService, 
 			           joinRequestService, 
-			           reportService);
+			           reportService,
+			           loginMenu);
 			managerMainMenu.managerMenu(sc); 
         }
         // if login failed, current user is null
