@@ -46,12 +46,10 @@ public class JoinRequest implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "%n----------------------------------------------------"
+		return String.format("%n----------------------------------------------------"
 				+ "%nProject: " + project.getName()
 				+ "%nRequesting officer: " + officer.getName()
 				+ "%nRequesting status: " + status
-				+ "%n%n";
+				+ "%n%n");
 	}
-	
-	
 }

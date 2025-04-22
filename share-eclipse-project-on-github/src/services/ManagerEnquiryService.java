@@ -36,7 +36,7 @@ public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
 		else if (searchEnquiry == null) {
 			System.out.println("Enquiry not found.");
 		}
-		else if (searchEnquiry.getProjectName() != managerManagingProject.getName()) {
+		else if (!searchEnquiry.getProjectName().equals(managerManagingProject.getName())) {
 			System.out.println("Manager not handling this project.");
 		}
 		else {

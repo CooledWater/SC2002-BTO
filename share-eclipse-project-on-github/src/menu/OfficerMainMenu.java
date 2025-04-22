@@ -20,13 +20,15 @@ public class OfficerMainMenu implements UserMainMenu {
     private ProjectRepository projectRepository;
     private EnquiryRepository enquiryRepository;
     private ReceiptRepository receiptRepository;
+    private JoinRequestRepository joinRequestRepository; // test 
     // private OfficerEnquiryService officerEnquiryService; put in officerService
     
   
     public OfficerMainMenu(Officer officer, BookingService bookingService, ViewProjectService viewProjectService, 
     		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService, 
     		ApplicantEnquiryService applicantEnquiryService, OfficerEnquiryService officerEnquiryService,
-    		ProjectRepository projectRepository, EnquiryRepository enquiryRepository, ReceiptRepository receiptRepository) {
+    		ProjectRepository projectRepository, EnquiryRepository enquiryRepository, ReceiptRepository receiptRepository,
+    		JoinRequestRepository joinRequestRepository) {
         this.currentOfficer = officer;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
@@ -37,6 +39,7 @@ public class OfficerMainMenu implements UserMainMenu {
         this.projectRepository = projectRepository;
         this.enquiryRepository = enquiryRepository;
         this.receiptRepository = receiptRepository;
+        this.joinRequestRepository = joinRequestRepository;
     }
 
     public void officerMenu(Scanner sc) {
@@ -50,19 +53,19 @@ public class OfficerMainMenu implements UserMainMenu {
         	System.out.println("\n=== Officer Main Menu ===");
         	
         	System.out.println("\n== Applicant Functions ==");
-            System.out.println("1. View Profile");
-            System.out.println("2. Change Password");
-            System.out.println("3. View Booking");
+            System.out.println("1. View profile");
+            System.out.println("2. Change password");
+            System.out.println("3. View booking");
             System.out.println("4. Manage your project application");
             System.out.println("5. Manage your enquiries");     	
             System.out.println();
             System.out.println("\n== Officer Functions ==");
-            System.out.println("6. View and register to handle projects");
-            System.out.println("7. View Registration Status");
-            System.out.println("8. View Project Details");
-            System.out.println("9. Manage Project Enquiries");
-            System.out.println("10. Assist in Flat Booking");
-            System.out.println("11. Generate Booking Receipt");
+            System.out.println("6. Register to handle a project");
+            System.out.println("7. View registration status");
+            System.out.println("8. View the project you are handling");
+            System.out.println("9. Manage project enquiries");
+            System.out.println("10. Assist in flat booking");
+            System.out.println("11. Generate booking receipt");
             System.out.println("0. Logout");
             System.out.println();
             System.out.print("Enter choice: ");
@@ -163,6 +166,20 @@ public class OfficerMainMenu implements UserMainMenu {
             System.out.println("You have not submitted a join request yet.");
         } else {
             System.out.println("Your join request status: " + joinRequestService.getJoinRequestStatus(officer));
+            
+            // test 
+            // System.out.println(officer.getHandlingProj());
+            // wrongly prints null
+            
+            // System.out.println(officer.getJoinRequest());
+            // wrongly prints pending request
+            
+            // System.out.println(officer.getJoinRequest().getProject().getManager().getJoinRequests().get(0));
+            // wrongly prints pending join request
+            
+//            JoinRequest request = joinRequestRepository.getJoinRequests().getFirst();
+//            System.out.println(request);
+            // can be found, prints pending
         }
     }
     

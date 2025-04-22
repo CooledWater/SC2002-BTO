@@ -1,6 +1,7 @@
 package menu;
 
 import java.io.*;
+
 import java.util.*;
 import entity.*;
 import menu.*;
@@ -9,35 +10,40 @@ import services.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-    	// instantiate repositories with csv	
+    public static void main(String[] args) throws IOException {
+    	// instantiate all repositories
         ApplicantRepository applicantRepo = ApplicantRepository.getInstance();
         OfficerRepository officerRepo = OfficerRepository.getInstance();
         ManagerRepository managerRepo = ManagerRepository.getInstance();
         ProjectRepository projectRepo = ProjectRepository.getInstance();
-        
-        // instantiate other repositories
         ReceiptRepository receiptRepo = ReceiptRepository.getInstance();
         EnquiryRepository enquiryRepo = EnquiryRepository.getInstance();
         JoinRequestRepository joinRequestRepo = JoinRequestRepository.getInstance();
         ProjectAppRepository projectAppRepo = ProjectAppRepository.getInstance();
         
         // check whether this is the first starting up or not, and import data
-        File f = new File("save");
+        File f = new File("save\\all-repositories.ser");
 
         try {
         	if (f.exists()) { 
         		// not the first starting up, therefore import from .ser files
         		// importFromSer() returns the superclass Repository
         		// therefore need to do downcasting accordingly
-            	applicantRepo = (ApplicantRepository) applicantRepo.importFromSer();
-            	officerRepo = (OfficerRepository) officerRepo.importFromSer();
-            	managerRepo = (ManagerRepository) managerRepo.importFromSer();
-            	projectRepo = (ProjectRepository) projectRepo.importFromSer();
-            	receiptRepo = (ReceiptRepository) receiptRepo.importFromSer();
-            	enquiryRepo = (EnquiryRepository) enquiryRepo.importFromSer();
-            	joinRequestRepo = (JoinRequestRepository) joinRequestRepo.importFromSer();
-            	projectAppRepo = (ProjectAppRepository) projectAppRepo.importFromSer();
+
+				FileInputStream fis = new FileInputStream("save\\all-repositories.ser");
+				ObjectInputStream in = new ObjectInputStream(fis);
+				
+				applicantRepo = (ApplicantRepository) applicantRepo.importFromSer(in);
+            	officerRepo = (OfficerRepository) officerRepo.importFromSer(in);
+            	managerRepo = (ManagerRepository) managerRepo.importFromSer(in);
+            	projectRepo = (ProjectRepository) projectRepo.importFromSer(in);
+            	receiptRepo = (ReceiptRepository) receiptRepo.importFromSer(in);
+            	enquiryRepo = (EnquiryRepository) enquiryRepo.importFromSer(in);
+            	joinRequestRepo = (JoinRequestRepository) joinRequestRepo.importFromSer(in);
+            	projectAppRepo = (ProjectAppRepository) projectAppRepo.importFromSer(in);
+            	
+				fis.close();
+				in.close();
             } else {
             	// is the first starting up
             	// importFromCSV() is a method that directly modifies the applicant repository
@@ -48,10 +54,8 @@ public class Main {
             	projectRepo.importFromCSV(managerRepo, officerRepo);
             }
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
@@ -72,6 +76,12 @@ public class Main {
         ProjectListingService projectListingService = new ProjectListingService(projectRepo);
         ReportService reportService = new ReportService(applicantRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
+        
+        
+//        // testing
+//        System.out.println(managerRepo.searchByName("Liam Yeo"));
+//	    System.out.println(projectRepo.searchByName("Acacia Breeze").getManager());
+//	    System.out.println(managerRepo.searchByName("Liam Yeo") == projectRepo.searchByName("Acacia Breeze").getManager());
 
         
         // log in 
@@ -91,15 +101,16 @@ public class Main {
                     officerEnquiryService,
                     projectRepo, 
                     enquiryRepo,
-                    receiptRepo
+                    receiptRepo,
+                    joinRequestRepo
                 );
                 officerMainMenu.officerMenu(sc);
         }
         
         // if current user is an applicant: 
-        else if (currentUser instanceof entity.Applicant) {
+        else if (currentUser instanceof Applicant) {
             ApplicantMainMenu applicantMainMenu = new ApplicantMainMenu(
-                (entity.Applicant) currentUser,
+                (Applicant) currentUser,
                 bookingService,
                 viewProjectService,
                 projectAppService, 
@@ -112,14 +123,17 @@ public class Main {
         }
         
         // if current user is a manager: 
-        else if (currentUser instanceof entity.Manager) {
-        	ManagerMainMenu managerMainMenu = new ManagerMainMenu((entity.Manager)currentUser,
+        else if (currentUser instanceof Manager) {
+        	ManagerMainMenu managerMainMenu = new ManagerMainMenu((Manager)currentUser,
 			           viewProjectService, 
 			           projectListingService, 
 			           manageProjectAppService, 
 			           managerEnquiryService, 
 			           joinRequestService, 
-			           reportService);
+			           reportService,
+			           joinRequestRepo,
+			           managerRepo,
+			           projectRepo);
 			managerMainMenu.managerMenu(sc); 
         }
         // if login failed, current user is null
@@ -130,13 +144,23 @@ public class Main {
         
         
         // save repositories to .ser file before exiting
-        applicantRepo.saveToSer();
-    	officerRepo.saveToSer();
-    	managerRepo.saveToSer();
-    	projectRepo.saveToSer();
-    	receiptRepo.saveToSer();
-    	enquiryRepo.saveToSer();
-    	joinRequestRepo.saveToSer();
-    	projectAppRepo.saveToSer();
+        if (!f.exists()) {
+        	f.getParentFile().mkdirs();
+        	f.createNewFile();
+        }
+        FileOutputStream fos = new FileOutputStream("save\\all-repositories.ser");
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+
+        applicantRepo.saveToSer(out);
+    	officerRepo.saveToSer(out);
+    	managerRepo.saveToSer(out);
+    	projectRepo.saveToSer(out);
+    	receiptRepo.saveToSer(out);
+    	enquiryRepo.saveToSer(out);
+    	joinRequestRepo.saveToSer(out);
+    	projectAppRepo.saveToSer(out);
+    	
+    	fos.close();
+    	out.close();
     }
 }

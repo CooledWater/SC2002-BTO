@@ -70,13 +70,20 @@ public class ManagerRepository extends UserRepository<Manager> {
 	@Override
 	public Manager searchByNRIC(String NRIC) {
 		Manager result = null;
-		for (Manager manager : managers) {
-			if (manager.getNRIC().equals(NRIC)) result = manager;
-			break;
+		for (Manager manager : managers) {		
+			if (manager.getNRIC().equals(NRIC)) {
+				result = manager;
+				break;
+			}
 		}
 		
 		return result;
 	}
+	
+	// test stuff
+//	System.out.format("Given NRIC: " + NRIC + "%n"
+//			+ "Actual NRIC: " + manager.getNRIC()
+//			+ "Same? " + (manager.getNRIC().equals(NRIC)? "Yes" : "No"));
 	
 	@Override
 	public Manager searchByName(String name) {

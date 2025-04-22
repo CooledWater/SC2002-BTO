@@ -78,7 +78,6 @@ public class ProjectApplicationService {
 				}
 				
 				app.setWantToWithdraw(true);
-				projectAppRepo.saveToSer();
 				System.out.println("Withdrawal request submitted for project: " + app.getProject().getName());
 				return;
     		}

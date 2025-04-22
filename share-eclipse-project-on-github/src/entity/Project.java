@@ -49,10 +49,10 @@ public class Project implements Serializable {
 //    }
     
 
-    // this constructor takes in 10 arguments, and initializes all 13 attributes
+    // this constructor takes in 9 arguments, and initializes all 13 attributes
     public Project(String name, String neighbourhood, int numberOf2Rooms,
     		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
-    		String openDate, String closeDate, boolean isVisible, Manager manager) { 
+    		String openDate, String closeDate, boolean isVisible) { 
     	this.name = name;
     	this.neighbourhood = neighbourhood;
     	this.numberOf2Rooms = numberOf2Rooms;
@@ -62,9 +62,9 @@ public class Project implements Serializable {
     	this.openDate = openDate;
     	this.closeDate = closeDate;
     	this.isVisible = isVisible;
-    	this.manager = manager;
     	
     	// null initialization
+    	this.manager = null;
     	this.numberOfOfficers = 0;
     	this.officers = new ArrayList<>();
     	this.projectApps = new ArrayList<>();
@@ -190,6 +190,7 @@ public class Project implements Serializable {
         + "%nOpen Date: " + this.getOpenDate()
         + "%nClose Date: " + this.getCloseDate()
         + "%nVisible: " + this.isVisible()
+        + "%nManager: " + this.manager.getName()
 		+ "%nOfficers: " + this.getOfficerNameStrings()
 		);
 	}

@@ -47,9 +47,7 @@ public class ProjectRepository extends Repository {
 		while(sc.hasNext()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(",");
-			
-			Manager manager = managerRepo.searchByName(parts[10].trim());
-			
+
 			// constructor initialize 10 attributes
 			Project project = new Project(
 	                parts[0].trim(), 
@@ -60,11 +58,13 @@ public class ProjectRepository extends Repository {
 	                Integer.parseInt(parts[7].trim()), 
 	                parts[8].trim(),
 	                parts[9].trim(),
-	                true,
-	                manager
+	                true
 	            );
+			
+			Manager manager = managerRepo.searchByName(parts[10].trim());
 			if (manager != null) {
 				manager.setManagingProj(project);
+				project.setManager(manager);
 			}
 			
 			 // initialize number of officers
