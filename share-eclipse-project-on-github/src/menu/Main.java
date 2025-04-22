@@ -62,7 +62,7 @@ public class Main {
         
         // set up all services
         AccountService accountService = new AccountService();
-        ApplicantEnquiryService applicantEnquiryService = new ApplicantEnquiryService(applicantRepo, enquiryRepo);
+        ApplicantEnquiryService applicantEnquiryService = new ApplicantEnquiryService(applicantRepo, officerRepo, enquiryRepo);
         BookingService bookingService = new BookingService(receiptRepo);
         JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo);
         ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo);

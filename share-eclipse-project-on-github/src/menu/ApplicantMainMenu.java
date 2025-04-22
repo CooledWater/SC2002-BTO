@@ -85,6 +85,7 @@ public class ApplicantMainMenu implements UserMainMenu {
             case 5: 
             	EnquiryMenu enquiryMenu = new EnquiryMenu(currentSessionApplicant, projectRepo, enquiryRepo, applicantEnquiryService, officerEnquiryService);
             	enquiryMenu.applicantEnquiryMenu(sc);
+            	break;
             case 0:
                 System.out.println("Logging out...");
                 break;

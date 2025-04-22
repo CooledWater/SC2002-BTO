@@ -40,7 +40,7 @@ public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 		if (searchEnquiry == null) {
 			System.out.println("Enquiry not found.");
 		}
-		else if (searchEnquiry.getProjectName() != officerHandlingProject.getName()) {
+		else if (!searchEnquiry.getProjectName().equals(officerHandlingProject.getName())) {
 			System.out.println("Officer not handling this project.");
 		}
 		else {
