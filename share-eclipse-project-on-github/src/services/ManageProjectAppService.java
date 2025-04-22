@@ -22,7 +22,10 @@ public class ManageProjectAppService {
 
         for (Project project : projects) {
             List<ProjectApp> apps = project.getProjectApps();
-            if (apps == null || apps.isEmpty()) continue;
+            if (apps == null || apps.isEmpty()) {
+            	System.out.println("You have no pending applications.");
+            	continue;
+            }
 
             for (ProjectApp app : apps) {
                 if (app.getStatus() == AppStatus.PENDING) {
@@ -51,7 +54,11 @@ public class ManageProjectAppService {
 
         for (Project project : projects) {
             List<ProjectApp> apps = project.getProjectApps();
-            if (apps == null || apps.isEmpty()) continue;
+            if (apps == null || apps.isEmpty()) {
+            	System.out.println("You have no pending withdrawals.");
+            	continue;
+            }
+
 
             Iterator<ProjectApp> iterator = apps.iterator();
             while (iterator.hasNext()) {
@@ -98,4 +105,44 @@ public class ManageProjectAppService {
             }
         }
     }
+    
+    public void toggleVisibility(Manager manager) {
+        List<Project> allProjects = projectRepo.getProjectsByManager(manager);
+
+        if (allProjects.isEmpty()) {
+            System.out.println("No projects available.");
+            return;
+        }
+
+        System.out.println("\n=== Your Projects ===");
+        for (Project project : allProjects) {
+            System.out.println("- " + project.getName() + " (Visibility: " + 
+                (project.isVisible() ? "ON" : "OFF") + ")");
+        }
+
+        System.out.print("\nEnter the project name to toggle visibility (or press 'enter' to return): ");
+        String input = sc.nextLine().trim();
+
+        if (input.equalsIgnoreCase("")) {
+            System.out.println("Returning to previous menu...");
+            return;
+        }
+
+        Project selectedProject = null;
+        for (Project p : allProjects) {
+            if (p.getName().equalsIgnoreCase(input)) {
+                selectedProject = p;
+                break;
+            }
+        }
+
+        if (selectedProject == null) {
+            System.out.println("You do not have access to this project or it was not found.");
+            return;
+        }
+
+        selectedProject.toggleVisibility();
+    }
+
+
 }

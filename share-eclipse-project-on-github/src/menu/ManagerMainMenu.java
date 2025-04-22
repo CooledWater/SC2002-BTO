@@ -56,6 +56,7 @@ public class ManagerMainMenu implements UserMainMenu{
             System.out.println("7. Generate Report");
             System.out.println("8. Change Password");
             System.out.println("9. View Profile");
+            System.out.println("10. Change project visibility");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
             
@@ -95,6 +96,8 @@ public class ManagerMainMenu implements UserMainMenu{
                 case 9: 
                 	viewProfile();
                 	break;
+                case 10:
+                	manageProjectAppService.toggleVisibility(currentSessionManager);
                 case 0:
                     System.out.println("Logging out...");
                     break;
