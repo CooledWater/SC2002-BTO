@@ -4,6 +4,7 @@ import entity.JoinRequest.Status;
 import repository.*; 
 import services.*;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ManagerMainMenu implements UserMainMenu{
 	}
 	
 	
-	public void managerMenu (Scanner sc) {
+	public void managerMenu (Scanner sc) throws ParseException {
 		int choice = -1;
 		projectRepo.updateManagerHandlingProj(currentSessionManager);
 
@@ -57,16 +58,18 @@ public class ManagerMainMenu implements UserMainMenu{
 
         while (choice != 0) {
         	System.out.println("\n=== Manager Main Menu ===");
-            System.out.println("1. View Project Listings");
-            System.out.println("2. Create New Project Listing");
-            System.out.println("3. View and Process Join Requests");
+            System.out.println("1. View Profile");
+            System.out.println("2. Change Password");
+            System.out.println("3. Process Join Requests");
             System.out.println("4. Process Project Applications");
             System.out.println("5. Process Withdrawal Requests");
-            System.out.println("6. View and Reply to Project Enquiries");         
+            System.out.println("6. Process Enquiries");         
             System.out.println("7. Generate Report");
-            System.out.println("8. Change Password");
-            System.out.println("9. View Profile");
-            System.out.println("10. Change project visibility");
+            System.out.println("8. View Project Listings");
+            System.out.println("9. Create New Project Listing");
+            System.out.println("10. Change Project Visibility");
+            System.out.println("11. Edit Project");
+            System.out.println("12. Delete Project");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
             
@@ -80,18 +83,10 @@ public class ManagerMainMenu implements UserMainMenu{
 
             switch (choice) {
                 case 1:
-                    viewProjectService.viewProjectsAsManager(currentSessionManager);
+                		viewProfile();
                     break;
                 case 2:
-                		Project newProject = projectListingService.createNewProjectListing(currentSessionManager); 
-                		if (newProject == null) {
-                			System.out.println("Project creation failed. ");
-                			break;
-                		}
-                		System.out.format("%n================================="
-		                				+ "%nNew project is created: "
-		                				+ newProject.toString()
-		                				+ "%n%n");
+                		changePassword(sc, currentSessionManager, loginMenu);                		
                     break;
                 case 3:
                 		processJoinRequests(currentSessionManager); 
@@ -109,14 +104,19 @@ public class ManagerMainMenu implements UserMainMenu{
 	                	reportService.generateFilteredApplicantReport(); 
 	                	break; 
                 case 8: 
-	                	changePassword(sc, currentSessionManager, loginMenu);
+	                	viewProjectService.viewProjectsAsManager(currentSessionManager);
 	                	break; 
                 case 9: 
-	                	viewProfile();
+	                	projectListingService.createNewProjectListing(currentSessionManager); 
 	                	break;
                 case 10:
                 		manageProjectAppService.toggleVisibility(currentSessionManager);
                 		break;
+                case 11: 
+                		projectListingService.editProjectListing(currentSessionManager, sc);
+                		break;
+                case 12: 
+                		projectListingService.deleteProjectListing(currentSessionManager, sc);
                 case 0:
 	                System.out.println("Logging out...");
 	                break;
@@ -193,4 +193,6 @@ public class ManagerMainMenu implements UserMainMenu{
 	public void viewProfile() {
 		System.out.println(currentSessionManager);
 	}
+	
+	
 }
