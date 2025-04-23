@@ -31,7 +31,6 @@ public class ProjectAppRepository extends Repository {
 
     public void add(ProjectApp projectApp) {
         this.projectApps.add(projectApp);
-        this.saveToSer(); // Optional: Auto-save after each add
     }
 
     public List<ProjectApp> getProjectApps() {

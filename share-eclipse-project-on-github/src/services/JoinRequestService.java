@@ -72,6 +72,9 @@ public class JoinRequestService {
 	}
 	
 	public void approveJoinRequest(Manager manager, JoinRequest joinRequest) {
+		if (!joinRequest.getStatus().equals(Status.PENDING)) {
+			return;
+		}
 		joinRequest.setStatus(Status.APPROVED);
 		// update project officer list
 		joinRequest.getProject().getOfficers().add(joinRequest.getOfficer());
@@ -81,11 +84,10 @@ public class JoinRequestService {
 	}
 	
 	public void rejectJoinRequest(Manager manager, JoinRequest joinRequest) {
+		if (!joinRequest.getStatus().equals(Status.PENDING)) {
+			return;
+		}
 		joinRequest.setStatus(Status.REJECTED);
-		joinRequestRepository.getJoinRequests().remove(joinRequest); // remove from repo
-		manager.getJoinRequests().remove(joinRequest); // remove from manager
-		
-	}
-	
-	
+		// decided not to remove rejected join request
+	}	
 }

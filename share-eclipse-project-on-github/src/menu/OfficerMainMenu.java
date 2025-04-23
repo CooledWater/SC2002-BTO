@@ -62,19 +62,19 @@ public class OfficerMainMenu implements UserMainMenu {
         	System.out.println("\n=== Officer Main Menu ===");
         	
         	System.out.println("\n== Applicant Functions ==");
-            System.out.println("1. View Profile");
-            System.out.println("2. Change Password");
-            System.out.println("3. View Booking");
+            System.out.println("1. View profile");
+            System.out.println("2. Change password");
+            System.out.println("3. View booking");
             System.out.println("4. Manage your project application");
             System.out.println("5. Manage your enquiries");     	
             System.out.println();
             System.out.println("\n== Officer Functions ==");
-            System.out.println("6. View and register to handle projects");
-            System.out.println("7. View Registration Status");
-            System.out.println("8. View Project Details");
-            System.out.println("9. Manage Project Enquiries");
-            System.out.println("10. Assist in Flat Booking");
-            System.out.println("11. Generate Booking Receipt");
+            System.out.println("6. Register to handle a project");
+            System.out.println("7. View registration status");
+            System.out.println("8. View the project you are handling");
+            System.out.println("9. Manage project enquiries");
+            System.out.println("10. Assist in flat booking");
+            System.out.println("11. Generate booking receipt");
             System.out.println("0. Logout");
             System.out.println();
             System.out.print("Enter choice: ");
