@@ -84,13 +84,14 @@ public class ManagerMainMenu implements UserMainMenu{
                     break;
                 case 2:
                 		Project newProject = projectListingService.createNewProjectListing(currentSessionManager); 
+                		if (newProject == null) {
+                			System.out.println("Project creation failed. ");
+                			break;
+                		}
                 		System.out.format("%n================================="
 		                				+ "%nNew project is created: "
 		                				+ newProject.toString()
 		                				+ "%n%n");
-                		if (currentSessionManager.getManagingProj() == null) {
-                			currentSessionManager.setManagingProj(newProject);
-                		}
                     break;
                 case 3:
                 		processJoinRequests(currentSessionManager); 
