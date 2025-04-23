@@ -1,11 +1,14 @@
 package test;
 
 import repository.*;
+
+import java.text.ParseException;
+
 import entity.*;
 
 public class ProjectImportFromCSVTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         ManagerRepository managerRepo = new ManagerRepository();
         managerRepo.importFromCSV();
         

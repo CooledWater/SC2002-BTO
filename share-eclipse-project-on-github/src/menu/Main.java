@@ -1,7 +1,7 @@
 package menu;
 
 import java.io.*;
-
+import java.text.ParseException;
 import java.util.*;
 import entity.*;
 import menu.*;
@@ -10,7 +10,7 @@ import services.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
     	// instantiate all repositories
         ApplicantRepository applicantRepo = ApplicantRepository.getInstance();
         OfficerRepository officerRepo = OfficerRepository.getInstance();
@@ -34,13 +34,13 @@ public class Main {
 				ObjectInputStream in = new ObjectInputStream(fis);
 				
 				applicantRepo = (ApplicantRepository) applicantRepo.importFromSer(in);
-            	officerRepo = (OfficerRepository) officerRepo.importFromSer(in);
-            	managerRepo = (ManagerRepository) managerRepo.importFromSer(in);
-            	projectRepo = (ProjectRepository) projectRepo.importFromSer(in);
-            	receiptRepo = (ReceiptRepository) receiptRepo.importFromSer(in);
-            	enquiryRepo = (EnquiryRepository) enquiryRepo.importFromSer(in);
-            	joinRequestRepo = (JoinRequestRepository) joinRequestRepo.importFromSer(in);
-            	projectAppRepo = (ProjectAppRepository) projectAppRepo.importFromSer(in);
+	            	officerRepo = (OfficerRepository) officerRepo.importFromSer(in);
+	            	managerRepo = (ManagerRepository) managerRepo.importFromSer(in);
+	            	projectRepo = (ProjectRepository) projectRepo.importFromSer(in);
+	            	receiptRepo = (ReceiptRepository) receiptRepo.importFromSer(in);
+	            	enquiryRepo = (EnquiryRepository) enquiryRepo.importFromSer(in);
+	            	joinRequestRepo = (JoinRequestRepository) joinRequestRepo.importFromSer(in);
+	            	projectAppRepo = (ProjectAppRepository) projectAppRepo.importFromSer(in);
             	
 				fis.close();
 				in.close();
