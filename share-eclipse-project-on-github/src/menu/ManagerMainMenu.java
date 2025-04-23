@@ -1,5 +1,6 @@
 package menu;
-import entity.*; 
+import entity.*;
+import entity.JoinRequest.Status;
 import repository.*; 
 import services.*;
 
@@ -110,14 +111,17 @@ public class ManagerMainMenu implements UserMainMenu{
 	
 	public void processJoinRequests(Manager manager) {
 	    List<JoinRequest> requests = manager.getJoinRequests();
-	    if (requests.isEmpty()) {
-	        System.out.println("No join requests to process.");
+	    List<JoinRequest> pendingRequests = requests.stream()
+	    											   .filter(n -> n.getStatus().equals(Status.PENDING))
+	    											   .collect(Collectors.toList());
+	    if (pendingRequests.isEmpty()) {
+	        System.out.println("No pending join requests to process.");
 	        return;
 	    }
 
-	    Iterator<JoinRequest> it = requests.iterator();
+	    Iterator<JoinRequest> it = pendingRequests.iterator();
 	    while(it.hasNext()) {
-	    	JoinRequest request = it.next();
+	    		JoinRequest request = it.next();
 	        System.out.println(request.toString());
 	        System.out.print("Approve this join request? (y/n): ");
 	        Scanner sc = new Scanner(System.in); 
@@ -126,6 +130,8 @@ public class ManagerMainMenu implements UserMainMenu{
 	        if (input.equals("y")) {
 	            joinRequestService.approveJoinRequest(manager, request);
 	            System.out.println("Join request approved.");
+	            System.out.println(request.getProject());
+	            System.out.format("%d out of 10 officer slots are occupied. %n%n", request.getProject().getNumberOfOfficers());
 	        } else {
 	            joinRequestService.rejectJoinRequest(manager, request);
 	            System.out.println("Join request rejected.");
