@@ -83,34 +83,42 @@ public class ManagerMainMenu implements UserMainMenu{
                     viewProjectService.viewProjectsAsManager(currentSessionManager);
                     break;
                 case 2:
-                	projectListingService.createNewProjectListing(currentSessionManager); 
+                		Project newProject = projectListingService.createNewProjectListing(currentSessionManager); 
+                		System.out.format("%n================================="
+		                				+ "%nNew project is created: "
+		                				+ newProject.toString()
+		                				+ "%n%n");
+                		if (currentSessionManager.getManagingProj() == null) {
+                			currentSessionManager.setManagingProj(newProject);
+                		}
                     break;
                 case 3:
-                	processJoinRequests(currentSessionManager); 
+                		processJoinRequests(currentSessionManager); 
                     break;
                 case 4:
-                	manageProjectAppService.processProjectApp(currentSessionManager);
+                		manageProjectAppService.processProjectApp(currentSessionManager);
                     break;
                 case 5:
-                	manageProjectAppService.processWithdrawal(currentSessionManager);
+                		manageProjectAppService.processWithdrawal(currentSessionManager);
                     break;
                 case 6:
                     processEnquiries(sc); 
                     break;
                 case 7: 
-                	reportService.generateFilteredApplicantReport(); 
-                	break; 
+	                	reportService.generateFilteredApplicantReport(); 
+	                	break; 
                 case 8: 
-                	changePassword(sc, currentSessionManager, loginMenu);
-                	break; 
+	                	changePassword(sc, currentSessionManager, loginMenu);
+	                	break; 
                 case 9: 
-                	viewProfile();
-                	break;
+	                	viewProfile();
+	                	break;
                 case 10:
-                	manageProjectAppService.toggleVisibility(currentSessionManager);
+                		manageProjectAppService.toggleVisibility(currentSessionManager);
+                		break;
                 case 0:
-                    System.out.println("Logging out...");
-                    break;
+	                System.out.println("Logging out...");
+	                break;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }

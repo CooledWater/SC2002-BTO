@@ -1,7 +1,11 @@
 package repository;
 import java.util.*;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import entity.*;
@@ -33,7 +37,7 @@ public class ProjectRepository extends Repository {
 	}
 
     
-	public void importFromCSV(ManagerRepository managerRepo, OfficerRepository officerRepo) {
+	public void importFromCSV(ManagerRepository managerRepo, OfficerRepository officerRepo) throws ParseException {
 		String filePath = "csv\\ProjectList.csv";
 		Scanner sc; 
 		try { 
@@ -49,6 +53,14 @@ public class ProjectRepository extends Repository {
 		while(sc.hasNext()) {
 			String line = sc.nextLine();
 			String[] parts = line.split(",");
+			
+			// convert dates from String to Date 
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			String openDateString = parts[8].trim();
+			String closeDateString = parts[9].trim();
+			Date openDate = format.parse(openDateString);
+			Date closeDate = format.parse(closeDateString);
+			
 
 			// constructor initialize 10 attributes
 			Project project = new Project(
@@ -58,8 +70,8 @@ public class ProjectRepository extends Repository {
 	                Integer.parseInt(parts[4].trim()), 
 	                Integer.parseInt(parts[6].trim()),
 	                Integer.parseInt(parts[7].trim()), 
-	                parts[8].trim(),
-	                parts[9].trim(),
+	                openDate, // open date
+	                closeDate, // close date
 	                true
 	            );
 			
@@ -143,19 +155,21 @@ public class ProjectRepository extends Repository {
     }
     
     public void updateManagerHandlingProj(Manager manager) {
-    	List<Project> managerProjects = getProjectsByManager(manager);
-    	LocalDate today = LocalDate.now();
-    	for (Project project: managerProjects) {
-    		String opening = project.getOpenDate();
-    		String closing = project.getCloseDate();
-    		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
-    		LocalDate open = LocalDate.parse(opening, dateFormat);
-            LocalDate close = LocalDate.parse(closing, dateFormat);
-    		if (today.isAfter(open) && today.isBefore(close)) {
-    			manager.setManagingProj(project);
-    			return;
-    		}
-    	}
+    	// assign to the manager their first active project, among all projects under their name  
+	    	List<Project> managerProjects = getProjectsByManager(manager);
+	    	// get Date today
+	    	LocalDate localDate = LocalDate.now();
+	    	Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		Date today = Date.from(instant);
+	    	for (Project project: managerProjects) {
+	    		Date openDate = project.getOpenDate();
+	    		Date closeDate = project.getCloseDate();
+	    		if (!today.before(openDate) && !today.after(closeDate)) { 
+	    			// openDate <= today <= closeDate
+	    			manager.setManagingProj(project);
+	    			return;
+	    		}
+	    	}
     }
     
 }

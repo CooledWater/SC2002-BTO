@@ -2,6 +2,7 @@ package entity;
 
 import java.util.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
 
 public class Project implements Serializable {
     
@@ -16,8 +17,8 @@ public class Project implements Serializable {
     private int numberOf3Rooms;
     private int sellingPrice2Room;
     private int sellingPrice3Room;
-    private String openDate;
-    private String closeDate;
+    private Date openDate;
+    private Date closeDate;
     private Manager manager;
     private int numberOfOfficers;
     private List<Officer> officers;
@@ -25,34 +26,12 @@ public class Project implements Serializable {
     
     // other attributes
     private boolean isVisible;
-    private List<ProjectApp> projectApps;
-    
-//    // this constructor can be used while importing from CSV
-//    public Project(String name, String neighbourhood, int numberOf2Rooms,
-//    		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
-//    		String openDate, String closeDate, Manager manager, int numberOfOfficers,
-//    		List<Officer> officers) { 
-//    	this.name = name;
-//    	this.neighbourhood = neighbourhood;
-//    	this.numberOf2Rooms = numberOf2Rooms;
-//    	this.sellingPrice2Room = sellingPrice2Room;
-//    	this.numberOf3Rooms = numberOf3Rooms;
-//    	this.sellingPrice3Room = sellingPriceOf3Room;
-//    	this.openDate = openDate;
-//    	this.closeDate = closeDate;
-//    	this.manager = manager;
-//    	this.numberOfOfficers = numberOfOfficers;
-//    	this.officers = officers;
-//    	
-//    	this.isVisible = true;
-//    	this.projectApps = new ArrayList<>();
-//    }
-    
+    private List<ProjectApp> projectApps;   
 
     // this constructor takes in 9 arguments, and initializes all 13 attributes
     public Project(String name, String neighbourhood, int numberOf2Rooms,
     		int sellingPrice2Room, int numberOf3Rooms, int sellingPriceOf3Room, 
-    		String openDate, String closeDate, boolean isVisible) { 
+    		Date openDate, Date closeDate, boolean isVisible) { 
     	this.name = name;
     	this.neighbourhood = neighbourhood;
     	this.numberOf2Rooms = numberOf2Rooms;
@@ -105,16 +84,16 @@ public class Project implements Serializable {
 	public void setNumberOf3Rooms(int numberof3Rooms) {
 		this.numberOf3Rooms = numberof3Rooms;
 	}
-	public String getOpenDate() {
+	public Date getOpenDate() {
 		return openDate;
 	}
-	public void setOpenDate(String openDate) {
+	public void setOpenDate(Date openDate) {
 		this.openDate = openDate;
 	}
-	public String getCloseDate() {
+	public Date getCloseDate() {
 		return closeDate;
 	}
-	public void setCloseDate(String closeDate) {
+	public void setCloseDate(Date closeDate) {
 		this.closeDate = closeDate;
 	}
 	public Manager getManager() {
@@ -130,7 +109,7 @@ public class Project implements Serializable {
 	private String getOfficerNameStrings() {
 		String result = "";
 		if (officers.size() == 0) {
-			return result;
+			return "No officer";
 		}
 		for (Officer officer: officers) {
 			result += (officer.getName() + ", ");
@@ -182,14 +161,20 @@ public class Project implements Serializable {
 
 	@Override
 	public String toString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String openDateString = sdf.format(this.openDate);
+		String closeDateString = sdf.format(this.closeDate);
+		
 		return String.format(
-		  "Project Name: " + this.getName()
+		  "%nProject Name: " + this.getName()
         + "%nNeighbourhood: " + this.getNeighbourhood()
-        + "%nNumber of available 2-Room Units: " + this.getNumberOf2Rooms()
-        + "%nNumber of available 3-Room Units: " + this.getNumberOf3Rooms()
-        + "%nOpen Date: " + this.getOpenDate()
-        + "%nClose Date: " + this.getCloseDate()
-        + "%nVisible: " + this.isVisible()
+        + "%nNumber of available 2-room units: " + this.getNumberOf2Rooms()
+        + "%nSelling price of 2-room unit: SGD " + this.sellingPrice2Room
+        + "%nNumber of available 3-room units: " + this.getNumberOf3Rooms()
+        + "%nSelling price of 3-room unit: SGD " + this.sellingPrice3Room
+        + "%nApplication Open Date: " + openDateString
+        + "%nApplication Close Date: " + closeDateString
+        + "%nVisiblility: " + (isVisible? "Visible" : "Hidden")
         + "%nManager: " + this.manager.getName()
 		+ "%nOfficers: " + this.getOfficerNameStrings()
 		);

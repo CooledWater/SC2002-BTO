@@ -131,7 +131,7 @@ public class ManageProjectAppService {
         System.out.println("\n=== Your Projects ===");
         for (Project project : allProjects) {
             System.out.println("- " + project.getName() + " (Visibility: " + 
-                (project.isVisible() ? "ON" : "OFF") + ")");
+                (project.isVisible() ? "Visible" : "Hidden") + ")");
         }
 
         System.out.print("\nEnter the project name to toggle visibility (or press 'enter' to return): ");
