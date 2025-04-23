@@ -15,7 +15,7 @@ public class ProjectListingServiceTest {
 		Manager Alice = new Manager("Alice", "A1234567B", 25, true, "Password");
 		
 
-		Project myProject = projectListingService.createNewProjectListing(Alice);
+		// Project myProject = projectListingService.createNewProjectListing(Alice);
 		
 
 	}

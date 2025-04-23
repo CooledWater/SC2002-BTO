@@ -34,7 +34,7 @@ public class LoginMenu {
         int choice = -1;
         
         while (true) {
-        	try {
+        		try {
                 choice = Integer.parseInt(sc.nextLine());
                 if (choice == 1 || choice == 2 || choice == 3) {break;}
                 else {System.out.println("Invalid input. Please enter 1 or 2 or 3. ");}

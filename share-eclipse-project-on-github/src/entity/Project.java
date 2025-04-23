@@ -3,6 +3,8 @@ package entity;
 import java.util.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class Project implements Serializable {
     
@@ -49,16 +51,19 @@ public class Project implements Serializable {
     	this.projectApps = new ArrayList<>();
     }
 
-
+    
+  //method to toggle visibility
+  	public void toggleVisibility() {
+  	    this.isVisible = !this.isVisible;
+  	    System.out.println("Project visibility is now: " + (this.isVisible ? "Visible" : "Hidden"));
+  	}
 	public boolean isVisible() {
-		return isVisible;
-	}
-	public void setVisible(User user, boolean isVisible) {
-		if (user instanceof Manager) { // check user identity
-			this.isVisible = isVisible;
-		} else {
-			System.out.println("Unauthorized to change visibility. ");
-		}
+	    LocalDate today = LocalDate.now();
+	    LocalDate open = openDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    LocalDate close = closeDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    
+	    // Project is visible only if manually set to visible AND today's date is within the open/close window
+	    return this.isVisible && !today.isBefore(open) && !today.isAfter(close);
 	}
 	public String getName() {
 		return name;
@@ -153,12 +158,21 @@ public class Project implements Serializable {
 	public void addProjectApp(ProjectApp projectApp) {
 	    this.projectApps.add(projectApp);
 	}
-	//method to toggle visibility
-	public void toggleVisibility() {
-	    this.isVisible = !this.isVisible;
-	    System.out.println("Project visibility is now: " + (this.isVisible ? "Visible" : "Hidden"));
+
+	public int getSellingPrice2Room() {
+		return sellingPrice2Room;
 	}
 
+
+	public void setSellingPrice2Room(int sellingPrice2Room) {
+		this.sellingPrice2Room = sellingPrice2Room;
+	}
+
+
+	public int getSellingPrice3Room() {
+		return sellingPrice3Room;
+	}
+	
 	@Override
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -178,6 +192,11 @@ public class Project implements Serializable {
         + "%nManager: " + this.manager.getName()
 		+ "%nOfficers: " + this.getOfficerNameStrings()
 		);
+	}
+
+
+	public void setSellingPrice3Room(int sellingPrice3Room) {
+		this.sellingPrice3Room = sellingPrice3Room;
 	}
 
 

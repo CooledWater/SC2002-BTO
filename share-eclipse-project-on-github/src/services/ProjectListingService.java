@@ -17,7 +17,7 @@ public class ProjectListingService {
         this.projectRepository = projectRepository;
     };
 	
-	public Project createNewProjectListing(Manager manager) {
+	public void createNewProjectListing(Manager manager) {
 				
 		// initialize attributes
 		 String name;
@@ -44,7 +44,8 @@ public class ProjectListingService {
 		
 		if (projectRepository.searchByName(name) != null) {
 			System.out.println("Project already exists. ");
-			return null;
+			System.out.println("Project creation failed. ");
+			return;
 		}
 		
 		
@@ -172,7 +173,8 @@ public class ProjectListingService {
 		    			String otherOpenString = sdf.format(otherOpen);
 		    			String otherCloseString = sdf.format(otherClose);
 		    			System.out.printf("You are already handling a project from %s to %s%n", otherOpenString, otherCloseString);
-		    			return null;
+		    			System.out.println("Project creation failed. ");
+		    			return;
 		    		}
 		    	}
 				break;
@@ -217,10 +219,113 @@ public class ProjectListingService {
 			// active
 			manager.setManagingProj(newProject);
 		}
-		return newProject;
-		
+		System.out.format("%n================================="
+				+ "%nNew project is created: "
+				+ newProject.toString()
+				+ "%n%n");
+		return;
 	}
 	
-
+	public void editProjectListing(Manager manager, Scanner sc) throws ParseException {
+		System.out.println("Enter the name of the project which you wish to edit: ");
+		String projectName = sc.nextLine().trim();
+		Project project = projectRepository.searchByName(projectName);
+		if (project == null) {
+			System.out.println("Project cannot be found. Edit failed. ");
+			return;
+		}
+		if (project.getManager() != manager) {
+			System.out.println("You are not authorized. Edit failed. ");
+			return;
+		}
+		
+		// print menu
+		System.out.println("=================Edit Project Details=================");
+		System.out.println("1. Change project name");
+		System.out.println("2. Change neighbourhood");
+		System.out.println("3. Change the selling price of 2-room flats");
+		System.out.println("4. Change the selling price of 3-room flats");
+		System.out.println("5. Change application closing date");
+		System.out.println("Enter an integer to choose which detail you wish to edit: ");
+		int choice = -1;
+		
+		while (true) {
+	    		try {
+	            choice = Integer.parseInt(sc.nextLine());
+	            if ((0 <= choice) && (choice <= 5)) {break;}
+	            else {System.out.println("Invalid input. Please try again. ");}
+	        } catch (NumberFormatException e) {
+	            System.out.println("Invalid input. Please try again. ");
+	        }
+		}
+		
+		switch (choice) {
+		case 0: 
+			System.out.println("Cancelled edit. ");
+			break;
+		case 1: 
+			System.out.println("Please enter new project name: ");
+			String name = sc.nextLine().trim();
+			project.setName(name);
+			break;
+		case 2: 
+			System.out.println("Please enter new neighbourhood: ");
+			String neighbourhood = sc.nextLine().trim();
+			project.setNeighbourhood(neighbourhood);
+			break;
+		case 3: 
+			System.out.println("Please enter new price of two-room flats: ");
+			int price2 = Integer.parseInt(sc.nextLine());
+			project.setSellingPrice2Room(price2);
+			break;
+		case 4: 
+			System.out.println("Please enter new price of three-room flats: ");
+			int price3 = Integer.parseInt(sc.nextLine());
+			project.setSellingPrice3Room(price3);
+			break;
+		case 5: 
+			System.out.println("Please enter the new application closing date: ");
+			String closeDateString = sc.nextLine().trim();
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			Date closeDate = format.parse(closeDateString);
+			project.setCloseDate(closeDate);
+			break;
+		default:
+			System.out.println("invalid choice. Edit failed. ");
+			return;
+		}
+		System.out.println("Edit successful. ");
+		return;
+	}
+	
+	public void deleteProjectListing(Manager manager, Scanner sc) {
+		System.out.println("Enter the name of the project which you wish to delete: ");
+		String projectName = sc.nextLine().trim();
+		Project project = projectRepository.searchByName(projectName);
+		if (project == null) {
+			System.out.println("Project cannot be found. Deletion failed. ");
+			return;
+		}
+		if (project.getManager() != manager) {
+			System.out.println("You are not authorized. Deletion failed. ");
+			return;
+		}
+		if (project.getProjectApps().size() != 0) {
+			System.out.println("There are already people who applied for this project. Deletion failed. ");
+			return;
+		}
+		if (project.getOfficers().size() != 0) {
+			System.out.println("There are already officers in charge of this project. Deletion failed. ");
+			return;
+		}
+		
+		projectRepository.getProjects().remove(project);
+		if (manager.getManagingProj() == project) {
+			manager.setManagingProj(null);
+		}
+		System.out.println("Project was successfully deleted. ");
+		return;
+		
+	}
 
 }

@@ -67,7 +67,9 @@ public class Main {
         // set up all services
         AccountService accountService = new AccountService();
         ApplicantEnquiryService applicantEnquiryService = new ApplicantEnquiryService(applicantRepo, officerRepo, enquiryRepo);
-        BookingService bookingService = new BookingService(receiptRepo);
+        BookingService bookingService = new BookingService(
+        		ReceiptRepository.getInstance(),
+        		ProjectAppRepository.getInstance());
         JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo);
         ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo);
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
@@ -95,6 +97,7 @@ public class Main {
                     projectRepo, 
                     enquiryRepo,
                     receiptRepo,
+                    applicantRepo,
                     loginMenu
                 );
                 officerMainMenu.officerMenu(sc);
@@ -111,6 +114,7 @@ public class Main {
                 officerEnquiryService,
                 projectRepo, 
                 enquiryRepo,
+                receiptRepo,
                 loginMenu
             );
             applicantMainMenu.applicantMenu(sc);

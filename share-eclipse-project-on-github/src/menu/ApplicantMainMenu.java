@@ -15,6 +15,7 @@ public class ApplicantMainMenu implements UserMainMenu {
     
     private ProjectRepository projectRepo;
     private EnquiryRepository enquiryRepo;
+    private ReceiptRepository receiptRepo;
     
     private LoginMenu loginMenu;
 
@@ -26,6 +27,7 @@ public class ApplicantMainMenu implements UserMainMenu {
     						 OfficerEnquiryService officerEnquiryService,
     						 ProjectRepository projectRepo,
     						 EnquiryRepository enquiryRepo,
+    						 ReceiptRepository receiptRepository,
     						 LoginMenu loginMenu) {
 
         this.currentSessionApplicant = applicant;
@@ -36,6 +38,7 @@ public class ApplicantMainMenu implements UserMainMenu {
         this.officerEnquiryService = officerEnquiryService;
         this.projectRepo = projectRepo;
         this.enquiryRepo = enquiryRepo;
+        this.receiptRepo = receiptRepository;
         this.loginMenu = loginMenu;
     }
 
@@ -79,7 +82,7 @@ public class ApplicantMainMenu implements UserMainMenu {
             case 4:
 				// calling project app menu
             	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentSessionApplicant, 
-            			viewProjectService, projectApplicationService, bookingService);
+            			viewProjectService, projectApplicationService, receiptRepo);
             	projectAppMenu.projectAppMainMenu(sc);
                 break;
             case 5: 
