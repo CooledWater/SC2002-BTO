@@ -48,7 +48,7 @@ public class ViewProjectService {
         List<Project> handledProjects = allProjects.stream()
                 .filter(p -> p.getOfficers().contains(officer))
                 .collect(Collectors.toList());
-        showFilterMenu(true);
+        showFilterMenu(false);
         List<Project> filtered = applyFilters(handledProjects);
         printProjects(filtered);
     }
