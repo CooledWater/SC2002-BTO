@@ -1,7 +1,9 @@
 package services;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -42,8 +44,7 @@ public class ProjectListingService {
 		
 		if (projectRepository.searchByName(name) != null) {
 			System.out.println("Project already exists. ");
-			newProject = projectRepository.searchByName(name);
-			return newProject;
+			return null;
 		}
 		
 		
@@ -159,12 +160,18 @@ public class ProjectListingService {
 				// check that dates do not overlap with other projects
 				List<Project> managerProjects = projectRepository.getProjectsByManager(manager);
 		    	for (Project project: managerProjects) {
-		    		Date opening = project.getOpenDate();
-		    		Date closing = project.getCloseDate();
+		    		Date otherOpen = project.getOpenDate();
+		    		Date otherClose = project.getCloseDate();
 		    		
-		    		if ((openDate.compareTo(opening) >= 0 && openDate.compareTo(closing) <= 0) ||
-		    				(closeDate.compareTo(opening) >= 0 && closeDate.compareTo(closing) <= 0)) {
-		    			System.out.printf("You are already handling a project from %s to %s\n", opening, closing);
+		    		if (
+		    				(!openDate.before(otherOpen)) && (!openDate.after(otherClose)) ||
+		    				(!closeDate.before(otherOpen)) && (!closeDate.after(otherClose))
+		    			) 
+		    		{
+		    			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		    			String otherOpenString = sdf.format(otherOpen);
+		    			String otherCloseString = sdf.format(otherClose);
+		    			System.out.printf("You are already handling a project from %s to %s%n", otherOpenString, otherCloseString);
 		    			return null;
 		    		}
 		    	}
@@ -198,6 +205,18 @@ public class ProjectListingService {
 	    		openDate, closeDate, isVisible);
 		newProject.setManager(manager);
 		projectRepository.getProjects().add(newProject);
+		
+		// decide whether this project should be the active project
+		LocalDate localDate = LocalDate.now();
+	    	Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		Date today = Date.from(instant);
+		
+		if (
+				(!today.before(openDate)) && (!today.after(closeDate))
+			) {
+			// active
+			manager.setManagingProj(newProject);
+		}
 		return newProject;
 		
 	}
