@@ -3,8 +3,11 @@ package repository;
 import java.util.*;
 import java.io.*;
 
+import entity.AppStatus;
 import entity.Applicant;
 import entity.Officer;
+import entity.Project;
+import entity.ProjectApp;
 
 public class ApplicantRepository extends UserRepository<Applicant> {
 
@@ -67,7 +70,6 @@ public class ApplicantRepository extends UserRepository<Applicant> {
 	public void setApplicants(List<Applicant> applicants) {
 		this.applicants = applicants;
 	}
-
 
 	@Override
 	public Applicant searchByNRIC(String NRIC) {
