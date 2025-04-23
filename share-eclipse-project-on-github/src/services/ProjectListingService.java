@@ -189,9 +189,10 @@ public class ProjectListingService {
 						sellingPrice3Room, openDate, closeDate);
 		newProject = new Project(name, neighbourhood, numberOf2Rooms,
 	    		sellingPrice2Room, numberOf3Rooms, sellingPrice3Room, 
-	    		openDate, closeDate, isVisible, manager);
+	    		openDate, closeDate, isVisible);
+		newProject.setManager(manager);
 		
-//		projectRepository.add(newProject);
+		projectRepository.getProjects().add(newProject);
 		return newProject;
 		
 	}

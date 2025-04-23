@@ -4,6 +4,7 @@ import repository.*;
 import services.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -18,7 +19,6 @@ public class ManagerMainMenu implements UserMainMenu{
     private ManagerEnquiryService managerEnquiryService;
     private JoinRequestService joinRequestService;
     private ReportService reportService; 
-    
     private LoginMenu loginMenu;
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
@@ -28,6 +28,7 @@ public class ManagerMainMenu implements UserMainMenu{
 							JoinRequestService joinRequestService, 
 							ReportService reportService,
 							LoginMenu loginMenu) {
+
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
         this.projectListingService = projectListingService;
@@ -76,7 +77,7 @@ public class ManagerMainMenu implements UserMainMenu{
                 	projectListingService.createNewProjectListing(currentSessionManager); 
                     break;
                 case 3:
-                	processJoinRequests(currentSessionManager, joinRequestService); 
+                	processJoinRequests(currentSessionManager); 
                     break;
                 case 4:
                 	manageProjectAppService.processProjectApp(currentSessionManager);
@@ -107,18 +108,17 @@ public class ManagerMainMenu implements UserMainMenu{
         }
 	}
 	
-	public void processJoinRequests(Manager manager, JoinRequestService joinRequestService) {
-	    List<JoinRequest> requests = new ArrayList<>(manager.getJoinRequests());
-
+	public void processJoinRequests(Manager manager) {
+	    List<JoinRequest> requests = manager.getJoinRequests();
 	    if (requests.isEmpty()) {
 	        System.out.println("No join requests to process.");
 	        return;
 	    }
 
-	    for (JoinRequest request : requests) {
-	        System.out.println("Officer: " + request.getOfficer().getName());
-	        System.out.println("Project: " + request.getProject().getName());
-	        System.out.println("Request Status: " + request.getStatus());
+	    Iterator<JoinRequest> it = requests.iterator();
+	    while(it.hasNext()) {
+	    	JoinRequest request = it.next();
+	        System.out.println(request.toString());
 	        System.out.print("Approve this join request? (y/n): ");
 	        Scanner sc = new Scanner(System.in); 
 			String input = sc.nextLine().trim().toLowerCase();
@@ -168,11 +168,6 @@ public class ManagerMainMenu implements UserMainMenu{
 
 	@Override
 	public void viewProfile() {
-		System.out.println("\n--- Manager Profile ---");
-        System.out.println("Name: " + currentSessionManager.getName());
-        System.out.println("NRIC: " + currentSessionManager.getNRIC());
-        System.out.println("Age: " + currentSessionManager.getAge());
-        System.out.println("Marital Status: " + (currentSessionManager.isMarried() ? "Married" : "Single"));
+		System.out.println(currentSessionManager);
 	}
-
 }

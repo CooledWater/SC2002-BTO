@@ -79,6 +79,11 @@ public class ManagerRepository extends UserRepository<Manager> {
 		return result;
 	}
 	
+	// test stuff
+//	System.out.format("Given NRIC: " + NRIC + "%n"
+//			+ "Actual NRIC: " + manager.getNRIC()
+//			+ "Same? " + (manager.getNRIC().equals(NRIC)? "Yes" : "No"));
+	
 	@Override
 	public Manager searchByName(String name) {
 	    for (Manager manager : this.getManagers()) {

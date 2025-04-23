@@ -38,6 +38,10 @@ public class ViewProjectService {
         }
 
         printProjects(filtered);
+    	
+        // test 
+    	// System.out.println(manager.getManagingProj());
+        // prints the correct result with the new officer 
     }
 
     public void viewProjectsAsOfficer(Officer officer) {
