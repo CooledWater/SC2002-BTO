@@ -3,6 +3,8 @@ package entity;
 import java.util.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class Project implements Serializable {
     
@@ -56,7 +58,12 @@ public class Project implements Serializable {
   	    System.out.println("Project visibility is now: " + (this.isVisible ? "Visible" : "Hidden"));
   	}
 	public boolean isVisible() {
-		return isVisible;
+	    LocalDate today = LocalDate.now();
+	    LocalDate open = openDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    LocalDate close = closeDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    
+	    // Project is visible only if manually set to visible AND today's date is within the open/close window
+	    return this.isVisible && !today.isBefore(open) && !today.isAfter(close);
 	}
 	public String getName() {
 		return name;
