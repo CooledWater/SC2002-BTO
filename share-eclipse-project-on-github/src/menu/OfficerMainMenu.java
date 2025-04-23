@@ -103,7 +103,7 @@ public class OfficerMainMenu implements UserMainMenu {
             	case 4:
     				// calling project app menu
                 	ProjectAppMenu projectAppMenu = new ProjectAppMenu(currentOfficer, 
-                			viewProjectService, projectApplicationService, bookingService);
+                			viewProjectService, projectApplicationService, receiptRepository);
                 	projectAppMenu.projectAppMainMenu(sc);
                     break;
                 case 5: 

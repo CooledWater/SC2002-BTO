@@ -114,6 +114,7 @@ public class Main {
                 officerEnquiryService,
                 projectRepo, 
                 enquiryRepo,
+                receiptRepo,
                 loginMenu
             );
             applicantMainMenu.applicantMenu(sc);

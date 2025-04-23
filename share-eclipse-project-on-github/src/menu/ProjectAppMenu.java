@@ -5,7 +5,7 @@ import entity.FlatType;
 import entity.Project;
 import entity.ProjectApp;
 import entity.AppStatus;
-import services.BookingService;
+import repository.ReceiptRepository;
 import services.ViewProjectService;
 import services.ProjectApplicationService;  
 import java.util.List;
@@ -15,16 +15,16 @@ public class ProjectAppMenu {
     private Applicant currentSessionApplicant;
     private ViewProjectService viewService;
     private ProjectApplicationService projectApplicationService; 
-    private BookingService bookingService;        
+    private ReceiptRepository receiptRepository;        
     
     public ProjectAppMenu(Applicant applicant,
                           ViewProjectService viewService,
                           ProjectApplicationService projectApplicationService,
-                          BookingService bookingService) {
+                          ReceiptRepository receiptRepository) {
         this.currentSessionApplicant = applicant;
         this.viewService = viewService;
         this.projectApplicationService = projectApplicationService;
-        this.bookingService = bookingService;
+        this.receiptRepository = receiptRepository;
     }
 
     public void projectAppMainMenu(Scanner sc) {
@@ -40,13 +40,14 @@ public class ProjectAppMenu {
             System.out.println("2. Apply for Project");
             System.out.println("3. Withdraw Application");
             System.out.println("4. View Project Details");
+            System.out.println("5. View Booking Receipt.");
             System.out.println("0. Return to Applicant Menu");
             System.out.print("Enter choice: ");
             
             while (true) {
             	try {
                     choice = Integer.parseInt(sc.nextLine());
-                    if (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 0) {break;}
+                    if (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5 || choice == 0) {break;}
                     else {System.out.println("Invalid input. Please enter 1, 2, 3, 4 or 0. ");}
                 } catch (NumberFormatException e) {
                     System.out.println("Please enter a valid number.");
@@ -137,6 +138,8 @@ public class ProjectAppMenu {
             case 4:
                 viewProjectDetails();
                 break;
+            case 5:
+                receiptRepository.printReceiptsByNric(currentSessionApplicant.getNRIC());
             case 0:
                 System.out.println("Returning to Applicant Main Menu...");
                 break;
