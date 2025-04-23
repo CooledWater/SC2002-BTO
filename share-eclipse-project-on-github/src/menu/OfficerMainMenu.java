@@ -20,15 +20,13 @@ public class OfficerMainMenu implements UserMainMenu {
     private ProjectRepository projectRepository;
     private EnquiryRepository enquiryRepository;
     private ReceiptRepository receiptRepository;
-    private JoinRequestRepository joinRequestRepository; // test 
     // private OfficerEnquiryService officerEnquiryService; put in officerService
     
   
     public OfficerMainMenu(Officer officer, BookingService bookingService, ViewProjectService viewProjectService, 
     		ProjectApplicationService projectApplicationService, JoinRequestService joinRequestService, 
     		ApplicantEnquiryService applicantEnquiryService, OfficerEnquiryService officerEnquiryService,
-    		ProjectRepository projectRepository, EnquiryRepository enquiryRepository, ReceiptRepository receiptRepository,
-    		JoinRequestRepository joinRequestRepository) {
+    		ProjectRepository projectRepository, EnquiryRepository enquiryRepository, ReceiptRepository receiptRepository) {
         this.currentOfficer = officer;
         this.bookingService = bookingService;
         this.viewProjectService = viewProjectService;
@@ -39,7 +37,6 @@ public class OfficerMainMenu implements UserMainMenu {
         this.projectRepository = projectRepository;
         this.enquiryRepository = enquiryRepository;
         this.receiptRepository = receiptRepository;
-        this.joinRequestRepository = joinRequestRepository;
     }
 
     public void officerMenu(Scanner sc) {
@@ -166,20 +163,6 @@ public class OfficerMainMenu implements UserMainMenu {
             System.out.println("You have not submitted a join request yet.");
         } else {
             System.out.println("Your join request status: " + joinRequestService.getJoinRequestStatus(officer));
-            
-            // test 
-            // System.out.println(officer.getHandlingProj());
-            // wrongly prints null
-            
-            // System.out.println(officer.getJoinRequest());
-            // wrongly prints pending request
-            
-            // System.out.println(officer.getJoinRequest().getProject().getManager().getJoinRequests().get(0));
-            // wrongly prints pending join request
-            
-//            JoinRequest request = joinRequestRepository.getJoinRequests().getFirst();
-//            System.out.println(request);
-            // can be found, prints pending
         }
     }
     

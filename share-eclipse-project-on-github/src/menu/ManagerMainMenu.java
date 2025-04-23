@@ -20,20 +20,13 @@ public class ManagerMainMenu implements UserMainMenu{
     private JoinRequestService joinRequestService;
     private ReportService reportService; 
     
-    private JoinRequestRepository joinRequestRepo;
-    private ManagerRepository managerRepo;
-    private ProjectRepository projectRepo;
-    
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
 							ProjectListingService projectListingService, 
 							ManageProjectAppService manageProjectAppService,
 							ManagerEnquiryService managerEnquiryService,
 							JoinRequestService joinRequestService, 
-							ReportService reportService,
-							JoinRequestRepository joinRequestRepo,
-							ManagerRepository managerRepo,
-							ProjectRepository projectRepo) {
+							ReportService reportService) {
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
         this.projectListingService = projectListingService;
@@ -41,9 +34,6 @@ public class ManagerMainMenu implements UserMainMenu{
         this.managerEnquiryService = managerEnquiryService;
         this.joinRequestService = joinRequestService;   
         this.reportService = reportService; 
-        this.joinRequestRepo = joinRequestRepo;
-        this.managerRepo = managerRepo;
-        this.projectRepo = projectRepo;
 	}
 	
 	
@@ -118,13 +108,7 @@ public class ManagerMainMenu implements UserMainMenu{
 	        System.out.println("No join requests to process.");
 	        return;
 	    }
-	    
-	    // test 
-//	    joinRequestService.approveJoinRequest(manager, requests.getFirst());
-//	    System.out.println(requests.getFirst());
-//	    System.out.println(manager.getManagingProj().getOfficers().get(1).getHandlingProj());
-	    // correct behaviour 
-	    
+
 	    Iterator<JoinRequest> it = requests.iterator();
 	    while(it.hasNext()) {
 	    	JoinRequest request = it.next();
@@ -135,8 +119,6 @@ public class ManagerMainMenu implements UserMainMenu{
 
 	        if (input.equals("y")) {
 	            joinRequestService.approveJoinRequest(manager, request);
-	            // System.out.println(manager.getManagingProj().getOfficers().get(1).getHandlingProj().getName());
-	            // correctly prints project name
 	            System.out.println("Join request approved.");
 	        } else {
 	            joinRequestService.rejectJoinRequest(manager, request);

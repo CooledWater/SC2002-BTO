@@ -76,23 +76,16 @@ public class Main {
         ProjectListingService projectListingService = new ProjectListingService(projectRepo);
         ReportService reportService = new ReportService(applicantRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
-        
-        
-//        // testing
-//        System.out.println(managerRepo.searchByName("Liam Yeo"));
-//	    System.out.println(projectRepo.searchByName("Acacia Breeze").getManager());
-//	    System.out.println(managerRepo.searchByName("Liam Yeo") == projectRepo.searchByName("Acacia Breeze").getManager());
 
-        
         // log in 
         LoginMenu loginMenu = new LoginMenu(applicantRepo, officerRepo, managerRepo, accountService);
         Scanner sc = new Scanner(System.in);
         User currentUser = loginMenu.login(sc);   
         
         // if current user is an officer: 
-        if (currentUser instanceof entity.Officer) {
+        if (currentUser instanceof Officer) {
             OfficerMainMenu officerMainMenu = new OfficerMainMenu(
-                    (entity.Officer) currentUser,
+                    (Officer) currentUser,
                     bookingService,
                     viewProjectService,
                     projectAppService,
@@ -101,8 +94,7 @@ public class Main {
                     officerEnquiryService,
                     projectRepo, 
                     enquiryRepo,
-                    receiptRepo,
-                    joinRequestRepo
+                    receiptRepo
                 );
                 officerMainMenu.officerMenu(sc);
         }
@@ -130,10 +122,7 @@ public class Main {
 			           manageProjectAppService, 
 			           managerEnquiryService, 
 			           joinRequestService, 
-			           reportService,
-			           joinRequestRepo,
-			           managerRepo,
-			           projectRepo);
+			           reportService);
 			managerMainMenu.managerMenu(sc); 
         }
         // if login failed, current user is null
@@ -152,15 +141,15 @@ public class Main {
         ObjectOutputStream out = new ObjectOutputStream(fos);
 
         applicantRepo.saveToSer(out);
-    	officerRepo.saveToSer(out);
-    	managerRepo.saveToSer(out);
-    	projectRepo.saveToSer(out);
-    	receiptRepo.saveToSer(out);
-    	enquiryRepo.saveToSer(out);
-    	joinRequestRepo.saveToSer(out);
-    	projectAppRepo.saveToSer(out);
-    	
-    	fos.close();
-    	out.close();
+	    	officerRepo.saveToSer(out);
+	    	managerRepo.saveToSer(out);
+	    	projectRepo.saveToSer(out);
+	    	receiptRepo.saveToSer(out);
+	    	enquiryRepo.saveToSer(out);
+	    	joinRequestRepo.saveToSer(out);
+	    	projectAppRepo.saveToSer(out);
+	    	
+	    	fos.close();
+	    	out.close();
     }
 }
