@@ -4,6 +4,8 @@ import entity.JoinRequest.Status;
 import repository.*; 
 import services.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +21,9 @@ public class ManagerMainMenu implements UserMainMenu{
     private ManageProjectAppService manageProjectAppService;
     private ManagerEnquiryService managerEnquiryService;
     private JoinRequestService joinRequestService;
-    private ReportService reportService; 
+    private ReportService reportService;
+    private ProjectRepository projectRepo;    
+
     private LoginMenu loginMenu;
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
@@ -28,6 +32,7 @@ public class ManagerMainMenu implements UserMainMenu{
 							ManagerEnquiryService managerEnquiryService,
 							JoinRequestService joinRequestService, 
 							ReportService reportService,
+							ProjectRepository projectRepo,
 							LoginMenu loginMenu) {
 
 		this.currentSessionManager = manager;
@@ -35,14 +40,17 @@ public class ManagerMainMenu implements UserMainMenu{
         this.projectListingService = projectListingService;
         this.manageProjectAppService = manageProjectAppService;
         this.managerEnquiryService = managerEnquiryService;
-        this.joinRequestService = joinRequestService;   
-        this.reportService = reportService; 
+        this.joinRequestService = joinRequestService;
+        this.reportService = reportService;
+        this.projectRepo = projectRepo;
         this.loginMenu = loginMenu;
 	}
 	
 	
 	public void managerMenu (Scanner sc) {
 		int choice = -1;
+		projectRepo.updateManagerHandlingProj(currentSessionManager);
+
 		System.out.println("You have logged in as a manager.");
         System.out.println("To choose an option, input the corresponding number.");
         System.out.println();
@@ -75,34 +83,42 @@ public class ManagerMainMenu implements UserMainMenu{
                     viewProjectService.viewProjectsAsManager(currentSessionManager);
                     break;
                 case 2:
-                	projectListingService.createNewProjectListing(currentSessionManager); 
+                		Project newProject = projectListingService.createNewProjectListing(currentSessionManager); 
+                		System.out.format("%n================================="
+		                				+ "%nNew project is created: "
+		                				+ newProject.toString()
+		                				+ "%n%n");
+                		if (currentSessionManager.getManagingProj() == null) {
+                			currentSessionManager.setManagingProj(newProject);
+                		}
                     break;
                 case 3:
-                	processJoinRequests(currentSessionManager); 
+                		processJoinRequests(currentSessionManager); 
                     break;
                 case 4:
-                	manageProjectAppService.processProjectApp(currentSessionManager);
+                		manageProjectAppService.processProjectApp(currentSessionManager);
                     break;
                 case 5:
-                	manageProjectAppService.processWithdrawal(currentSessionManager);
+                		manageProjectAppService.processWithdrawal(currentSessionManager);
                     break;
                 case 6:
                     processEnquiries(sc); 
                     break;
                 case 7: 
-                	reportService.generateFilteredApplicantReport(); 
-                	break; 
+	                	reportService.generateFilteredApplicantReport(); 
+	                	break; 
                 case 8: 
-                	changePassword(sc, currentSessionManager, loginMenu);
-                	break; 
+	                	changePassword(sc, currentSessionManager, loginMenu);
+	                	break; 
                 case 9: 
-                	viewProfile();
-                	break;
+	                	viewProfile();
+	                	break;
                 case 10:
-                	manageProjectAppService.toggleVisibility(currentSessionManager);
+                		manageProjectAppService.toggleVisibility(currentSessionManager);
+                		break;
                 case 0:
-                    System.out.println("Logging out...");
-                    break;
+	                System.out.println("Logging out...");
+	                break;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }

@@ -1,6 +1,8 @@
 package services;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import entity.*;
@@ -14,6 +16,7 @@ public class ProjectListingService {
     };
 	
 	public Project createNewProjectListing(Manager manager) {
+				
 		// initialize attributes
 		 String name;
 	     String neighbourhood;
@@ -21,15 +24,17 @@ public class ProjectListingService {
 	     int numberOf3Rooms;
 	     int sellingPrice2Room;
 	     int sellingPrice3Room;
-	     String openDate; // date format: "DD/MM/YYYY"
-	     String closeDate;
+	     String openDateString; // date format: "DD/MM/YYYY"
+	     String closeDateString;
+	     Date openDate;
+	     Date closeDate;
 	     boolean isVisible;
 	     
 	     Project newProject = null;
 	     
 
 	    Scanner sc = new Scanner(System.in);
-	    System.out.println("Creating a new project: ");
+	    System.out.println("Creating a new project...");
 	    
 	    // check for duplicate project
 		System.out.println("Please enter project name: ");
@@ -123,8 +128,8 @@ public class ProjectListingService {
 		while (true) {
 			try {
 				System.out.println("Please enter the application opening date of the project (DD/MM/YYYY): ");
-				openDate = sc.nextLine();
-				if (openDate.length() != 10) throw new InputMismatchException();
+				openDateString = sc.nextLine();
+				if (openDateString.length() != 10) throw new InputMismatchException();
 				break;
 				
 			} catch (InputMismatchException e) {
@@ -137,18 +142,32 @@ public class ProjectListingService {
 		while (true) {
 			try {
 				System.out.println("Please enter the application closing date of the project (DD/MM/YYYY): ");
-				closeDate = sc.nextLine();
-				if (closeDate.length() != 10) throw new InputMismatchException();
+				
+				// reading closeDate string
+				closeDateString = sc.nextLine();
+				if (closeDateString.length() != 10) throw new InputMismatchException();
 				
 				// check that closing date is after opening date
 				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-				Date openDateDate = format.parse(openDate);
-				Date closeDateDate = format.parse(closeDate);
-				if (closeDateDate.compareTo(openDateDate) <= 0) {
+				openDate = format.parse(openDateString);
+				closeDate = format.parse(closeDateString);
+				if (!closeDate.after(openDate)) {
 					System.out.println("Application closing date must be later than opening date. ");
 					continue;
 				}
 				
+				// check that dates do not overlap with other projects
+				List<Project> managerProjects = projectRepository.getProjectsByManager(manager);
+		    	for (Project project: managerProjects) {
+		    		Date opening = project.getOpenDate();
+		    		Date closing = project.getCloseDate();
+		    		
+		    		if ((openDate.compareTo(opening) >= 0 && openDate.compareTo(closing) <= 0) ||
+		    				(closeDate.compareTo(opening) >= 0 && closeDate.compareTo(closing) <= 0)) {
+		    			System.out.printf("You are already handling a project from %s to %s\n", opening, closing);
+		    			return null;
+		    		}
+		    	}
 				break;
 				
 			} catch (InputMismatchException e) {
@@ -174,24 +193,10 @@ public class ProjectListingService {
 			}
 		}
 		// add this Project to ProjectRepository
-		System.out.format("You have successfully created the following project. %n%n" 
-						+ "Project name: %s%n"
-						+ "Neighbourhood: %s%n"
-						+ "Quantity of two-room flats: %d%n"
-						+ "Selling price of a two-room flat: SGD %d%n"
-						+ "Quantity of three-room flats: %d%n"
-						+ "Selling price of a three-room flat: SGD %d%n"
-						+ "Application opening date: %s%n"
-						+ "Application closing date: %s%n"
-						+ "Visibility: project is "
-						+ (isVisible? "visible. %n%n" : "not visible. %n%n"), 
-						name, neighbourhood, numberOf2Rooms, sellingPrice2Room, numberOf3Rooms, 
-						sellingPrice3Room, openDate, closeDate);
 		newProject = new Project(name, neighbourhood, numberOf2Rooms,
 	    		sellingPrice2Room, numberOf3Rooms, sellingPrice3Room, 
 	    		openDate, closeDate, isVisible);
 		newProject.setManager(manager);
-		
 		projectRepository.getProjects().add(newProject);
 		return newProject;
 		

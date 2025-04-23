@@ -5,6 +5,8 @@ import repository.*;
 import services.*;
 
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -51,7 +53,7 @@ public class OfficerMainMenu implements UserMainMenu {
 
     public void officerMenu(Scanner sc) {
         int choice = -1;
-
+                
         System.out.println("You have logged in as an officer.");
         System.out.println("To choose an option, input the corresponding number.");
         System.out.println();
