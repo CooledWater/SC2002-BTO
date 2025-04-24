@@ -78,6 +78,12 @@ public class ProjectAppMenu {
                     break;
                 }
                 
+                // Check Project Visibility (date checks) 
+                if(!selectedProject.isVisible()) {
+                	System.out.println("This project is not currently available for applications.");
+                	break;
+                }
+                
                 // Show flat type options from enum
                 FlatType selectedFlatType = null;
                 
