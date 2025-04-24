@@ -130,7 +130,8 @@ public class Main {
 			           joinRequestService, 
 			           reportService,
 			           projectRepo,
-			           loginMenu);
+			           loginMenu,
+			           enquiryRepo);
 			managerMainMenu.managerMenu(sc); 
         }
         // if login failed, current user is null

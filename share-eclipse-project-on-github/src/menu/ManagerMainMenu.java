@@ -23,7 +23,8 @@ public class ManagerMainMenu implements UserMainMenu{
     private ManagerEnquiryService managerEnquiryService;
     private JoinRequestService joinRequestService;
     private ReportService reportService;
-    private ProjectRepository projectRepo;    
+    private ProjectRepository projectRepo; 
+    private EnquiryRepository enquiryRepo;
 
     private LoginMenu loginMenu;
 	
@@ -34,7 +35,7 @@ public class ManagerMainMenu implements UserMainMenu{
 							JoinRequestService joinRequestService, 
 							ReportService reportService,
 							ProjectRepository projectRepo,
-							LoginMenu loginMenu) {
+							LoginMenu loginMenu, EnquiryRepository enquiryRepo) {
 
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
@@ -45,6 +46,7 @@ public class ManagerMainMenu implements UserMainMenu{
         this.reportService = reportService;
         this.projectRepo = projectRepo;
         this.loginMenu = loginMenu;
+        this.enquiryRepo = enquiryRepo;
 	}
 	
 	
@@ -98,7 +100,7 @@ public class ManagerMainMenu implements UserMainMenu{
                 		manageProjectAppService.processWithdrawal(currentSessionManager);
                     break;
                 case 6:
-                    processEnquiries(sc); 
+                    processEnquiries(sc, enquiryRepo); 
                     break;
                 case 7: 
 	                	reportService.generateFilteredApplicantReport(); 
@@ -156,7 +158,7 @@ public class ManagerMainMenu implements UserMainMenu{
 	    }
 	}
 	
-	public void processEnquiries(Scanner sc) {
+	public void processEnquiries(Scanner sc, EnquiryRepository enquiryRepo) {
 		// filter not necessary to save state for enquiry
 		while (true) {
     		System.out.println("Do you want to see only enquiries regarding your active project? (y/n): ");
@@ -176,11 +178,26 @@ public class ManagerMainMenu implements UserMainMenu{
 			String input = sc.nextLine().trim().toLowerCase();
 
 		    if (input.equals("y")) {
-		        System.out.print("Enter Enquiry ID to reply to: ");
-		        String enquiryID = sc.nextLine();
-		        System.out.print("Enter your response: ");
-		        String response = sc.nextLine();
-		        managerEnquiryService.replyEnquiry(currentSessionManager, enquiryID, response);
+		    	while (true) {
+			        System.out.print("Enter Enquiry ID to reply to (enter 0 to cancel): ");
+			        String enquiryID = sc.nextLine();
+			        
+			        if (enquiryID.equalsIgnoreCase("0") ) {
+			        	System.out.println("Returning to Enquiries Menu.");
+			        	break;
+			        }
+			        
+			        Enquiry enquiry = enquiryRepo.searchByID(enquiryID);
+			        
+			        if (enquiry == null) {
+			        	System.out.println("Enquiry not found. Please try again.");
+			        	continue; 
+			        }
+			        
+			        System.out.print("Enter your response: ");
+			        String response = sc.nextLine();
+			        managerEnquiryService.replyEnquiry(currentSessionManager, enquiryID, response);
+		    	}
 		        break;
 		    } else if (input.equals("n")) {
 		        System.out.println("Returning to main menu.");
