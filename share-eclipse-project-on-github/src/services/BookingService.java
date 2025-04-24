@@ -98,8 +98,7 @@ public class BookingService {
                     }
 
                 } else if (input.equals("n")) {
-                    app.setStatus(AppStatus.UNSUCCESSFUL);
-                    System.out.println("Booking marked unsuccessful.");
+                    System.out.println("Booking postponed.");
                 } else {
                     System.out.println("Invalid input. Please enter 'y' or 'n'.");
                     continue;
