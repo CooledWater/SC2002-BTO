@@ -189,8 +189,7 @@ public class ManagerMainMenu implements UserMainMenu{
 			        
 			        Enquiry enquiry = enquiryRepo.searchByID(enquiryID);
 			        
-			        if (enquiry == null) {
-			        	System.out.println("Enquiry not found. Please try again.");
+			        if (enquiry == null) {			    
 			        	continue; 
 			        }
 			        
@@ -198,7 +197,7 @@ public class ManagerMainMenu implements UserMainMenu{
 			        String response = sc.nextLine();
 			        managerEnquiryService.replyEnquiry(currentSessionManager, enquiryID, response);
 		    	}
-		        break;
+		        continue;
 		    } else if (input.equals("n")) {
 		        System.out.println("Returning to main menu.");
 		        break;
