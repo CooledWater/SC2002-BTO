@@ -25,13 +25,13 @@ public class JoinRequestService {
 		}
 		
 		// check and make sure that officer can only manage one project at any point of time
-		if (officer.getHandlingProj() != null) { // this should stay as officer.getHandlingProj()
+		if (officer.getHandlingProj() != null) { // should be kept as .getHandlingProj(), specific check for handling project, with check for all projects below
 			System.out.println("You are forbidden to join this project as an officer, "
 					+ "because you are currently handling a project. ");
 			return;
 		}
 		
-		// check that officer's other projects (not active ones) will not overlap with the join request project
+		// check that officer's other projects will not overlap with the join request project
 		List<Project> officerProjects = projectRepository.getProjectsByOfficer(officer);
     	for (Project officerProject: officerProjects) {
     		Date otherOpen = officerProject.getOpenDate();

@@ -156,7 +156,7 @@ public class EnquiryMenu {
             case 1:
             	boolean officerEnquiries = oeservice.viewEnquiries((Officer) currentSessionUser);
             	
-            	if (((Officer) currentSessionUser).getHandlingProj() == null) {break;}
+            	if (((Officer) currentSessionUser).getHandlingProj() == null) {break;} // should be kept as .getHandlingProj()
             	else if (officerEnquiries == false) {
             		System.out.println("There are no enquiries for your project.");
             		break;

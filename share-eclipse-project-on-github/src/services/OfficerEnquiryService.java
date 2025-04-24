@@ -15,7 +15,7 @@ public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 	
 	public boolean viewEnquiries(Officer officer) {
 		List<Enquiry> enquiryList;
-		Project officerHandlingProject = officer.getHandlingProj();
+		Project officerHandlingProject = officer.getHandlingProj(); // should be kept as .getHandlingProj()
 		
 		if (officerHandlingProject != null) {
 			enquiryList = enquiryRepo.searchByProjectName(officerHandlingProject.getName());
@@ -34,7 +34,7 @@ public class OfficerEnquiryService implements OfficerEnquiryServiceInterface {
 	
 	
 	public void replyEnquiry(Officer officer, String enquiryID, String response) {
-		Project officerHandlingProject = officer.getHandlingProj();
+		Project officerHandlingProject = officer.getHandlingProj(); // should be kept as .getHandlingProj()
 		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
 		if (searchEnquiry == null) {

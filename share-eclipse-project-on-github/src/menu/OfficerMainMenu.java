@@ -190,7 +190,7 @@ public class OfficerMainMenu implements UserMainMenu {
         System.out.println("Marital Status: " + (currentSessionOfficer.isMarried() ? "Married" : "Single"));
         
         if (currentSessionOfficer.getHandlingProj() != null) {
-            System.out.println("Handling Project: " + currentSessionOfficer.getHandlingProj().getName());
+            System.out.println("Handling Project: " + currentSessionOfficer.getHandlingProj().getName()); // should be kept as .getHandlingProj()
         } else {
             System.out.println("Handling Project: None");
         }

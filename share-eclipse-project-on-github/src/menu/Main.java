@@ -74,7 +74,7 @@ public class Main {
         ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo);
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
         OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);
-        ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
+        ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo, projectRepo);
         ProjectListingService projectListingService = new ProjectListingService(projectRepo);
         ReportService reportService = new ReportService(applicantRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
