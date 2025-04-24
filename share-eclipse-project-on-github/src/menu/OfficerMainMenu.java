@@ -150,26 +150,30 @@ public class OfficerMainMenu implements UserMainMenu {
             Project p = allProjects.get(i);
             System.out.printf("%d. %s (%s)\n", i + 1, p.getName(), p.getNeighbourhood());
         }
-
-        System.out.print("Enter the number of the project to register for (or 0 to cancel): ");
-        int selection = -1;
-        try {
-            selection = Integer.parseInt(sc.nextLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input.");
-            return;
+        int selection = -1; 
+        
+        while(true) {
+	        System.out.print("Enter the number of the project to register for (or 0 to cancel): ");  
+	        try {
+	            selection = Integer.parseInt(sc.nextLine().trim());
+	            if (selection == 0) {
+		            System.out.println("Cancelled project registration.");
+		            return;
+		        }
+	            
+	            if (selection >= 1 && selection <= allProjects.size()) {
+		            break;
+		        }else {
+		        	System.out.println("Invalid selection.");
+		        }
+	        } catch (NumberFormatException e) {
+	            System.out.println("Invalid input.");
+	        }
+	
+	        
+	
+	        
         }
-
-        if (selection == 0) {
-            System.out.println("Cancelled project registration.");
-            return;
-        }
-
-        if (selection < 1 || selection > allProjects.size()) {
-            System.out.println("Invalid selection.");
-            return;
-        }
-
         Project selectedProject = allProjects.get(selection - 1);
         joinRequestService.submitJoinRequest(officer, selectedProject);
     }
