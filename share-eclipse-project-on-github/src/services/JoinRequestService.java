@@ -1,6 +1,7 @@
 package services;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import entity.*;
 import repository.*;
@@ -14,6 +15,40 @@ public class JoinRequestService {
 		this.joinRequestRepository = joinRequestRepository;
 		this.projectRepository = projectRepository;
 	}
+	
+	
+	public void handleProjectRegistration(Officer officer, Scanner sc) {
+        List<Project> allProjects = projectRepository.getProjects();
+        System.out.println("\n=== Available Projects ===");
+
+        for (int i = 0; i < allProjects.size(); i++) {
+            Project p = allProjects.get(i);
+            System.out.printf("%d. %s (%s)\n", i + 1, p.getName(), p.getNeighbourhood());
+        }
+        int selection = -1; 
+        
+        while(true) {
+	        System.out.print("Enter the number of the project to register for (or 0 to cancel): ");  
+	        try {
+	            selection = Integer.parseInt(sc.nextLine().trim());
+	            if (selection == 0) {
+		            System.out.println("Cancelled project registration.");
+		            return;
+		        }
+	            
+	            if (selection >= 1 && selection <= allProjects.size()) {
+		            break;
+		        }else {
+		        	System.out.println("Invalid selection.");
+		        }
+	        } catch (NumberFormatException e) {
+	            System.out.println("Invalid input.");
+	        }    
+        }
+        Project selectedProject = allProjects.get(selection - 1);
+        submitJoinRequest(officer, selectedProject);
+    }
+	
 	
 	public void submitJoinRequest(Officer officer, Project project) {
 		// the officer should not have applied for this project as an applicant beforehand
@@ -87,6 +122,14 @@ public class JoinRequestService {
 		return officer.getJoinRequest().getStatus();
 	}
 	
+    public void viewJoinRequestStatus(Officer officer) {
+        if (officer.getJoinRequest() == null) {
+            System.out.println("You have not submitted a join request yet.");
+        } else {
+            System.out.println("Your join request status: " + getJoinRequestStatus(officer));
+        }
+    }
+	
 	public void showJoinRequests(Manager manager) {
 		Iterator<JoinRequest> it = manager.getJoinRequests().iterator();
 		while (it.hasNext()) {
@@ -114,4 +157,35 @@ public class JoinRequestService {
 		joinRequest.setStatus(Status.REJECTED);
 		// decided not to remove rejected join request
 	}	
+	
+	
+	public void processJoinRequests(Manager manager) {
+	    List<JoinRequest> requests = manager.getJoinRequests();
+	    List<JoinRequest> pendingRequests = requests.stream()
+	    											   .filter(n -> n.getStatus().equals(Status.PENDING))
+	    											   .collect(Collectors.toList());
+	    if (pendingRequests.isEmpty()) {
+	        System.out.println("No pending join requests to process.");
+	        return;
+	    }
+
+	    Iterator<JoinRequest> it = pendingRequests.iterator();
+	    while(it.hasNext()) {
+	    		JoinRequest request = it.next();
+	        System.out.println(request.toString());
+	        System.out.print("Approve this join request? (y/n): ");
+	        Scanner sc = new Scanner(System.in); 
+			String input = sc.nextLine().trim().toLowerCase();
+
+	        if (input.equals("y")) {
+	            approveJoinRequest(manager, request);
+	            System.out.println("Join request approved.");
+	            System.out.println(request.getProject());
+	            System.out.format("%d out of 10 officer slots are occupied. %n%n", request.getProject().getNumberOfOfficers());
+	        } else {
+	            rejectJoinRequest(manager, request);
+	            System.out.println("Join request rejected.");
+	        }
+	    }
+	}
 }

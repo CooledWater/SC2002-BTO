@@ -94,6 +94,7 @@ public class Main {
                     joinRequestService,
                     applicantEnquiryService,
                     officerEnquiryService,
+                    managerEnquiryService,
                     projectRepo, 
                     enquiryRepo,
                     receiptRepo,
@@ -112,6 +113,7 @@ public class Main {
                 projectAppService, 
                 applicantEnquiryService,
                 officerEnquiryService,
+                managerEnquiryService,
                 projectRepo, 
                 enquiryRepo,
                 receiptRepo,
@@ -126,10 +128,13 @@ public class Main {
 			           viewProjectService, 
 			           projectListingService, 
 			           manageProjectAppService, 
-			           managerEnquiryService, 
-			           joinRequestService, 
+			           joinRequestService,
 			           reportService,
+			           applicantEnquiryService, 
+			    	   officerEnquiryService,
+			    	   managerEnquiryService, 
 			           projectRepo,
+			           enquiryRepo,
 			           loginMenu);
 			managerMainMenu.managerMenu(sc); 
         }

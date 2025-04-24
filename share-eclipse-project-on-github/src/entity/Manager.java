@@ -45,7 +45,7 @@ public class Manager extends User {
 	public String toString() {
 		return String.format("%nManager name: " + this.name
 						    +"%nAge: " + this.age
-						    +"%nMarrital Status: " + (this.isMarried? "Married" : "Single")
+						    +"%nMarital Status: " + (this.isMarried? "Married" : "Single")
 						    +"%nManaging Project: " + (this.getManagingProj() == null? "None" : this.getManagingProj().getName())
 				);
 	}

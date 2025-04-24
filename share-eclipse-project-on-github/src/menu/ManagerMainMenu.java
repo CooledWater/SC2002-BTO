@@ -21,19 +21,24 @@ public class ManagerMainMenu implements UserMainMenu{
     private ProjectListingService projectListingService;
     private ManageProjectAppService manageProjectAppService;
     private ManagerEnquiryService managerEnquiryService;
+    private ApplicantEnquiryService applicantEnquiryService;
+    private OfficerEnquiryService officerEnquiryService;
     private JoinRequestService joinRequestService;
     private ReportService reportService;
-    private ProjectRepository projectRepo;    
-
+    private ProjectRepository projectRepo;
+    private EnquiryRepository enquiryRepo;
     private LoginMenu loginMenu;
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
 							ProjectListingService projectListingService, 
 							ManageProjectAppService manageProjectAppService,
-							ManagerEnquiryService managerEnquiryService,
 							JoinRequestService joinRequestService, 
 							ReportService reportService,
+							ApplicantEnquiryService applicantEnquiryService, 
+				    		OfficerEnquiryService officerEnquiryService,
+				    		ManagerEnquiryService managerEnquiryService,
 							ProjectRepository projectRepo,
+							EnquiryRepository enquiryRepo,
 							LoginMenu loginMenu) {
 
 		this.currentSessionManager = manager;
@@ -41,9 +46,12 @@ public class ManagerMainMenu implements UserMainMenu{
         this.projectListingService = projectListingService;
         this.manageProjectAppService = manageProjectAppService;
         this.managerEnquiryService = managerEnquiryService;
+        this.applicantEnquiryService = applicantEnquiryService;
+        this.officerEnquiryService = officerEnquiryService;
         this.joinRequestService = joinRequestService;
         this.reportService = reportService;
         this.projectRepo = projectRepo;
+        this.enquiryRepo = enquiryRepo;
         this.loginMenu = loginMenu;
 	}
 	
@@ -83,40 +91,41 @@ public class ManagerMainMenu implements UserMainMenu{
 
             switch (choice) {
                 case 1:
-                		viewProfile();
+            		viewProfile();
                     break;
                 case 2:
-                		changePassword(sc, currentSessionManager, loginMenu);                		
+            		changePassword(sc, currentSessionManager, loginMenu);                		
                     break;
                 case 3:
-                		processJoinRequests(currentSessionManager); 
+            		joinRequestService.processJoinRequests(currentSessionManager); 
                     break;
                 case 4:
-                		manageProjectAppService.processProjectApp(currentSessionManager);
+            		manageProjectAppService.processProjectApp(currentSessionManager);
                     break;
                 case 5:
-                		manageProjectAppService.processWithdrawal(currentSessionManager);
+            		manageProjectAppService.processWithdrawal(currentSessionManager);
                     break;
                 case 6:
-                    processEnquiries(sc); 
+                	EnquiryMenu enquiryManagerMenu = new EnquiryMenu(currentSessionManager, projectRepo, enquiryRepo, applicantEnquiryService, officerEnquiryService, managerEnquiryService);
+                	enquiryManagerMenu.managerEnquiryMenu(sc); 
                     break;
                 case 7: 
-	                	reportService.generateFilteredApplicantReport(); 
-	                	break; 
+                	reportService.generateFilteredApplicantReport(); 
+                	break; 
                 case 8: 
-	                	viewProjectService.viewProjectsAsManager(currentSessionManager);
-	                	break; 
+                	viewProjectService.viewProjectsAsManager(currentSessionManager);
+                	break; 
                 case 9: 
-	                	projectListingService.createNewProjectListing(currentSessionManager); 
-	                	break;
+                	projectListingService.createNewProjectListing(currentSessionManager); 
+                	break;
                 case 10:
-                		manageProjectAppService.toggleVisibility(currentSessionManager);
-                		break;
+            		manageProjectAppService.toggleVisibility(currentSessionManager);
+            		break;
                 case 11: 
-                		projectListingService.editProjectListing(currentSessionManager, sc);
-                		break;
+            		projectListingService.editProjectListing(currentSessionManager, sc);
+            		break;
                 case 12: 
-                		projectListingService.deleteProjectListing(currentSessionManager, sc);
+            		projectListingService.deleteProjectListing(currentSessionManager, sc);
                 case 0:
 	                System.out.println("Logging out...");
 	                break;
@@ -126,71 +135,9 @@ public class ManagerMainMenu implements UserMainMenu{
         }
 	}
 	
-	public void processJoinRequests(Manager manager) {
-	    List<JoinRequest> requests = manager.getJoinRequests();
-	    List<JoinRequest> pendingRequests = requests.stream()
-	    											   .filter(n -> n.getStatus().equals(Status.PENDING))
-	    											   .collect(Collectors.toList());
-	    if (pendingRequests.isEmpty()) {
-	        System.out.println("No pending join requests to process.");
-	        return;
-	    }
-
-	    Iterator<JoinRequest> it = pendingRequests.iterator();
-	    while(it.hasNext()) {
-	    		JoinRequest request = it.next();
-	        System.out.println(request.toString());
-	        System.out.print("Approve this join request? (y/n): ");
-	        Scanner sc = new Scanner(System.in); 
-			String input = sc.nextLine().trim().toLowerCase();
-
-	        if (input.equals("y")) {
-	            joinRequestService.approveJoinRequest(manager, request);
-	            System.out.println("Join request approved.");
-	            System.out.println(request.getProject());
-	            System.out.format("%d out of 10 officer slots are occupied. %n%n", request.getProject().getNumberOfOfficers());
-	        } else {
-	            joinRequestService.rejectJoinRequest(manager, request);
-	            System.out.println("Join request rejected.");
-	        }
-	    }
-	}
-	
-	public void processEnquiries(Scanner sc) {
-		// filter not necessary to save state for enquiry
-		while (true) {
-    		System.out.println("Do you want to see only enquiries regarding your active project? (y/n): ");
-        	String filterByManaging = sc.nextLine().trim().toLowerCase();
-        	if (filterByManaging.equals("y")) {
-    			managerEnquiryService.viewEnquiries(currentSessionManager, true);
-    			break;
-    		} else if (filterByManaging.equals("n")) {
-    			managerEnquiryService.viewEnquiries(currentSessionManager, false);
-    			break;
-    		}
-            else {System.out.println("Invalid input. Please enter y or n. ");}
-    	}
-		
-		while (true) {
-			System.out.print("\nDo you want to reply to an enquiry? (y/n): ");
-			String input = sc.nextLine().trim().toLowerCase();
-
-		    if (input.equals("y")) {
-		        System.out.print("Enter Enquiry ID to reply to: ");
-		        String enquiryID = sc.nextLine();
-		        System.out.print("Enter your response: ");
-		        String response = sc.nextLine();
-		        managerEnquiryService.replyEnquiry(currentSessionManager, enquiryID, response);
-		        break;
-		    } else if (input.equals("n")) {
-		        System.out.println("Returning to main menu.");
-		        break;
-		    } else {System.out.println("Invalid input. Please enter y or n. ");}
-		}
-	}
-
 	@Override
 	public void viewProfile() {
+		System.out.println("\n--- Profile ---");
 		System.out.println(currentSessionManager);
 	}
 	
