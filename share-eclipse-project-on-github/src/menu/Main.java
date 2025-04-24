@@ -71,7 +71,7 @@ public class Main {
         		ReceiptRepository.getInstance(),
         		ProjectAppRepository.getInstance());
         JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo);
-        ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo);
+        ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo, projectAppRepo);
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
         OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);
         ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
@@ -130,7 +130,8 @@ public class Main {
 			           joinRequestService, 
 			           reportService,
 			           projectRepo,
-			           loginMenu);
+			           loginMenu,
+			           enquiryRepo);
 			managerMainMenu.managerMenu(sc); 
         }
         // if login failed, current user is null
