@@ -70,11 +70,12 @@ public class Main {
         BookingService bookingService = new BookingService(
         		ReceiptRepository.getInstance(),
         		ProjectAppRepository.getInstance());
-        JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo);
+
         ManageProjectAppService manageProjectAppService = new ManageProjectAppService(projectRepo, projectAppRepo);
+        JoinRequestService joinRequestService = new JoinRequestService(joinRequestRepo, projectRepo);
         ManagerEnquiryService managerEnquiryService = new ManagerEnquiryService(enquiryRepo);
         OfficerEnquiryService officerEnquiryService = new OfficerEnquiryService(enquiryRepo);
-        ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo);
+        ProjectApplicationService projectAppService = new ProjectApplicationService(projectAppRepo, projectRepo);
         ProjectListingService projectListingService = new ProjectListingService(projectRepo);
         ReportService reportService = new ReportService(applicantRepo);
         ViewProjectService viewProjectService = new ViewProjectService(allProjects);
@@ -94,6 +95,7 @@ public class Main {
                     joinRequestService,
                     applicantEnquiryService,
                     officerEnquiryService,
+                    managerEnquiryService,
                     projectRepo, 
                     enquiryRepo,
                     receiptRepo,
@@ -112,6 +114,7 @@ public class Main {
                 projectAppService, 
                 applicantEnquiryService,
                 officerEnquiryService,
+                managerEnquiryService,
                 projectRepo, 
                 enquiryRepo,
                 receiptRepo,
@@ -126,12 +129,14 @@ public class Main {
 			           viewProjectService, 
 			           projectListingService, 
 			           manageProjectAppService, 
-			           managerEnquiryService, 
-			           joinRequestService, 
+			           joinRequestService,
 			           reportService,
+			           applicantEnquiryService, 
+			    	   officerEnquiryService,
+			    	   managerEnquiryService, 
 			           projectRepo,
-			           loginMenu,
-			           enquiryRepo);
+			           enquiryRepo,
+			           loginMenu);
 			managerMainMenu.managerMenu(sc); 
         }
         // if login failed, current user is null

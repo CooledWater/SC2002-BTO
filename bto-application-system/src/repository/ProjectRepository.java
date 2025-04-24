@@ -172,4 +172,51 @@ public class ProjectRepository extends Repository {
 	    	}
     }
     
+    public List<Project> getProjectsByOfficer(Officer officer) {
+        List<Project> result = new ArrayList<>();
+        for (Project p : projects) {
+            if (p.getOfficers() != null) {
+            	for (Officer o : p.getOfficers()) {
+            		if (o.equals(officer)) {result.add(p);}
+            	} 
+            }
+        }
+        return result;
+    }
+    
+    public void updateOfficerHandlingProj(Officer officer) {
+    	// set officer handling project to null if past the current project's close date  
+	    	List<Project> officerProjects = getProjectsByOfficer(officer);
+	    	// get Date today
+	    	LocalDate localDate = LocalDate.now();
+	    	Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		Date today = Date.from(instant);
+	    	for (Project project: officerProjects) {
+	    		Date openDate = project.getOpenDate();
+	    		Date closeDate = project.getCloseDate();
+	    		if (!today.before(openDate) && !today.after(closeDate)) { 
+	    			// openDate <= today <= closeDate
+	    			officer.setHandlingProj(project);
+	    			return;
+	    		}
+	    	}
+    }
+    
+    /* can delete this if the other version is okay
+     * 
+    public void updateOfficerHandlingProj(Officer officer) {
+    	// set officer handling project to null if past the current project's close date
+    	// get Date today
+    	LocalDate localDate = LocalDate.now();
+    	Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		Date today = Date.from(instant);
+		if (officer.getHandlingProj() != null) {
+			if (today.after(officer.getHandlingProj().getCloseDate())) { // set only after check
+				officer.setHandlingProj(null);
+			}
+		}		
+    } 
+    
+    */
+    
 }

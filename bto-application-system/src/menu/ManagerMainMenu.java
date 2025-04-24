@@ -21,30 +21,37 @@ public class ManagerMainMenu implements UserMainMenu{
     private ProjectListingService projectListingService;
     private ManageProjectAppService manageProjectAppService;
     private ManagerEnquiryService managerEnquiryService;
+    private ApplicantEnquiryService applicantEnquiryService;
+    private OfficerEnquiryService officerEnquiryService;
     private JoinRequestService joinRequestService;
     private ReportService reportService;
     private ProjectRepository projectRepo; 
     private EnquiryRepository enquiryRepo;
-
     private LoginMenu loginMenu;
 	
 	public ManagerMainMenu (Manager manager, ViewProjectService viewProjectService,
 							ProjectListingService projectListingService, 
 							ManageProjectAppService manageProjectAppService,
-							ManagerEnquiryService managerEnquiryService,
 							JoinRequestService joinRequestService, 
 							ReportService reportService,
+							ApplicantEnquiryService applicantEnquiryService, 
+				    		OfficerEnquiryService officerEnquiryService,
+				    		ManagerEnquiryService managerEnquiryService,
 							ProjectRepository projectRepo,
-							LoginMenu loginMenu, EnquiryRepository enquiryRepo) {
+							EnquiryRepository enquiryRepo,
+							LoginMenu loginMenu) {
 
 		this.currentSessionManager = manager;
         this.viewProjectService = viewProjectService;
         this.projectListingService = projectListingService;
         this.manageProjectAppService = manageProjectAppService;
         this.managerEnquiryService = managerEnquiryService;
+        this.applicantEnquiryService = applicantEnquiryService;
+        this.officerEnquiryService = officerEnquiryService;
         this.joinRequestService = joinRequestService;
         this.reportService = reportService;
         this.projectRepo = projectRepo;
+        this.enquiryRepo = enquiryRepo;
         this.loginMenu = loginMenu;
         this.enquiryRepo = enquiryRepo;
 	}
@@ -85,40 +92,41 @@ public class ManagerMainMenu implements UserMainMenu{
 
             switch (choice) {
                 case 1:
-                		viewProfile();
+            		viewProfile();
                     break;
                 case 2:
-                		changePassword(sc, currentSessionManager, loginMenu);                		
+            		changePassword(sc, currentSessionManager, loginMenu);                		
                     break;
                 case 3:
-                		processJoinRequests(currentSessionManager); 
+            		joinRequestService.processJoinRequests(currentSessionManager); 
                     break;
                 case 4:
-                		manageProjectAppService.processProjectApp(currentSessionManager);
+            		manageProjectAppService.processProjectApp(currentSessionManager);
                     break;
                 case 5:
-                		manageProjectAppService.processWithdrawal(currentSessionManager);
+            		manageProjectAppService.processWithdrawal(currentSessionManager);
                     break;
                 case 6:
-                    processEnquiries(sc, enquiryRepo); 
+                	EnquiryMenu enquiryManagerMenu = new EnquiryMenu(currentSessionManager, projectRepo, enquiryRepo, applicantEnquiryService, officerEnquiryService, managerEnquiryService);
+                	enquiryManagerMenu.managerEnquiryMenu(sc); 
                     break;
                 case 7: 
-	                	reportService.generateFilteredApplicantReport(); 
-	                	break; 
+                	reportService.generateFilteredApplicantReport(); 
+                	break; 
                 case 8: 
-	                	viewProjectService.viewProjectsAsManager(currentSessionManager);
-	                	break; 
+                	viewProjectService.viewProjectsAsManager(currentSessionManager);
+                	break; 
                 case 9: 
-	                	projectListingService.createNewProjectListing(currentSessionManager); 
-	                	break;
+                	projectListingService.createNewProjectListing(currentSessionManager); 
+                	break;
                 case 10:
-                		manageProjectAppService.toggleVisibility(currentSessionManager);
-                		break;
+            		manageProjectAppService.toggleVisibility(currentSessionManager);
+            		break;
                 case 11: 
-                		projectListingService.editProjectListing(currentSessionManager, sc);
-                		break;
+            		projectListingService.editProjectListing(currentSessionManager, sc);
+            		break;
                 case 12: 
-                		projectListingService.deleteProjectListing(currentSessionManager, sc);
+            		projectListingService.deleteProjectListing(currentSessionManager, sc);
                 case 0:
 	                System.out.println("Logging out...");
 	                break;
@@ -127,7 +135,6 @@ public class ManagerMainMenu implements UserMainMenu{
             }
         }
 	}
-	
 	public void processJoinRequests(Manager manager) {
 	    List<JoinRequest> requests = manager.getJoinRequests();
 	    List<JoinRequest> pendingRequests = requests.stream()
@@ -207,6 +214,7 @@ public class ManagerMainMenu implements UserMainMenu{
 
 	@Override
 	public void viewProfile() {
+		System.out.println("\n--- Profile ---");
 		System.out.println(currentSessionManager);
 	}
 	

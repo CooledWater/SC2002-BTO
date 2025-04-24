@@ -17,7 +17,7 @@ public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
 		List<Enquiry> enquiryList;
 		
 		if (filterByManaging) {
-			enquiryList = enquiryRepo.searchByProjectName(manager.getManagingProj().getName());
+			enquiryList = enquiryRepo.searchByProjectName(manager.getManagingProj().getName()); // should be kept as .getHandlingProj()
 		}
 		else {
 			enquiryList = enquiryRepo.getAllEnquiries();
@@ -27,7 +27,7 @@ public class ManagerEnquiryService implements ManagerEnquiryServiceInterface {
 
 		
 	public void replyEnquiry(Manager manager, String enquiryID, String response) {
-		Project managerManagingProject = manager.getManagingProj();
+		Project managerManagingProject = manager.getManagingProj(); // should be kept as .getHandlingProj()
 		Enquiry searchEnquiry = enquiryRepo.searchByID(enquiryID);
 		
 		if (managerManagingProject == null) {

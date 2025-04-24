@@ -2,15 +2,17 @@ package services;
 
 import entity.*;
 import repository.ProjectAppRepository;
-
+import repository.ProjectRepository;
 import java.util.List;
 
 public class ProjectApplicationService {
 
     private ProjectAppRepository projectAppRepo;
+    private ProjectRepository projectRepo;
 
-    public ProjectApplicationService(ProjectAppRepository projectAppRepo) {
+    public ProjectApplicationService(ProjectAppRepository projectAppRepo, ProjectRepository projectRepo) {
         this.projectAppRepo = projectAppRepo;
+        this.projectRepo = projectRepo;
     }
 
     
@@ -18,11 +20,16 @@ public class ProjectApplicationService {
     	// check if this applicant is simultaneously an officer who is managing this project
     	if (applicant instanceof Officer) {
     		Officer thisOfficer = (Officer) applicant; // downcasting
-    		if (thisOfficer.getHandlingProj() == project) {
-    			System.out.println("Since you are handling this project, you cannot apply for it. ");
-    			return;
+    		
+    		List<Project> officerProjects = projectRepo.getProjectsByOfficer(thisOfficer); // replaced getHandlingProj with getting from repo
+    		for (Project p : officerProjects) {
+    			if (p == project) {
+        			System.out.println("Since you are an officer of this project, you cannot apply for it. ");
+        			return;
+    			}
     		}
     	}
+    	
         // checks if they already applied
     	List<ProjectApp> apps = projectAppRepo.getProjectApps(); 
     	

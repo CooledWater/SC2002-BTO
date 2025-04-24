@@ -320,7 +320,7 @@ public class ProjectListingService {
 		}
 		
 		projectRepository.getProjects().remove(project);
-		if (manager.getManagingProj() == project) {
+		if (manager.getManagingProj() == project) { // should be kept as .getHandlingProj(), to remove managingProj upon deletion
 			manager.setManagingProj(null);
 		}
 		System.out.println("Project was successfully deleted. ");
