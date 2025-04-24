@@ -44,7 +44,7 @@ public class BookingService {
                     pa.getFlatType());
             }
 
-            System.out.print("Enter number to review (or 0 to exit): ");
+            System.out.print("Choose the index of the applicant to book a flat for them (or 0 to exit): ");
             int choice = Integer.parseInt(sc.nextLine());
 
                 if (choice == 0) {
@@ -61,47 +61,36 @@ public class BookingService {
                 FlatType ft = app.getFlatType();
                 Project proj = app.getProject();
 
-                System.out.printf("Approve booking for %s (%s)? (y/n): ", a.getNRIC(), ft);
-                String input = sc.nextLine().trim().toLowerCase();
+                // Check availability
+                boolean hasUnit = false;
+                if (ft == FlatType.TWO_ROOM && proj.getNumberOf2Rooms() > 0) {
+                    proj.setNumberOf2Rooms(proj.getNumberOf2Rooms() - 1);
+                    hasUnit = true;
+                } else if (ft == FlatType.THREE_ROOM && proj.getNumberOf3Rooms() > 0) {
+                    proj.setNumberOf3Rooms(proj.getNumberOf3Rooms() - 1);
+                    hasUnit = true;
+                }
 
-                if (input.equals("y")) {
-                    // Check availability
-                    boolean hasUnit = false;
-                    if (ft == FlatType.TWO_ROOM && proj.getNumberOf2Rooms() > 0) {
-                        proj.setNumberOf2Rooms(proj.getNumberOf2Rooms() - 1);
-                        hasUnit = true;
-                    } else if (ft == FlatType.THREE_ROOM && proj.getNumberOf3Rooms() > 0) {
-                        proj.setNumberOf3Rooms(proj.getNumberOf3Rooms() - 1);
-                        hasUnit = true;
-                    }
-
-                    if (!hasUnit) {
-                        System.out.println("No units available for this flat type. Booking marked unsuccessful.");
-                        app.setStatus(AppStatus.UNSUCCESSFUL);
-                    } else {
-                        app.setStatus(AppStatus.BOOKED);
-                        LocalDate bookingDate = LocalDate.now();
-                        
-                        Receipt receipt = new Receipt(
-                            a.getNRIC(),
-                            a.getName(),
-                            a.getAge(),
-                            a.isMarried(),
-                            ft,
-                            proj.getName(),
-                            proj.getNeighbourhood(),
-                            bookingDate
-                        );
-                        receiptRepository.addReceipt(receipt);
-
-                        System.out.println("Booking confirmed for applicant " + receipt.getApplicantName()); 
-                    }
-
-                } else if (input.equals("n")) {
-                    System.out.println("Booking postponed.");
+                if (!hasUnit) {
+                    System.out.println("No units available for this flat type. Booking marked unsuccessful.");
+                    app.setStatus(AppStatus.UNSUCCESSFUL);
                 } else {
-                    System.out.println("Invalid input. Please enter 'y' or 'n'.");
-                    continue;
+                    app.setStatus(AppStatus.BOOKED);
+                    LocalDate bookingDate = LocalDate.now();
+                    
+                    Receipt receipt = new Receipt(
+                        a.getNRIC(),
+                        a.getName(),
+                        a.getAge(),
+                        a.isMarried(),
+                        ft,
+                        proj.getName(),
+                        proj.getNeighbourhood(),
+                        bookingDate
+                    );
+                    receiptRepository.addReceipt(receipt);
+
+                    System.out.println("Booking confirmed for applicant " + receipt.getApplicantName()); 
                 }
 
                 pending.remove(app);
