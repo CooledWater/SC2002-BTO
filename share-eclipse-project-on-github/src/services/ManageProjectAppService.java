@@ -12,8 +12,9 @@ public class ManageProjectAppService {
     private ProjectAppRepository projectAppRepo;
     private Scanner sc = new Scanner(System.in);
 
-    public ManageProjectAppService(ProjectRepository projectRepo) {
+    public ManageProjectAppService(ProjectRepository projectRepo, ProjectAppRepository projectAppRepo) {
         this.projectRepo = projectRepo;
+        this.projectAppRepo = projectAppRepo; 
     }
 
     // process application managed by manager
