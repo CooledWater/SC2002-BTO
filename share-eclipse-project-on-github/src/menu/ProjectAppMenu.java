@@ -135,7 +135,7 @@ public class ProjectAppMenu {
             case 3:
                 // only if they have a pending or successful app
                 ProjectApp app = currentSessionApplicant.getProjectApp();
-                if (app == null || app.getStatus() == AppStatus.BOOKED) {
+                if (app == null) {
                     System.out.println("No application to withdraw.");
                 } else {
                     projectApplicationService.requestWithdrawal(currentSessionApplicant);
