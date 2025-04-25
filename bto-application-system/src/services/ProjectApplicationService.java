@@ -33,7 +33,7 @@ public class ProjectApplicationService {
         // checks if they already applied
     	List<ProjectApp> apps = projectAppRepo.getProjectApps(); 
     	
-        boolean hasApplied = apps.stream().anyMatch(app -> app.getApplicant().equals(applicant)); 
+        boolean hasApplied = apps.stream().anyMatch(app -> app.getApplicant().equals(applicant) && app.getStatus() != AppStatus.UNSUCCESSFUL); 
 
         if (hasApplied) {
             System.out.println("You have already applied for this project.");
